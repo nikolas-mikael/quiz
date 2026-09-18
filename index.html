@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="google" content="notranslate">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Locked Quiz — SMK Mikael</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ungu: #4B1D6E;
+    --ungu-tua: #321247;
+    --ungu-muda: #EFE6F6;
+    --merah: #B3161B;
+    --merah-muda: #FBE9EA;
+    --kertas: #FAF8FC;
+    --tinta: #1E1530;
+    --abu: #6F6580;
+    --garis: #DCD3E6;
+    --benar: #1F7A4D;
+    --benar-muda: #E4F3EA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--kertas);
+    color: var(--tinta);
+    line-height: 1.55;
+    -webkit-user-select: none; user-select: none;
+  }
+  input { -webkit-user-select: text; user-select: text; }
+  button { font: inherit; cursor: pointer; }
+  button:focus-visible, input:focus-visible, label:focus-within { outline: 3px solid var(--merah); outline-offset: 2px; }
+
+  /* ---------- kop ---------- */
+  .kop {
+    position: sticky; top: 0; z-index: 10;
+    background: var(--ungu); color: #fff;
+    border-bottom: 4px solid var(--merah);
+  }
+  .kop-in {
+    max-width: 720px; margin: 0 auto; padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  }
+  .kop-sekolah { font-weight: 800; letter-spacing: -0.01em; font-size: 15px; }
+  .kop-sekolah small { display: block; font-weight: 500; opacity: .75; font-size: 12px; letter-spacing: 0; }
+  .kop-status { display: flex; gap: 10px; align-items: center; }
+  .pil {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,.12); padding: 6px 12px; border-radius: 999px;
+    font-weight: 600; font-size: 13px; font-variant-numeric: tabular-nums;
+  }
+  .pil.bahaya { background: var(--merah); }
+  .pil .dot { width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+
+  /* ---------- kanvas ---------- */
+  .kanvas { max-width: 720px; margin: 0 auto; padding: 36px 20px 80px; }
+  .layar { display: none; }
+  .layar.aktif { display: block; }
+
+  h1 { font-size: clamp(28px, 5vw, 38px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+  h2 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .pengantar { color: var(--abu); margin-top: 8px; font-size: 16px; max-width: 56ch; }
+
+  .field { margin-top: 22px; }
+  .field label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+  .field input {
+    width: 100%; padding: 12px 14px; font: inherit; font-size: 16px;
+    border: 1.5px solid var(--garis); border-radius: 8px; background: #fff; color: var(--tinta);
+  }
+  .field input:focus { border-color: var(--ungu); outline: none; box-shadow: 0 0 0 3px var(--ungu-muda); }
+  .baris { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 520px) { .baris { grid-template-columns: 1fr; } }
+
+  .aturan {
+    margin-top: 28px; background: #fff; border: 1.5px solid var(--garis);
+    border-left: 6px solid var(--merah); border-radius: 10px; padding: 18px 20px;
+  }
+  .aturan h3 { font-size: 15px; font-weight: 700; color: var(--merah); margin-bottom: 8px; }
+  .aturan ul { padding-left: 20px; font-size: 15px; }
+  .aturan li + li { margin-top: 4px; }
+  .aturan b { color: var(--merah); }
+
+  .tombol {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 22px; border-radius: 8px; border: 0;
+    font-weight: 700; font-size: 15px; transition: transform .08s, background .15s;
+  }
+  .tombol:active { transform: translateY(1px); }
+  .tombol.utama { background: var(--ungu); color: #fff; }
+  .tombol.utama:hover { background: var(--ungu-tua); }
+  .tombol.merah { background: var(--merah); color: #fff; }
+  .tombol.merah:hover { background: #8F1015; }
+  .tombol.polos { background: transparent; color: var(--ungu); border: 1.5px solid var(--garis); }
+  .tombol.polos:hover { background: var(--ungu-muda); }
+  .tombol.polos:disabled { opacity: .35; cursor: not-allowed; }
+  .tombol.lebar { width: 100%; margin-top: 24px; padding: 16px; font-size: 16px; }
+
+  /* ---------- soal ---------- */
+  .navsoal { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 26px; }
+  .navsoal button {
+    width: 34px; height: 34px; border-radius: 6px; border: 1.5px solid var(--garis);
+    background: #fff; font-weight: 600; font-size: 13px; color: var(--abu);
+  }
+  .navsoal button.terjawab { background: var(--ungu-muda); border-color: var(--ungu); color: var(--ungu); }
+  .navsoal button.sekarang { background: var(--ungu); border-color: var(--ungu); color: #fff; }
+
+  .nomor { font-size: 13px; font-weight: 600; color: var(--merah); margin-bottom: 6px; }
+  .pertanyaan { font-size: 21px; font-weight: 600; line-height: 1.35; letter-spacing: -0.01em; max-width: 60ch; }
+  .opsi { margin-top: 22px; display: grid; gap: 10px; }
+  .opsi label {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 16px; background: #fff; border: 1.5px solid var(--garis); border-radius: 10px;
+    cursor: pointer; transition: border-color .12s, background .12s; font-size: 16px;
+  }
+  .opsi label:hover { border-color: var(--ungu); }
+  .opsi input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+  .opsi .huruf {
+    flex: 0 0 28px; height: 28px; border-radius: 50%; border: 1.5px solid var(--garis);
+    display: grid; place-items: center; font-weight: 700; font-size: 13px; color: var(--abu);
+  }
+  .opsi label:has(input:checked) { border-color: var(--ungu); background: var(--ungu-muda); }
+  .opsi label:has(input:checked) .huruf { background: var(--ungu); border-color: var(--ungu); color: #fff; }
+
+  .isian input {
+    width: 100%; padding: 14px 16px; font: inherit; font-size: 18px;
+    border: 1.5px solid var(--garis); border-radius: 10px; background: #fff; color: var(--tinta);
+  }
+  .isian input:focus { border-color: var(--ungu); outline: none; box-shadow: 0 0 0 3px var(--ungu-muda); }
+  .petunjuk { margin-top: 10px; font-size: 14px; color: var(--abu); }
+  .petunjuk em { font-style: normal; color: var(--ungu); font-weight: 600; }
+
+  .navigasi { display: flex; justify-content: space-between; gap: 12px; margin-top: 32px; }
+
+  /* ---------- hasil ---------- */
+  .skor {
+    display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center;
+    background: #fff; border: 1.5px solid var(--garis); border-radius: 12px; padding: 24px; margin-top: 24px;
+  }
+  .skor .angka { font-size: 64px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: var(--ungu); }
+  .skor .angka small { font-size: 20px; color: var(--abu); font-weight: 600; letter-spacing: 0; }
+  .skor.dikunci .angka { color: var(--merah); }
+  .status { font-weight: 700; }
+  .status.dikunci { color: var(--merah); }
+  .status.selesai { color: var(--benar); }
+  .meta { color: var(--abu); font-size: 14px; margin-top: 4px; }
+
+  .kirim { margin-top: 16px; padding: 12px 16px; border-radius: 8px; font-weight: 600; font-size: 14px; }
+  .kirim.proses { background: var(--ungu-muda); color: var(--ungu); }
+  .kirim.ok { background: var(--benar-muda); color: var(--benar); }
+  .kirim.gagal { background: var(--merah-muda); color: var(--merah); }
+  .lanjut {
+    margin-top: 22px; padding: 14px 16px; border-radius: 10px;
+    background: var(--ungu-muda); border: 1.5px solid var(--ungu); color: var(--ungu);
+    font-weight: 600; font-size: 14px; line-height: 1.5;
+  }
+  .lanjut b { color: var(--merah); }
+  .field input[readonly] { background: var(--kertas); color: var(--abu); }
+
+  .rekap { margin-top: 28px; }
+  .rekap h2 { margin-bottom: 12px; }
+  .rekap-item {
+    display: flex; gap: 12px; padding: 12px 0; border-top: 1px solid var(--garis); font-size: 15px;
+  }
+  .rekap-item:last-child { border-bottom: 1px solid var(--garis); }
+  .tanda { flex: 0 0 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 700; }
+  .tanda.ok { background: var(--benar-muda); color: var(--benar); }
+  .tanda.salah { background: var(--merah-muda); color: var(--merah); }
+  .tanda.kosong { background: #EEE; color: var(--abu); }
+  .rekap-item .ket { color: var(--abu); font-size: 13px; }
+
+  .log { list-style: none; font-size: 14px; }
+  .log li { padding: 8px 0; border-top: 1px solid var(--garis); display: flex; gap: 12px; }
+  .log li:last-child { border-bottom: 1px solid var(--garis); }
+  .log time { flex: 0 0 76px; color: var(--abu); font-variant-numeric: tabular-nums; }
+  .log .kosong-log { color: var(--benar); font-weight: 600; border: 0; }
+
+  /* ---------- overlay pelanggaran ---------- */
+  .tirai {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: rgba(179,22,27,.96); color: #fff;
+    align-items: center; justify-content: center; padding: 24px;
+  }
+  .tirai.tampil { display: flex; }
+  .tirai-kotak { max-width: 480px; text-align: center; }
+  .tirai .besar { font-size: clamp(56px, 14vw, 96px); font-weight: 800; letter-spacing: -0.05em; line-height: 1; }
+  .tirai .besar small { font-size: 22px; letter-spacing: 0; font-weight: 600; opacity: .8; }
+  .tirai h2 { margin-top: 16px; font-size: 24px; }
+  .tirai p { margin-top: 8px; opacity: .9; font-size: 16px; }
+  .tirai .tombol { margin-top: 26px; background: #fff; color: var(--merah); }
+  .tirai .tombol:hover { background: #FDEDEE; }
+
+  .tirai.ungu { background: rgba(75,29,110,.96); }
+  .tirai.ungu .tombol { background: #fff; color: var(--ungu); margin-top: 0; }
+  .tirai.ungu .tombol:hover { background: var(--ungu-muda); }
+  .tirai.ungu .tombol.polos-putih { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.5); }
+  .tirai.ungu .tombol.polos-putih:hover { background: rgba(255,255,255,.12); }
+  .dialog-aksi { display: flex; gap: 12px; justify-content: center; margin-top: 26px; flex-wrap: wrap; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body class="notranslate" translate="no">
+
+<header class="kop">
+  <div class="kop-in">
+    <div class="kop-sekolah">SMK Katolik St. Mikael Surakarta<small id="kopJudul">Locked quiz</small></div>
+    <div class="kop-status" id="kopStatus" hidden>
+      <span class="pil" id="pilWaktu"><span class="dot"></span><span id="waktu">00:00</span></span>
+      <span class="pil" id="pilPelanggaran">Violations <span id="pelanggaranTeks">0/3</span></span>
+    </div>
+  </div>
+</header>
+
+<main class="kanvas">
+
+  <!-- ===== MULAI ===== -->
+  <section class="layar aktif" id="layarMulai">
+    <h1 id="judulKuis">Quiz</h1>
+    <p class="pengantar" id="deskripsiKuis"></p>
+
+    <div class="lanjut" id="kotakLanjut" hidden>
+      Your previous session was found. Your answers and remaining time have been restored —
+      press the button below to continue from where you left off. <b>The timer kept running while the page was closed.</b>
+    </div>
+
+    <div class="baris">
+      <div class="field">
+        <label for="nama">Full name</label>
+        <input id="nama" type="text" autocomplete="off" placeholder="As written on the attendance list">
+      </div>
+      <div class="field">
+        <label for="kelas">Class</label>
+        <input id="kelas" type="text" autocomplete="off" placeholder="e.g. XI TPM 2">
+      </div>
+    </div>
+
+    <div class="aturan">
+      <h3>Rules during the quiz</h3>
+      <ul>
+        <li>The quiz runs in fullscreen. Do not leave fullscreen mode.</li>
+        <li>Do not switch tabs, open other apps, or minimise the window.</li>
+        <li>Every time you leave this page counts as <b>one violation</b>.</li>
+        <li>After <b><span class="maksPelanggaran">3</span> violations</b>, the quiz locks and your answers are submitted as they are.</li>
+        <li>Questions: <b><span id="infoSoal"></span></b>. Type your fill-in answers; capital letters do not matter.</li>
+        <li>Time limit: <b><span id="durasiTeks"></span> minutes</b>. The quiz is submitted automatically when time runs out.</li>
+      </ul>
+    </div>
+
+    <button class="tombol utama lebar" id="btnMulai">Start the quiz in fullscreen</button>
+  </section>
+
+  <!-- ===== SOAL ===== -->
+  <section class="layar" id="layarSoal">
+    <div class="navsoal" id="navsoal"></div>
+    <div class="nomor" id="nomor"></div>
+    <div class="pertanyaan" id="pertanyaan"></div>
+    <div class="opsi" id="opsi"></div>
+    <div class="navigasi">
+      <button class="tombol polos" id="btnSebelum">Previous</button>
+      <button class="tombol polos" id="btnBerikut">Next</button>
+      <button class="tombol merah" id="btnKumpul" hidden>Submit answers</button>
+    </div>
+  </section>
+
+  <!-- ===== HASIL ===== -->
+  <section class="layar" id="layarHasil">
+    <h1>Quiz results</h1>
+    <div class="kirim" id="statusKirim" hidden></div>
+    <div class="skor" id="skorKotak">
+      <div class="angka"><span id="skorAngka">0</span><small>/100</small></div>
+      <div>
+        <div class="status" id="statusHasil"></div>
+        <div class="meta" id="metaHasil"></div>
+        <div class="meta" id="metaPelanggaran"></div>
+      </div>
+    </div>
+
+    <div class="rekap" id="rekapWrap">
+      <h2>Answer review</h2>
+      <div id="rekapJawaban"></div>
+    </div>
+
+    <div class="rekap">
+      <h2>Violation log</h2>
+      <ul class="log" id="logPelanggaran"></ul>
+    </div>
+
+    <button class="tombol polos lebar" id="btnSalin">Copy summary for the teacher</button>
+  </section>
+</main>
+
+<!-- ===== DIALOG KUMPULKAN ===== -->
+<div class="tirai ungu" id="dialogKumpul" role="dialog" aria-modal="true">
+  <div class="tirai-kotak">
+    <h2 id="dialogJudul">Submit your answers now?</h2>
+    <p id="dialogIsi"></p>
+    <div class="dialog-aksi">
+      <button class="tombol polos-putih" id="btnBatalKumpul">Check again</button>
+      <button class="tombol" id="btnYakinKumpul">Yes, submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OVERLAY PELANGGARAN ===== -->
+<div class="tirai" id="tirai" role="alertdialog" aria-modal="true">
+  <div class="tirai-kotak">
+    <div class="besar"><span id="tiraiHitung">1</span><small> / <span class="maksPelanggaran">3</span></small></div>
+    <h2>You left the quiz page</h2>
+    <p id="tiraiAlasan"></p>
+    <p id="tiraiSisa"></p>
+    <button class="tombol" id="btnKembali">Back to the quiz</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   BANK SOAL — Simple Future, Present Continuous, Past Continuous
+   Format:
+     PG    : { t:"pg", q:"...", p:["A","B","C","D"], j:indeks_benar (mulai 0) }
+     Isian : { t:"isian", q:"... ____ (verb) ...", j:["jawaban benar", "variasi lain"] }
+   Pengecekan isian: tidak peduli huruf besar/kecil, spasi ganda, atau titik di akhir.
+   ========================================================= */
+const BANK_SOAL = [
+{ nama: "Set A", soal: [
+  { t:"pg", q:"Next week, my family ____ to Yogyakarta.", p:["go","will go","went","going"], j:1 },
+  { t:"pg", q:"Look! The students ____ football in the yard.", p:["play","played","are playing","will play"], j:2 },
+  { t:"pg", q:"At 8 p.m. yesterday, I ____ my homework.", p:["do","was doing","am doing","will do"], j:1 },
+  { t:"pg", q:"\"The phone is ringing.\" \"I ____ it.\"", p:["answer","will answer","answered","was answering"], j:1 },
+  { t:"pg", q:"She ____ a letter when the lights went out.", p:["writes","is writing","was writing","will write"], j:2 },
+  { t:"pg", q:"They ____ TV right now.", p:["watch","are watching","were watching","will watch"], j:1 },
+  { t:"pg", q:"I think it ____ rain this afternoon.", p:["is","will","was","were"], j:1 },
+  { t:"pg", q:"Which sentence is in the past continuous tense?", p:["She is cooking dinner.","She will cook dinner.","She was cooking dinner.","She cooked dinner."], j:2 },
+  { t:"pg", q:"We ____ for the bus when it started to rain.", p:["wait","are waiting","were waiting","will wait"], j:2 },
+  { t:"pg", q:"The teacher ____ the lesson at the moment.", p:["explain","is explaining","was explaining","explained"], j:1 },
+  { t:"pg", q:"Rian ____ 17 years old next month.", p:["is","will be","was","being"], j:1 },
+  { t:"pg", q:"____ you ____ to the library now?", p:["Do – go","Are – going","Were – going","Will – go"], j:1 },
+  { t:"pg", q:"While the baby ____, the mother was cooking.", p:["sleeps","is sleeping","was sleeping","will sleep"], j:2 },
+  { t:"pg", q:"I promise I ____ late again.", p:["am not","won't be","wasn't","not"], j:1 },
+  { t:"pg", q:"Listen! Someone ____ the piano.", p:["plays","is playing","played","was playing"], j:1 },
+  { t:"pg", q:"What ____ you ____ at 10 o'clock last night?", p:["do – do","are – doing","were – doing","will – do"], j:2 },
+  { t:"pg", q:"Don't worry. I ____ you with your project.", p:["help","helped","will help","was helping"], j:2 },
+  { t:"pg", q:"The children ____ in the park now. They look happy.", p:["play","are playing","were playing","will play"], j:1 },
+  { t:"pg", q:"Which sentence is correct?", p:["He were reading a book.","He was reading a book.","He was read a book.","He was reads a book."], j:1 },
+  { t:"pg", q:"Choose the correct negative form of \"She is studying.\"", p:["She isn't study.","She isn't studying.","She not studying.","She doesn't studying."], j:1 },
+  { t:"pg", q:"In 2040, people ____ flying cars.", p:["drive","drove","will drive","are driving"], j:2 },
+  { t:"pg", q:"Sinta ____ her bike when she fell.", p:["rides","is riding","was riding","will ride"], j:2 },
+  { t:"pg", q:"\"Where is Pak Yohanes?\" \"He ____ with the principal.\"", p:["talks","is talking","was talking","talked"], j:1 },
+  { t:"pg", q:"We ____ to Mass on Sunday morning, I'm sure.", p:["go","went","will go","were going"], j:2 },
+  { t:"pg", q:"Choose the correct question.", p:["Will she comes tomorrow?","Will she come tomorrow?","Does she will come tomorrow?","She will come tomorrow?"], j:1 },
+  { t:"pg", q:"Find the mistake: \"They was playing chess when I arrived.\"", p:["They","was","playing","arrived"], j:1 },
+  { t:"pg", q:"The time signal \"at this time yesterday\" is used with the ____ tense.", p:["simple future","present continuous","past continuous","simple present"], j:2 },
+  { t:"pg", q:"My sister ____ pancakes right now. Can you smell them?", p:["makes","is making","was making","will make"], j:1 },
+  { t:"pg", q:"\"Are you busy?\" \"Yes, I ____ a report.\"", p:["write","am writing","was writing","will write"], j:1 },
+  { t:"pg", q:"It's cold. I ____ the window.", p:["close","will close","was closing","closed"], j:1 },
+  { t:"isian", q:"She ____ (visit) her aunt next Sunday.", j:["will visit","is going to visit"] },
+  { t:"isian", q:"Look! The dog ____ (chase) the cat.", j:["is chasing"] },
+  { t:"isian", q:"At 9 o'clock last night, we ____ (watch) a movie.", j:["were watching"] },
+  { t:"isian", q:"I ____ (call) you when I arrive.", j:["will call","'ll call"] },
+  { t:"isian", q:"The students ____ (not / listen) to the teacher right now.", j:["aren't listening","are not listening"] },
+  { t:"isian", q:"While I ____ (walk) home, I met my old friend.", j:["was walking"] },
+  { t:"isian", q:"____ (you / come) to the party tomorrow?", j:["will you come"] },
+  { t:"isian", q:"Dad ____ (read) the newspaper at the moment.", j:["is reading"] },
+  { t:"isian", q:"They ____ (sleep) when the earthquake happened.", j:["were sleeping"] },
+  { t:"isian", q:"I think our team ____ (win) the match.", j:["will win"] },
+  { t:"isian", q:"Be quiet! The baby ____ (sleep).", j:["is sleeping"] },
+  { t:"isian", q:"What ____ (you / do) at 7 p.m. yesterday?", j:["were you doing"] },
+  { t:"isian", q:"He ____ (not / be) at school tomorrow because he is sick.", j:["won't be","will not be"] },
+  { t:"isian", q:"We ____ (have) lunch in the canteen now.", j:["are having"] },
+  { t:"isian", q:"It ____ (rain) when I woke up this morning.", j:["was raining"] }
+]},
+
+{ nama: "Set B", soal: [
+  { t:"pg", q:"I ____ my uniform tonight.", p:["wash","will wash","washed","am wash"], j:1 },
+  { t:"pg", q:"Mom ____ in the kitchen right now.", p:["cooks","is cooking","was cooking","cooked"], j:1 },
+  { t:"pg", q:"When you called, I ____ a shower.", p:["take","am taking","was taking","will take"], j:2 },
+  { t:"pg", q:"Which sentence is in the simple future tense?", p:["We are going to church.","We went to church.","We will go to church.","We were going to church."], j:2 },
+  { t:"pg", q:"The boys ____ basketball at 4 p.m. yesterday.", p:["play","are playing","were playing","will play"], j:2 },
+  { t:"pg", q:"Look, the bus ____! Run!", p:["leaves","is leaving","left","was leaving"], j:1 },
+  { t:"pg", q:"Maybe she ____ the exam next week.", p:["passes","will pass","passed","passing"], j:1 },
+  { t:"pg", q:"____ they ____ a movie now?", p:["Do – watch","Are – watching","Were – watching","Will – watch"], j:1 },
+  { t:"pg", q:"He ____ his motorcycle when the accident happened.", p:["rides","is riding","was riding","rode"], j:2 },
+  { t:"pg", q:"Choose the correct negative form of \"I will go.\"", p:["I will not going.","I won't go.","I don't will go.","I not will go."], j:1 },
+  { t:"pg", q:"The teachers ____ a meeting at the moment.", p:["have","are having","were having","will have"], j:1 },
+  { t:"pg", q:"At this time last week, we ____ in Bali.", p:["swim","are swimming","were swimming","will swim"], j:2 },
+  { t:"pg", q:"I'm sure you ____ the test.", p:["pass","passing","will pass","were passing"], j:2 },
+  { t:"pg", q:"Find the mistake: \"She is play the guitar now.\"", p:["She","is","play","now"], j:2 },
+  { t:"pg", q:"Who ____ the dishes tonight?", p:["wash","washes","will wash","was washing"], j:2 },
+  { t:"pg", q:"While we ____ dinner, the guests arrived.", p:["eat","are eating","were eating","will eat"], j:2 },
+  { t:"pg", q:"\"Look at those dark clouds!\" \"Yes, it ____.\"", p:["rains","is going to rain","rained","was raining"], j:1 },
+  { t:"pg", q:"My brother ____ for his exam in his room now.", p:["studies","is studying","was studying","studied"], j:1 },
+  { t:"pg", q:"Which sentence is correct?", p:["What were you doing at 8?","What you were doing at 8?","What was you doing at 8?","What did you doing at 8?"], j:0 },
+  { t:"pg", q:"The time signal \"right now\" is used with the ____ tense.", p:["simple future","present continuous","past continuous","simple past"], j:1 },
+  { t:"pg", q:"Ratna ____ a doctor one day.", p:["is","will be","was","being"], j:1 },
+  { t:"pg", q:"We ____ the classroom when the bell rang.", p:["clean","are cleaning","were cleaning","will clean"], j:2 },
+  { t:"pg", q:"Choose the correct form: \"They (not / sleep) when I came home.\"", p:["aren't sleeping","weren't sleeping","won't sleep","don't sleep"], j:1 },
+  { t:"pg", q:"Please be quiet. I ____ to the news.", p:["listen","am listening","was listening","will listen"], j:1 },
+  { t:"pg", q:"Next year, our school ____ a new library.", p:["has","is having","will have","had"], j:2 },
+  { t:"pg", q:"\"Why are you wearing a coat?\" \"Because I ____ out.\"", p:["go","am going","went","was going"], j:1 },
+  { t:"pg", q:"Find the mistake: \"I will to see you tomorrow.\"", p:["will","to","see","tomorrow"], j:1 },
+  { t:"pg", q:"At 6 a.m. today, the sun ____ and the birds ____.", p:["rises – sing","is rising – are singing","was rising – were singing","will rise – will sing"], j:2 },
+  { t:"pg", q:"____ he ____ the meeting tomorrow?", p:["Does – attends","Is – attend","Will – attend","Was – attending"], j:2 },
+  { t:"pg", q:"Which sentence uses the present continuous correctly?", p:["She are reading now.","She is reading now.","She is read now.","She reading now."], j:1 },
+  { t:"isian", q:"The students ____ (take) a test at the moment.", j:["are taking"] },
+  { t:"isian", q:"I ____ (buy) a new phone next month.", j:["will buy","am going to buy"] },
+  { t:"isian", q:"At 5 p.m. yesterday, she ____ (practise) the piano.", j:["was practising","was practicing"] },
+  { t:"isian", q:"Wait a minute! I ____ (help) you.", j:["will help","'ll help"] },
+  { t:"isian", q:"They ____ (not / study) now; they are playing games.", j:["aren't studying","are not studying"] },
+  { t:"isian", q:"While Dad ____ (drive), Mom was singing.", j:["was driving"] },
+  { t:"isian", q:"____ (she / come) with us tomorrow?", j:["will she come"] },
+  { t:"isian", q:"Look! The teacher ____ (write) on the board.", j:["is writing"] },
+  { t:"isian", q:"What ____ (they / do) when the fire started?", j:["were they doing"] },
+  { t:"isian", q:"I think it ____ (be) sunny tomorrow.", j:["will be"] },
+  { t:"isian", q:"My friends ____ (play) volleyball in the field right now.", j:["are playing"] },
+  { t:"isian", q:"He ____ (not / sleep) when I called him last night.", j:["wasn't sleeping","was not sleeping"] },
+  { t:"isian", q:"We ____ (celebrate) our school anniversary next week.", j:["will celebrate","are going to celebrate","are celebrating"] },
+  { t:"isian", q:"Right now, the sun ____ (shine) brightly.", j:["is shining"] },
+  { t:"isian", q:"I ____ (read) a book when the lights went off.", j:["was reading"] }
+]},
+
+{ nama: "Set C", soal: [
+  { t:"pg", q:"My father ____ home late tonight.", p:["comes","will come","came","coming"], j:1 },
+  { t:"pg", q:"\"Where's Dina?\" \"She ____ in the library.\"", p:["reads","is reading","was reading","read"], j:1 },
+  { t:"pg", q:"At midnight last night, everybody ____.", p:["sleeps","is sleeping","was sleeping","will sleep"], j:2 },
+  { t:"pg", q:"We ____ the concert next Saturday, I'm sure.", p:["enjoy","enjoyed","will enjoy","were enjoying"], j:2 },
+  { t:"pg", q:"The cat ____ on my bed right now.", p:["sleeps","is sleeping","was sleeping","slept"], j:1 },
+  { t:"pg", q:"While I ____ the dishes, my brother was watching TV.", p:["wash","am washing","was washing","will wash"], j:2 },
+  { t:"pg", q:"Which sentence is in the present continuous tense?", p:["He will eat lunch.","He was eating lunch.","He is eating lunch.","He ate lunch."], j:2 },
+  { t:"pg", q:"I ____ you the money tomorrow, I promise.", p:["give","gave","will give","was giving"], j:2 },
+  { t:"pg", q:"Choose the correct question.", p:["Were she cooking dinner?","Was she cooking dinner?","Was she cook dinner?","Did she was cooking dinner?"], j:1 },
+  { t:"pg", q:"The students ____ the national anthem now.", p:["sing","are singing","were singing","sang"], j:1 },
+  { t:"pg", q:"I ____ my homework when my friend knocked on the door.", p:["do","am doing","was doing","will do"], j:2 },
+  { t:"pg", q:"Find the mistake: \"We are playing football when it rained.\"", p:["We","are playing","football","rained"], j:1 },
+  { t:"pg", q:"Perhaps they ____ late.", p:["are","will be","were","be"], j:1 },
+  { t:"pg", q:"Choose the correct negative form of \"He was driving.\"", p:["He wasn't driving.","He weren't driving.","He wasn't drive.","He didn't driving."], j:0 },
+  { t:"pg", q:"Pak Andi ____ the students at the moment.", p:["teaches","is teaching","was teaching","taught"], j:1 },
+  { t:"pg", q:"At 3 p.m. yesterday, ____ you ____ in the lab?", p:["do – work","are – working","were – working","will – work"], j:2 },
+  { t:"pg", q:"It's very hot. I ____ the fan.", p:["turn on","will turn on","turned on","was turning on"], j:1 },
+  { t:"pg", q:"The time signal \"tomorrow\" is used with the ____ tense.", p:["simple future","present continuous","past continuous","simple past"], j:0 },
+  { t:"pg", q:"They ____ a new song right now.", p:["record","are recording","were recording","recorded"], j:1 },
+  { t:"pg", q:"She ____ when I saw her at the café.", p:["smiles","is smiling","was smiling","will smile"], j:2 },
+  { t:"pg", q:"Which sentence is correct?", p:["I am going to visit you tomorrow.","I am go to visit you tomorrow.","I going to visit you tomorrow.","I am going visit you tomorrow."], j:0 },
+  { t:"pg", q:"Our team ____ hard for the competition now.", p:["practises","is practising","was practising","practised"], j:1 },
+  { t:"pg", q:"While the teacher ____, the students were taking notes.", p:["explains","is explaining","was explaining","will explain"], j:2 },
+  { t:"pg", q:"I ____ 18 next year.", p:["am","will be","was","were"], j:1 },
+  { t:"pg", q:"\"Can I talk to Rudi?\" \"Sorry, he ____ a shower.\"", p:["takes","is taking","was taking","took"], j:1 },
+  { t:"pg", q:"Find the mistake: \"She was watch TV at 9 last night.\"", p:["She","was","watch","last night"], j:2 },
+  { t:"pg", q:"Choose the correct sentence.", p:["Will you helps me?","Will you help me?","You will helps me?","Do you will help me?"], j:1 },
+  { t:"pg", q:"At this moment, the children ____ in the yard.", p:["run","are running","were running","ran"], j:1 },
+  { t:"pg", q:"Yesterday at 10 a.m., Bu Maria ____ a speech in the hall.", p:["gives","is giving","was giving","will give"], j:2 },
+  { t:"pg", q:"I'm tired. I ____ to bed early tonight.", p:["go","went","will go","was going"], j:2 },
+  { t:"isian", q:"My mother ____ (cook) fried rice right now.", j:["is cooking"] },
+  { t:"isian", q:"Tomorrow we ____ (have) a flag ceremony.", j:["will have","are going to have","are having"] },
+  { t:"isian", q:"At 7 o'clock yesterday evening, I ____ (do) my homework.", j:["was doing"] },
+  { t:"isian", q:"Don't be sad. Everything ____ (be) fine.", j:["will be","'ll be"] },
+  { t:"isian", q:"The boys ____ (not / play) football now; it is raining.", j:["aren't playing","are not playing"] },
+  { t:"isian", q:"While she ____ (talk) on the phone, the food burnt.", j:["was talking"] },
+  { t:"isian", q:"____ (you / join) the choir next semester?", j:["will you join"] },
+  { t:"isian", q:"Listen! Somebody ____ (knock) on the door.", j:["is knocking"] },
+  { t:"isian", q:"Where ____ (you / go) when I saw you last night?", j:["were you going"] },
+  { t:"isian", q:"I ____ (not / forget) your birthday, I promise.", j:["won't forget","will not forget"] },
+  { t:"isian", q:"The teachers ____ (discuss) the exam schedule at the moment.", j:["are discussing"] },
+  { t:"isian", q:"He ____ (fix) his bike when it started to rain.", j:["was fixing"] },
+  { t:"isian", q:"My cousin ____ (get) married next year.", j:["will get","is going to get","is getting"] },
+  { t:"isian", q:"Look! The birds ____ (fly) over the school.", j:["are flying"] },
+  { t:"isian", q:"At this time yesterday, we ____ (swim) in the river.", j:["were swimming"] }
+]},
+
+{ nama: "Set D", soal: [
+  { t:"pg", q:"I hope she ____ well soon.", p:["gets","will get","got","getting"], j:1 },
+  { t:"pg", q:"Right now, my classmates ____ for the test.", p:["study","are studying","were studying","studied"], j:1 },
+  { t:"pg", q:"When the teacher came in, the students ____.", p:["talk","are talking","were talking","will talk"], j:2 },
+  { t:"pg", q:"Which sentence is in the past continuous tense?", p:["I'm walking to school.","I walked to school.","I was walking to school.","I'll walk to school."], j:2 },
+  { t:"pg", q:"Wait! I ____ with you.", p:["come","came","will come","was coming"], j:2 },
+  { t:"pg", q:"Look! Those girls ____ a traditional dance.", p:["perform","are performing","were performing","performed"], j:1 },
+  { t:"pg", q:"At 11 p.m. last night, I ____ still ____.", p:["am – working","was – working","will – work","were – working"], j:1 },
+  { t:"pg", q:"Choose the correct negative form of \"They are playing.\"", p:["They aren't playing.","They isn't playing.","They not are playing.","They don't playing."], j:0 },
+  { t:"pg", q:"My uncle ____ us next holiday.", p:["visits","is visit","will visit","was visiting"], j:2 },
+  { t:"pg", q:"____ Rina ____ her homework now?", p:["Does – do","Is – doing","Was – doing","Will – do"], j:1 },
+  { t:"pg", q:"While the students ____, the fire alarm rang.", p:["study","are studying","were studying","will study"], j:2 },
+  { t:"pg", q:"Find the mistake: \"It will rains tomorrow.\"", p:["It","will","rains","tomorrow"], j:2 },
+  { t:"pg", q:"The sun ____ now. Let's go outside!", p:["shines","is shining","was shining","shone"], j:1 },
+  { t:"pg", q:"We ____ the film when the power went off.", p:["watch","are watching","were watching","will watch"], j:2 },
+  { t:"pg", q:"The time signal \"while\" is often used with the ____ tense.", p:["simple future","present continuous","past continuous","simple present"], j:2 },
+  { t:"pg", q:"\"It's Mom's birthday tomorrow.\" \"Then I ____ her a cake.\"", p:["bake","baked","will bake","was baking"], j:2 },
+  { t:"pg", q:"Which sentence is correct?", p:["She is sleep now.","She sleeping now.","She is sleeping now.","She are sleeping now."], j:2 },
+  { t:"pg", q:"Yesterday at 2 p.m., the mechanics ____ the engine.", p:["repair","are repairing","were repairing","will repair"], j:2 },
+  { t:"pg", q:"Choose the correct question.", p:["Are they coming tonight?","Is they coming tonight?","Are they come tonight?","Do they coming tonight?"], j:0 },
+  { t:"pg", q:"I ____ a teacher when I grow up.", p:["am","will be","was","being"], j:1 },
+  { t:"pg", q:"Bu Sri ____ the papers at the moment.", p:["checks","is checking","was checking","checked"], j:1 },
+  { t:"pg", q:"He ____ a nap when the phone rang.", p:["takes","is taking","was taking","took"], j:2 },
+  { t:"pg", q:"Find the mistake: \"The boys were play football at 4 o'clock.\"", p:["The boys","were","play","at 4 o'clock"], j:2 },
+  { t:"pg", q:"\"Do you want tea or coffee?\" \"I ____ tea, please.\"", p:["have","will have","had","was having"], j:1 },
+  { t:"pg", q:"The workers ____ the road right now.", p:["repair","are repairing","were repairing","repaired"], j:1 },
+  { t:"pg", q:"At this time yesterday, we ____ to Semarang.", p:["travel","are travelling","were travelling","will travel"], j:2 },
+  { t:"pg", q:"Choose the correct form: \"I promise we (not / be) late tomorrow.\"", p:["aren't","weren't","won't be","don't"], j:2 },
+  { t:"pg", q:"\"Where's Andi?\" \"He ____ in the lab with Pak Budi.\"", p:["works","is working","was working","worked"], j:1 },
+  { t:"pg", q:"I ____ TV when I heard a strange noise.", p:["watch","am watching","was watching","will watch"], j:2 },
+  { t:"pg", q:"Which sentence is in the simple future tense?", p:["She is going to the market now.","She was going to the market.","She will go to the market.","She goes to the market."], j:2 },
+  { t:"isian", q:"Look! The children ____ (dance) on the stage.", j:["are dancing"] },
+  { t:"isian", q:"I ____ (send) you the photos tonight.", j:["will send","'ll send"] },
+  { t:"isian", q:"At 8 a.m. yesterday, the students ____ (sing) the national anthem.", j:["were singing"] },
+  { t:"isian", q:"She ____ (not / come) to school tomorrow because she is sick.", j:["won't come","will not come","isn't coming","is not coming"] },
+  { t:"isian", q:"Be careful! You ____ (spill) the coffee.", j:["are spilling","are going to spill"] },
+  { t:"isian", q:"What ____ (you / do) at this time yesterday?", j:["were you doing"] },
+  { t:"isian", q:"They ____ (build) a new bridge near my house right now.", j:["are building"] },
+  { t:"isian", q:"While I ____ (cook), the phone rang.", j:["was cooking"] },
+  { t:"isian", q:"____ (it / rain) tomorrow?", j:["will it rain"] },
+  { t:"isian", q:"He ____ (not / listen) to me now.", j:["isn't listening","is not listening"] },
+  { t:"isian", q:"Next week, the school ____ (hold) a retreat.", j:["will hold","is going to hold","is holding"] },
+  { t:"isian", q:"The dog ____ (bark) when the thief entered.", j:["was barking"] },
+  { t:"isian", q:"I ____ (write) an email at the moment.", j:["am writing"] },
+  { t:"isian", q:"We ____ (not / sleep) at midnight; we were still studying.", j:["weren't sleeping","were not sleeping"] },
+  { t:"isian", q:"I think our teacher ____ (give) us a quiz tomorrow.", j:["will give"] }
+]},
+
+{ nama: "Set E", soal: [
+  { t:"pg", q:"Next month, I ____ 17.", p:["am","will be","was","be"], j:1 },
+  { t:"pg", q:"\"What are you doing?\" \"I ____ my room.\"", p:["clean","am cleaning","was cleaning","cleaned"], j:1 },
+  { t:"pg", q:"At 9 p.m. yesterday, they ____ dinner at a restaurant.", p:["have","are having","were having","will have"], j:2 },
+  { t:"pg", q:"I ____ you as soon as I get home.", p:["text","texted","will text","was texting"], j:2 },
+  { t:"pg", q:"Which sentence is in the present continuous tense?", p:["The wind is blowing hard.","The wind was blowing hard.","The wind will blow hard.","The wind blew hard."], j:0 },
+  { t:"pg", q:"While Mom ____, the baby started to cry.", p:["cooks","is cooking","was cooking","will cook"], j:2 },
+  { t:"pg", q:"Choose the correct negative form of \"It will snow.\"", p:["It won't snow.","It will snow not.","It doesn't will snow.","It not will snow."], j:0 },
+  { t:"pg", q:"The girls ____ under the tree right now.", p:["sit","are sitting","were sitting","sat"], j:1 },
+  { t:"pg", q:"Find the mistake: \"She were sleeping when I called.\"", p:["She","were","sleeping","called"], j:1 },
+  { t:"pg", q:"____ you ____ the meeting next week?", p:["Do – attend","Are – attend","Will – attend","Were – attending"], j:2 },
+  { t:"pg", q:"Pak Yosef ____ a homily at the moment.", p:["gives","is giving","was giving","gave"], j:1 },
+  { t:"pg", q:"I ____ my bike when the tyre burst.", p:["ride","am riding","was riding","will ride"], j:2 },
+  { t:"pg", q:"The time signal \"at the moment\" is used with the ____ tense.", p:["simple future","present continuous","past continuous","simple past"], j:1 },
+  { t:"pg", q:"Which sentence is correct?", p:["We was studying at 8.","We were study at 8.","We were studying at 8.","We studying at 8."], j:2 },
+  { t:"pg", q:"I'm sure he ____ the truth.", p:["tells","will tell","told","was telling"], j:1 },
+  { t:"pg", q:"\"Why is the room so noisy?\" \"The students ____ a game.\"", p:["play","are playing","were playing","played"], j:1 },
+  { t:"pg", q:"At this time last year, my brother ____ in Jakarta.", p:["works","is working","was working","will work"], j:2 },
+  { t:"pg", q:"Choose the correct question.", p:["What will you do tomorrow?","What you will do tomorrow?","What do you will do tomorrow?","What will you doing tomorrow?"], j:0 },
+  { t:"pg", q:"Look! The teacher ____ towards us.", p:["walks","is walking","was walking","walked"], j:1 },
+  { t:"pg", q:"When I woke up, the birds ____.", p:["sing","are singing","were singing","will sing"], j:2 },
+  { t:"pg", q:"Find the mistake: \"They is playing chess now.\"", p:["They","is","playing","now"], j:1 },
+  { t:"pg", q:"Maybe we ____ to Solo Grand Mall this weekend.", p:["go","went","will go","were going"], j:2 },
+  { t:"pg", q:"Choose the correct form: \"Dina (not / read) now; she is sleeping.\"", p:["isn't reading","wasn't reading","won't read","doesn't read"], j:0 },
+  { t:"pg", q:"Yesterday at 6 p.m., we ____ the rosary together.", p:["pray","are praying","were praying","will pray"], j:2 },
+  { t:"pg", q:"\"It's raining.\" \"Don't worry, I ____ you an umbrella.\"", p:["lend","lent","will lend","was lending"], j:2 },
+  { t:"pg", q:"My parents ____ in the garden right now.", p:["work","are working","were working","worked"], j:1 },
+  { t:"pg", q:"Which sentence is in the past continuous tense?", p:["He is fixing the car.","He was fixing the car.","He will fix the car.","He fixes the car."], j:1 },
+  { t:"pg", q:"____ she ____ when you called her?", p:["Does – sleep","Is – sleeping","Was – sleeping","Will – sleep"], j:2 },
+  { t:"pg", q:"Our class ____ a study tour next semester.", p:["has","is have","will have","was having"], j:2 },
+  { t:"pg", q:"Sorry, I can't talk now. I ____ for the bus.", p:["wait","am waiting","was waiting","waited"], j:1 },
+  { t:"isian", q:"The students ____ (pray) in the chapel at the moment.", j:["are praying"] },
+  { t:"isian", q:"Tomorrow morning, I ____ (wake) up early.", j:["will wake","am going to wake","'ll wake"] },
+  { t:"isian", q:"At 4 p.m. yesterday, the boys ____ (clean) the classroom.", j:["were cleaning"] },
+  { t:"isian", q:"I ____ (not / tell) anyone your secret, I promise.", j:["won't tell","will not tell"] },
+  { t:"isian", q:"Look! Those students ____ (run) to the canteen.", j:["are running"] },
+  { t:"isian", q:"While we ____ (wait) for the bus, it started to rain.", j:["were waiting"] },
+  { t:"isian", q:"____ (he / help) us tomorrow?", j:["will he help"] },
+  { t:"isian", q:"My sister ____ (not / watch) TV now; she is doing her homework.", j:["isn't watching","is not watching"] },
+  { t:"isian", q:"What ____ (she / cook) when you visited her?", j:["was she cooking"] },
+  { t:"isian", q:"In the future, robots ____ (do) many jobs.", j:["will do"] },
+  { t:"isian", q:"Right now, Bu Ana ____ (check) our attendance.", j:["is checking"] },
+  { t:"isian", q:"The wind ____ (blow) hard when we left the house.", j:["was blowing"] },
+  { t:"isian", q:"We ____ (go) to Tawangmangu next holiday.", j:["will go","are going to go","are going"] },
+  { t:"isian", q:"They ____ (not / play) football at 5 p.m. yesterday; they were studying.", j:["weren't playing","were not playing"] },
+  { t:"isian", q:"I'm sure you ____ (pass) the exam.", j:["will pass"] }
+]}
+];
+
+/* =========================================================
+   KONFIGURASI — ubah bagian ini saja
+   ========================================================= */
+const KONFIG = {
+  judul: "English Quiz — Tenses",
+  deskripsi: "Simple future, present continuous, and past continuous. Each student gets one question set at random.",
+  durasiMenit: 60,
+  maksPelanggaran: 3,      // setelah ini kuis dikunci otomatis
+  acakPaket: true,         // siswa mendapat salah satu paket secara acak
+  acakSoal: true,          // urutan soal diacak
+  acakPilihan: true,       // urutan opsi pilihan ganda diacak
+  tampilkanRincian: true,  // tampilkan benar/salah per soal di layar hasil
+  tampilkanKunci: false,   // tampilkan jawaban yang benar di layar hasil
+  // URL Web App dari Google Apps Script (lihat PANDUAN.md). Kosongkan jika tidak dipakai.
+  sheetUrl: "https://script.google.com/macros/s/AKfycbyUl6ot7HTK9VpDk19q7ynKZWiswVclR72FTIbIP3f8jn-xV1mpswOQpwODQtI5dOS6zA/exec",
+  paket: BANK_SOAL
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const S = {
+  mulai: false, selesai: false,
+  soal: [], jawaban: [], indeks: 0,
+  pelanggaran: [], sisaDetik: KONFIG.durasiMenit * 60,
+  timer: null, terakhirPelanggaran: 0, overlayTerbuka: false,
+  muatUlang: 0, batasWaktu: null, cara: "", terkirim: false, lanjut: false
+};
+
+/* =========================================================
+   SIMPAN PROGRES (localStorage) — tahan refresh / tutup tab
+   Reset manual: buka halaman dengan ?reset di belakang URL.
+   ========================================================= */
+const KUNCI_SIMPAN = "kuisSFT:" + KONFIG.judul;
+if (new URLSearchParams(location.search).has("reset")) {
+  localStorage.removeItem(KUNCI_SIMPAN);
+  history.replaceState(null, "", location.pathname);
+}
+function simpan() {
+  if (!S.mulai && !S.selesai) return;
+  try {
+    localStorage.setItem(KUNCI_SIMPAN, JSON.stringify({
+      v: 1, nama: S.nama, kelas: S.kelas, paket: S.paket, soal: S.soal, jawaban: S.jawaban,
+      indeks: S.indeks, pelanggaran: S.pelanggaran, muatUlang: S.muatUlang,
+      waktuMulai: S.waktuMulai.getTime(), batasWaktu: S.batasWaktu, sisaDetik: S.sisaDetik,
+      selesai: S.selesai, cara: S.cara, terkirim: S.terkirim
+    }));
+  } catch (e) {}
+}
+function muatTersimpan() {
+  try { const d = JSON.parse(localStorage.getItem(KUNCI_SIMPAN)); return d && d.v === 1 && d.soal ? d : null; }
+  catch (e) { return null; }
+}
+const hitungSisa = () => Math.max(0, Math.round((S.batasWaktu - Date.now()) / 1000));
+
+const $ = id => document.getElementById(id);
+const huruf = "ABCDEFGH";
+const pad = n => String(n).padStart(2, "0");
+const fmtWaktu = d => `${pad(Math.floor(d / 60))}:${pad(d % 60)}`;
+const jamSekarang = () => new Date().toLocaleTimeString("id-ID", { hour12: false });
+
+/* =========================================================
+   INISIALISASI
+   ========================================================= */
+$("judulKuis").textContent = KONFIG.judul;
+$("kopJudul").textContent = KONFIG.judul;
+$("deskripsiKuis").textContent = KONFIG.deskripsi;
+$("durasiTeks").textContent = KONFIG.durasiMenit;
+document.querySelectorAll(".maksPelanggaran").forEach(el => el.textContent = KONFIG.maksPelanggaran);
+$("pelanggaranTeks").textContent = `0/${KONFIG.maksPelanggaran}`;
+$("waktu").textContent = fmtWaktu(S.sisaDetik);
+
+const acak = a => { for (let i = a.length - 1; i > 0; i--) { const k = Math.floor(Math.random() * (i + 1)); [a[i], a[k]] = [a[k], a[i]]; } return a; };
+
+const tersimpan = muatTersimpan();
+if (tersimpan) {
+  Object.assign(S, {
+    nama: tersimpan.nama, kelas: tersimpan.kelas, paket: tersimpan.paket, soal: tersimpan.soal,
+    jawaban: tersimpan.jawaban, indeks: tersimpan.indeks, pelanggaran: tersimpan.pelanggaran || [],
+    muatUlang: tersimpan.muatUlang || 0, batasWaktu: tersimpan.batasWaktu,
+    selesai: tersimpan.selesai, cara: tersimpan.cara || "", terkirim: !!tersimpan.terkirim,
+    waktuMulai: new Date(tersimpan.waktuMulai), lanjut: !tersimpan.selesai
+  });
+  S.sisaDetik = tersimpan.selesai ? tersimpan.sisaDetik : hitungSisa();
+} else {
+  const iPaket = KONFIG.acakPaket ? Math.floor(Math.random() * KONFIG.paket.length) : 0;
+  S.paket = KONFIG.paket[iPaket].nama;
+  S.soal = KONFIG.paket[iPaket].soal.map((s, i) => {
+    const soal = { ...s, asli: i };
+    if (s.t === "pg" && KONFIG.acakPilihan) {
+      const urut = acak(s.p.map((_, k) => k));
+      soal.p = urut.map(k => s.p[k]);
+      soal.j = urut.indexOf(s.j);
+    }
+    return soal;
+  });
+  if (KONFIG.acakSoal) acak(S.soal);
+  S.jawaban = S.soal.map(() => null);
+}
+
+const nPG = S.soal.filter(s => s.t === "pg").length, nIsian = S.soal.length - nPG;
+$("infoSoal").textContent = `${S.soal.length} questions: ${nPG} multiple choice, ${nIsian} fill in the blank`;
+$("kopJudul").textContent = `${KONFIG.judul} · ${S.paket}`;
+$("waktu").textContent = fmtWaktu(S.sisaDetik);
+
+if (S.lanjut) {
+  S.muatUlang++;
+  $("nama").value = S.nama; $("kelas").value = S.kelas;
+  $("nama").readOnly = true; $("kelas").readOnly = true;
+  $("kotakLanjut").hidden = false;
+  $("btnMulai").textContent = `Continue the quiz (${fmtWaktu(S.sisaDetik)} left)`;
+}
+
+const terjawab = i => S.jawaban[i] !== null && String(S.jawaban[i]).trim() !== "";
+const norm = s => String(s ?? "").toLowerCase().replace(/[\u2019\u2018]/g, "'").replace(/[.!?]+$/, "").replace(/\s+/g, " ").trim();
+const benarkah = i => {
+  const s = S.soal[i], j = S.jawaban[i];
+  if (!terjawab(i)) return false;
+  return s.t === "pg" ? j === s.j : s.j.some(k => norm(k) === norm(j));
+};
+
+/* =========================================================
+   MULAI
+   ========================================================= */
+$("btnMulai").addEventListener("click", async () => {
+  const nama = $("nama").value.trim(), kelas = $("kelas").value.trim();
+  if (!nama || !kelas) { alert("Please fill in your name and class first."); return; }
+  if (!S.lanjut) {
+    S.nama = nama; S.kelas = kelas; S.waktuMulai = new Date();
+    S.batasWaktu = Date.now() + KONFIG.durasiMenit * 60 * 1000;
+  }
+
+  await mintaLayarPenuh();
+  S.mulai = true;
+  S.terakhirPelanggaran = Date.now();
+  simpan();
+  if (S.lanjut && hitungSisa() <= 0) { selesaikan("Time is up"); return; }
+  tampilkan("layarSoal");
+  $("kopStatus").hidden = false;
+  if (S.pelanggaran.length) {
+    $("pelanggaranTeks").textContent = `${S.pelanggaran.length}/${KONFIG.maksPelanggaran}`;
+    $("pilPelanggaran").classList.add("bahaya");
+  }
+  renderSoal();
+  S.timer = setInterval(detak, 1000);
+});
+
+async function mintaLayarPenuh() {
+  const el = document.documentElement;
+  try { await (el.requestFullscreen || el.webkitRequestFullscreen).call(el); } catch (e) {}
+}
+const dalamLayarPenuh = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+
+function detak() {
+  S.sisaDetik = hitungSisa();
+  $("waktu").textContent = fmtWaktu(S.sisaDetik);
+  if (S.sisaDetik <= 60) $("pilWaktu").classList.add("bahaya");
+  if (S.sisaDetik <= 0) selesaikan("Time is up");
+}
+
+/* =========================================================
+   PENGAWASAN
+   ========================================================= */
+function catatPelanggaran(alasan) {
+  if (!S.mulai || S.selesai || S.overlayTerbuka || S.dialogTerbuka) return;
+  const kini = Date.now();
+  if (kini - S.terakhirPelanggaran < 1500) return;   // blur + visibilitychange sering muncul bersamaan
+  S.terakhirPelanggaran = kini;
+
+  S.pelanggaran.push({ jam: jamSekarang(), alasan, soal: S.indeks + 1 });
+  const n = S.pelanggaran.length;
+  simpan();
+  kirimKeSheet({ jenis: "pelanggaran", paket: S.paket, nama: S.nama, kelas: S.kelas, jam: jamSekarang(),
+                 alasan, soal: S.indeks + 1, urutan: n });
+  $("pelanggaranTeks").textContent = `${n}/${KONFIG.maksPelanggaran}`;
+  $("pilPelanggaran").classList.add("bahaya");
+
+  if (n >= KONFIG.maksPelanggaran) { selesaikan("Locked due to violations"); return; }
+
+  S.overlayTerbuka = true;
+  $("tiraiHitung").textContent = n;
+  $("tiraiAlasan").textContent = alasan + ".";
+  const sisa = KONFIG.maksPelanggaran - n;
+  $("tiraiSisa").textContent = sisa === 1
+    ? "One more violation and the quiz will be locked."
+    : `${sisa} chances left before the quiz is locked.`;
+  $("tirai").classList.add("tampil");
+}
+
+$("btnKembali").addEventListener("click", async () => {
+  await mintaLayarPenuh();
+  $("tirai").classList.remove("tampil");
+  S.overlayTerbuka = false;
+  S.terakhirPelanggaran = Date.now();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) catatPelanggaran("Switched tab or minimised the window");
+});
+window.addEventListener("blur", () => catatPelanggaran("Focus moved to another app or window"));
+document.addEventListener("fullscreenchange", () => {
+  if (!dalamLayarPenuh()) catatPelanggaran("Left fullscreen mode");
+});
+document.addEventListener("webkitfullscreenchange", () => {
+  if (!dalamLayarPenuh()) catatPelanggaran("Left fullscreen mode");
+});
+
+// hambat klik kanan, salin, dan beberapa pintasan umum
+document.addEventListener("contextmenu", e => { if (S.mulai) e.preventDefault(); });
+["copy", "cut", "paste"].forEach(ev => document.addEventListener(ev, e => { if (S.mulai) e.preventDefault(); }));
+document.addEventListener("keydown", e => {
+  if (!S.mulai || S.selesai) return;
+  const k = e.key.toLowerCase();
+  const blok = e.key === "F12" || e.key === "Escape"
+    || (e.ctrlKey && ["c","v","x","u","s","p","t","n","w","r"].includes(k))
+    || (e.ctrlKey && e.shiftKey && ["i","j","c"].includes(k))
+    || (e.altKey && e.key === "Tab");
+  if (blok) e.preventDefault();
+});
+window.addEventListener("beforeunload", e => {
+  if (S.mulai && !S.selesai) { e.preventDefault(); e.returnValue = ""; }
+});
+
+/* =========================================================
+   SOAL
+   ========================================================= */
+function renderSoal() {
+  const i = S.indeks, s = S.soal[i], total = S.soal.length;
+  $("nomor").textContent = `Question ${i + 1} of ${total} · ${s.t === "pg" ? "Multiple choice" : "Fill in the blank"}`;
+  $("pertanyaan").textContent = s.q;
+
+  if (s.t === "pg") {
+    $("opsi").innerHTML = s.p.map((p, j) => `
+      <label>
+        <input type="radio" name="jwb" value="${j}" ${S.jawaban[i] === j ? "checked" : ""}>
+        <span class="huruf">${huruf[j]}</span><span>${p}</span>
+      </label>`).join("");
+    $("opsi").querySelectorAll("input").forEach(r => r.addEventListener("change", () => {
+      S.jawaban[i] = Number(r.value);
+      renderNav(); simpan();
+    }));
+  } else {
+    $("opsi").innerHTML = `
+      <div class="isian">
+        <input type="text" id="jwbIsian" autocomplete="off" spellcheck="false"
+               placeholder="Type your answer here" value="${(S.jawaban[i] ?? "").replace(/"/g, "&quot;")}">
+        <div class="petunjuk">Write the correct form of the verb in brackets, e.g. <em>is reading</em>, <em>will go</em>, <em>were playing</em>.</div>
+      </div>`;
+    const inp = $("jwbIsian");
+    inp.addEventListener("input", () => { S.jawaban[i] = inp.value; renderNav(); simpan(); });
+    inp.addEventListener("keydown", e => { if (e.key === "Enter" && i < total - 1) { S.indeks++; renderSoal(); } });
+    inp.focus();
+  }
+
+  simpan();
+  $("btnSebelum").disabled = i === 0;
+  $("btnBerikut").hidden = i === total - 1;
+  $("btnKumpul").hidden = i !== total - 1;
+  renderNav();
+}
+
+function renderNav() {
+  $("navsoal").innerHTML = S.soal.map((_, j) => {
+    const cls = [j === S.indeks ? "sekarang" : "", terjawab(j) ? "terjawab" : ""].join(" ");
+    return `<button class="${cls}" data-i="${j}" aria-label="Question ${j + 1}">${j + 1}</button>`;
+  }).join("");
+  $("navsoal").querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    S.indeks = Number(b.dataset.i); renderSoal();
+  }));
+}
+
+$("btnSebelum").addEventListener("click", () => { S.indeks--; renderSoal(); });
+$("btnBerikut").addEventListener("click", () => { S.indeks++; renderSoal(); });
+$("btnKumpul").addEventListener("click", () => {
+  const kosong = S.soal.filter((_, j) => !terjawab(j)).length;
+  $("dialogIsi").textContent = kosong
+    ? `${kosong} question${kosong > 1 ? "s are" : " is"} still unanswered. Blank answers count as wrong.`
+    : "All questions are answered. Once submitted, answers cannot be changed.";
+  S.dialogTerbuka = true;
+  $("dialogKumpul").classList.add("tampil");
+  $("btnBatalKumpul").focus();
+});
+$("btnBatalKumpul").addEventListener("click", () => {
+  $("dialogKumpul").classList.remove("tampil");
+  S.dialogTerbuka = false;
+});
+$("btnYakinKumpul").addEventListener("click", () => {
+  $("dialogKumpul").classList.remove("tampil");
+  S.dialogTerbuka = false;
+  selesaikan("Submitted by student");
+});
+
+/* =========================================================
+   SELESAI
+   ========================================================= */
+function selesaikan(cara) {
+  if (S.selesai) return;
+  S.selesai = true; S.cara = cara;
+  clearInterval(S.timer);
+  if (S.batasWaktu) S.sisaDetik = hitungSisa();
+  simpan();
+  $("tirai").classList.remove("tampil");
+  S.overlayTerbuka = false;
+  if (dalamLayarPenuh() && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+  const data = renderHasil();
+  kirimHasil(data);
+}
+
+function renderHasil() {
+  const cara = S.cara;
+  const benar = S.soal.filter((_, i) => benarkah(i)).length;
+  const skor = Math.round(benar / S.soal.length * 100);
+  const dikunci = cara.startsWith("Locked");
+  const durasi = KONFIG.durasiMenit * 60 - S.sisaDetik;
+
+  $("skorAngka").textContent = skor;
+  $("skorKotak").classList.toggle("dikunci", dikunci);
+  $("statusHasil").textContent = cara;
+  $("statusHasil").className = "status " + (dikunci ? "dikunci" : "selesai");
+  $("metaHasil").textContent = `${S.nama} · ${S.kelas} · ${S.paket} · ${benar} of ${S.soal.length} correct · ${fmtWaktu(durasi)} used`;
+  $("metaPelanggaran").textContent = `${S.pelanggaran.length} violation${S.pelanggaran.length === 1 ? "" : "s"} recorded`;
+
+  const teksJawab = i => {
+    const s = S.soal[i], j = S.jawaban[i];
+    if (!terjawab(i)) return "-";
+    return s.t === "pg" ? huruf[j] : String(j).trim();
+  };
+  $("rekapWrap").hidden = !KONFIG.tampilkanRincian;
+  $("rekapJawaban").innerHTML = S.soal.map((s, i) => {
+    const st = !terjawab(i) ? "kosong" : benarkah(i) ? "ok" : "salah";
+    const tanda = st === "ok" ? "\u2713" : st === "salah" ? "\u2715" : "\u2013";
+    let ket = !terjawab(i) ? "Not answered"
+      : s.t === "pg" ? `Your answer: ${huruf[S.jawaban[i]]}. ${s.p[S.jawaban[i]]}` : `Your answer: ${teksJawab(i)}`;
+    if (KONFIG.tampilkanKunci && st !== "ok") ket += ` \u00b7 Correct answer: ${s.t === "pg" ? s.p[s.j] : s.j[0]}`;
+    return `<div class="rekap-item"><span class="tanda ${st}">${tanda}</span>
+      <div><div>${i + 1}. ${s.q}</div><div class="ket">${ket}</div></div></div>`;
+  }).join("");
+
+  // jawaban urut nomor asli paket, agar mudah dicocokkan guru
+  const jawabanUrut = S.soal.map((s, i) => ({ n: s.asli + 1, t: s.t, v: teksJawab(i), ok: benarkah(i) }))
+    .sort((a, b) => a.n - b.n);
+  S.jawabanTeks = jawabanUrut.filter(x => !x.ok).map(x => `${x.n}:${x.v}`).join(" | ");
+
+  // detail per soal (untuk sheet "Detail Jawaban") dan ringkasan soal yang salah
+  const kunciTeks = s => s.t === "pg" ? `${huruf[s.j]}. ${s.p[s.j]}` : s.j[0];
+  const kunciAsli = s => {
+    // kunci PG dalam huruf urutan ASLI bank soal (bukan urutan acak), agar cocok dengan kunci guru
+    const asli = KONFIG.paket.find(pk => pk.nama === S.paket).soal[s.asli];
+    return asli.t === "pg" ? `${huruf[asli.j]}. ${asli.p[asli.j]}` : asli.j[0];
+  };
+  const jawabTeksPenuh = i => {
+    const s = S.soal[i], j = S.jawaban[i];
+    if (!terjawab(i)) return "-";
+    return s.t === "pg" ? s.p[j] : String(j).trim();
+  };
+  S.detail = S.soal.map((s, i) => ({
+    no: s.asli + 1, tipe: s.t === "pg" ? "PG" : "Isian", soal: s.q,
+    jawaban: jawabTeksPenuh(i), kunci: kunciAsli(s), benar: benarkah(i) ? 1 : 0
+  })).sort((a, b) => a.no - b.no);
+  const salah = S.detail.filter(d => !d.benar);
+  S.salahNomor = salah.map(d => d.no).join(", ");
+  S.salahRincian = salah.map(d => `#${d.no} ${d.soal} → jawab: ${d.jawaban} | kunci: ${d.kunci}`).join("\n");
+
+  $("logPelanggaran").innerHTML = S.pelanggaran.length
+    ? S.pelanggaran.map(p => `<li><time>${p.jam}</time><span>${p.alasan} (question ${p.soal})</span></li>`).join("")
+    : `<li class="kosong-log">No violations. Well done.</li>`;
+
+  S.ringkasan = [
+    `QUIZ: ${KONFIG.judul} (${S.paket})`,
+    `Name: ${S.nama} | Class: ${S.kelas}`,
+    `Score: ${skor} (${benar}/${S.soal.length}) | Status: ${cara}`,
+    `Started: ${S.waktuMulai.toLocaleString("id-ID")} | Time used: ${fmtWaktu(durasi)}`,
+    `Violations: ${S.pelanggaran.length}` + (S.muatUlang ? ` | Page reloads: ${S.muatUlang}` : ""),
+    ...S.pelanggaran.map(p => `  - ${p.jam} ${p.alasan} (question ${p.soal})`),
+    `Wrong answers: ${S.jawabanTeks || "none"}`
+  ].join("\n");
+
+  $("kopStatus").hidden = true;
+  tampilkan("layarHasil");
+  window.scrollTo(0, 0);
+
+  return {
+    jenis: "hasil", kuis: KONFIG.judul, paket: S.paket, nama: S.nama, kelas: S.kelas,
+    mulai: S.waktuMulai.toLocaleString("id-ID"), durasi: fmtWaktu(durasi),
+    skor, benar, total: S.soal.length, status: cara,
+    jumlahPelanggaran: S.pelanggaran.length,
+    pelanggaran: S.pelanggaran.map(p => `${p.jam} ${p.alasan} (question ${p.soal})`).join("; ")
+      + (S.muatUlang ? `; page reloaded ${S.muatUlang}x` : ""),
+    jawaban: S.jawabanTeks,
+    salahNomor: S.salahNomor, salahRincian: S.salahRincian,
+    detail: S.detail
+  };
+}
+
+// Kuis sudah selesai sebelumnya (mis. halaman di-refresh setelah submit): tampilkan hasil lagi
+if (tersimpan && tersimpan.selesai) {
+  const data = renderHasil();
+  if (S.terkirim) {
+    const el = $("statusKirim");
+    if (KONFIG.sheetUrl) { el.hidden = false; el.className = "kirim ok"; el.textContent = "Your results have been sent to the teacher."; }
+  } else {
+    kirimHasil(data);
+  }
+}
+
+/* =========================================================
+   KIRIM KE GOOGLE SHEET
+   ========================================================= */
+function kirimKeSheet(data) {
+  if (!KONFIG.sheetUrl) return Promise.resolve(false);
+  return fetch(KONFIG.sheetUrl, {
+    method: "POST", mode: "no-cors", keepalive: true,
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(data)
+  }).then(() => true).catch(() => false);
+}
+
+async function kirimHasil(data) {
+  const el = $("statusKirim");
+  if (!KONFIG.sheetUrl) { el.hidden = true; return; }
+  el.hidden = false;
+  el.className = "kirim proses";
+  el.textContent = "Sending your results to the teacher…";
+  let ok = await kirimKeSheet(data);
+  if (!ok) { await new Promise(r => setTimeout(r, 2000)); ok = await kirimKeSheet(data); }
+  S.terkirim = ok; simpan();
+  el.className = "kirim " + (ok ? "ok" : "gagal");
+  el.textContent = ok
+    ? "Your results have been sent to the teacher."
+    : "Sending failed. Copy the summary below and send it to your teacher.";
+}
+
+$("btnSalin").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(S.ringkasan); $("btnSalin").textContent = "Summary copied"; }
+  catch { prompt("Copy this text:", S.ringkasan); }
+});
+
+function tampilkan(id) {
+  document.querySelectorAll(".layar").forEach(l => l.classList.remove("aktif"));
+  $(id).classList.add("aktif");
+}
+</script>
+</body>
+</html>
