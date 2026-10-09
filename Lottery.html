@@ -53,6 +53,10 @@ button.danger:hover{background:var(--rd-l)}
 .ft{border-top:1px solid var(--bd);font-weight:500}
 .ft .ok{color:var(--pu);font-weight:600}
 .ft .wait{color:var(--mu2)}
+.mot{display:flex;gap:8px;align-items:flex-start;padding:8px 12px;border-bottom:1px solid var(--bd);font-size:12px;color:var(--mu);line-height:1.45}
+.mot .tx{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ty{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--rd-l);color:var(--rd-d);flex-shrink:0;letter-spacing:.04em}
+.ty.imp{background:var(--pu-l);color:var(--pu-d)}
 .sb{font-size:12px;padding:5px 10px;border-radius:8px;background:var(--pu-l);border:none;color:var(--pu-d);white-space:nowrap;text-transform:none;letter-spacing:0}
 .sb:hover{background:#E4D5F2}
 .sb.re{background:var(--rd-l);color:var(--rd-d)}
@@ -83,13 +87,21 @@ button.danger:hover{background:var(--rd-l)}
 .pc.s .t{color:var(--rd)}
 .pc.b .t{color:var(--mu)}
 .empty{opacity:.55;font-weight:500!important}
+.motions{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.mo{background:var(--card);border:1px solid var(--bd);border-left:5px solid var(--rd);border-radius:0 14px 14px 0;padding:16px 20px}
+.mo.fin{border-left-color:var(--pu)}
+.mo .r{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
+.mo .en{font-size:17px;font-weight:600;line-height:1.45;margin:0 0 8px}
+.mo .idn{font-size:14px;font-style:italic;color:var(--mu);line-height:1.55;margin:0}
+.mo textarea{width:100%;font-family:inherit;font-size:16px;font-weight:600;line-height:1.45;padding:10px 12px;border:1px solid var(--bd2);border-radius:10px;resize:vertical;color:var(--tx);background:#FBFAFD}
+.mo textarea:focus{outline:none;border-color:var(--pu);background:#fff}
 .roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
 .rc{background:var(--card);border:1px solid var(--bd);border-top:4px solid var(--pu);border-radius:0 0 12px 12px;padding:14px 16px}
 .rc h3{font-size:15px;margin:0 0 8px}
 .rc p{font-size:13px;color:var(--mu);margin:0 0 4px;line-height:1.5}
 .rc p span{color:var(--mu2)}
 .sec{margin:40px 0 14px}
-@media print{.controls,.btns,.sb,.hint,.ft{display:none!important}body{background:#fff}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{.controls,.btns,.sb,.hint,.ft{display:none!important}body{background:#fff}header,.ty,.pl{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 </head>
 <body>
@@ -134,6 +146,9 @@ button.danger:hover{background:var(--rd-l)}
 
   <div class="pod" id="pod"></div>
 
+  <p class="colh sec">Motions</p>
+  <div class="motions" id="motions"></div>
+
   <p class="colh sec">Team roster</p>
   <div class="roster" id="roster"></div>
 </main>
@@ -149,6 +164,13 @@ const TEAMS=[
 {id:'pika',name:'PIKA',m:[['Asa Oktavia Putri Yos Indiawan','Grade XI'],['Bhernardus Airlangga','Grade XII'],['The Axelle A. S','Grade XII']]},
 {id:'sem',name:'Seminari',m:[['Rafael Sukma Narendra','X-1'],['Joseph Johannes Palimbong','X-2'],['Rohfel Adyaraka Christianugrah Puspoasmoro','XII-1']]}
 ];
+const MOT={
+  pa:{lab:'Preliminary · Prelim 1 & 3',ty:'THW',en:'This House Would require all student feedback on teachers to be given non-anonymously.',idn:'Mewajibkan seluruh umpan balik (feedback) siswa terhadap guru disampaikan secara tidak anonim (dengan mencantumkan nama).'},
+  pb:{lab:'Preliminary · Prelim 2 & 4',ty:'THBT',en:'This House Believes That schools should allow students to hold peaceful protests on school grounds.',idn:'Sekolah seharusnya mengizinkan siswa mengadakan aksi protes damai di lingkungan sekolah.'},
+  s:{lab:'Semifinals',ty:'THR',en:'This House Regrets the rise of "call-out culture" among young people on social media.',idn:'Menyesalkan maraknya budaya "call-out" (menegur atau mempermalukan orang secara terbuka) di kalangan kaum muda di media sosial.'},
+  t:{lab:'3rd place match',ty:'THW',en:'This House Would lower the voting age in Indonesia to 16.',idn:'Menurunkan batas usia pemilih di Indonesia menjadi 16 tahun.'}
+};
+const MM={p0:'pa',p2:'pa',p1:'pb',p3:'pb',s0:'s',s1:'s',t:'t'};
 const B=Object.fromEntries(TEAMS.map(t=>[t.id,t]));
 const LBL={p0:'Prelim 1',p1:'Prelim 2',p2:'Prelim 3',p3:'Prelim 4',s0:'Semifinal 1',s1:'Semifinal 2',f:'Final',t:'3rd place match'};
 const NEXT={p0:'Semifinal 1',p1:'Semifinal 1',p2:'Semifinal 2',p3:'Semifinal 2',s0:'Final',s1:'Final'};
@@ -158,10 +180,11 @@ const $=id=>document.getElementById(id);
 const rnd=()=>Math.random()<.5?'A':'O';
 const opp=v=>v?(v==='A'?'O':'A'):null;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-function fresh(){return{slots:Array(8).fill(null),st:{},w:{},adv:{}}}
+function fresh(){return{slots:Array(8).fill(null),st:{},w:{},adv:{},fm:''}}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&!s.adv)s.adv={};return s}catch(e){return null}}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s){if(!s.adv)s.adv={};if(typeof s.fm!=='string')s.fm=''}return s}catch(e){return null}}
 
 let S=load()||fresh();
 let busy=false;
@@ -191,6 +214,14 @@ function clean(){
 function pill(v){
   return v?`<span class="pl ${v==='A'?'pa':'po'}">${v==='A'?'AFF':'OPP'}</span>`:'<span class="pl pn">—</span>';
 }
+function motStrip(m){
+  if(m==='f'){
+    const fm=S.fm.trim();
+    return `<div class="mot" title="${fm?esc(fm):'Impromptu motion'}"><span class="ty imp">IMPROMPTU</span><span class="tx">${fm?esc(fm):'Motion announced on the day'}</span></div>`;
+  }
+  const o=MOT[MM[m]];
+  return `<div class="mot" title="${esc(o.en)}"><span class="ty">${o.ty}</span><span class="tx">${esc(o.en)}</span></div>`;
+}
 function row(m,id,v,ready){
   const w=S.w[m],isW=id&&w===id,hasW=!!w;
   const ph=m[0]==='p'?'Awaiting draw':'Awaiting winner';
@@ -218,7 +249,7 @@ function card(m){
       :`<button class="sb" data-coin="${m}">Draw stance</button>`;
   }
   const cls=m==='f'?'final':m==='t'?'third':'';
-  return `<div class="mc ${cls}"><div class="mh"><span>${LBL[m]}</span>${btn}</div>${row(m,p[0],v,ready)}${row(m,p[1],opp(v),ready)}${footer(m,ready)}</div>`;
+  return `<div class="mc ${cls}"><div class="mh"><span>${LBL[m]}</span>${btn}</div>${motStrip(m)}${row(m,p[0],v,ready)}${row(m,p[1],opp(v),ready)}${footer(m,ready)}</div>`;
 }
 function colh(title,stage){
   const list=stage==='p'?['p0','p1','p2','p3']:stage==='s'?['s0','s1']:null;
@@ -237,6 +268,14 @@ function render(){
   $('pod').innerHTML=pc('g','Champion',c1)+pc('s','Runner-up',c2)+pc('b','3rd place',c3);
   save();
 }
+
+$('motions').innerHTML=['pa','pb','s','t'].map(k=>{
+  const o=MOT[k];
+  return `<div class="mo"><p class="r"><span class="ty">${o.ty}</span>${o.lab}</p><p class="en">${esc(o.en)}</p><p class="idn">${esc(o.idn)}</p></div>`;
+}).join('')+`<div class="mo fin"><p class="r"><span class="ty imp">IMPROMPTU</span>Final</p><textarea id="fm" rows="2" placeholder="Type the final motion when it's announced"></textarea></div>`;
+$('fm').value=S.fm;
+$('fm').addEventListener('input',e=>{S.fm=e.target.value;render()});
+
 $('roster').innerHTML=TEAMS.map(t=>`<div class="rc"><h3>${t.name}</h3>${t.m.map(x=>`<p>${x[0]} <span>· ${x[1]}</span></p>`).join('')}</div>`).join('');
 
 function setRoll(name,v,sub){
@@ -313,8 +352,9 @@ $('bAll').onclick=async()=>{
 };
 $('bReset').onclick=()=>{
   if(busy)return;
-  if(!confirm('Reset the whole bracket and draw again?'))return;
+  if(!confirm('Reset the whole bracket and draw again? This also clears the final motion.'))return;
   S=fresh();
+  $('fm').value='';
   setRoll('Ready to draw',null,'8 teams · 4 preliminary matches');
   render();
 };
