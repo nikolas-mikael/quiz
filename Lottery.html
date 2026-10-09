@@ -39,10 +39,11 @@ button.danger:hover{background:var(--rd-l)}
 .chip{font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px;background:var(--pu-l);color:var(--pu-d)}
 .chip.out{background:transparent;color:var(--mu2);text-decoration:line-through;border:1px dashed var(--bd2)}
 .hint{font-size:13px;color:var(--mu);margin:16px 0 0;line-height:1.7}
-.legend{display:flex;gap:18px;font-size:13px;color:var(--mu);margin:0 0 14px;align-items:center}
+.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--mu);margin:0 0 14px;align-items:center}
 .wrap{overflow-x:auto;padding-bottom:6px}
 #br{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:28px;min-width:840px}
 .colh{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--pu-l);min-height:38px}
+.colh small{font-size:11px;color:var(--mu);font-weight:600;margin-left:6px}
 .colwrap{display:flex;flex-direction:column}
 .col{display:flex;flex-direction:column;justify-content:space-around;gap:16px;flex:1}
 .mc{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
@@ -53,6 +54,9 @@ button.danger:hover{background:var(--rd-l)}
 .ft{border-top:1px solid var(--bd);font-weight:500}
 .ft .ok{color:var(--pu);font-weight:600}
 .ft .wait{color:var(--mu2)}
+.when{display:flex;gap:6px;align-items:center;padding:6px 12px;border-bottom:1px solid var(--bd);font-size:12px;font-weight:600;color:var(--pu-d);background:var(--pu-l)}
+.when .dot{color:var(--mu2);font-weight:400}
+.when .rm{margin-left:auto;background:var(--pu);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px}
 .mot{display:flex;gap:8px;align-items:flex-start;padding:8px 12px;border-bottom:1px solid var(--bd);font-size:12px;color:var(--mu);line-height:1.45}
 .mot .tx{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .ty{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;background:var(--rd-l);color:var(--rd-d);flex-shrink:0;letter-spacing:.04em}
@@ -71,6 +75,7 @@ button.danger:hover{background:var(--rd-l)}
 .win:hover{background:var(--pu-l)}
 .lose .nm{color:var(--mu2)}
 .nm{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lt{font-size:12px;font-weight:700;color:var(--mu);width:14px;text-align:center;flex-shrink:0}
 .ph{color:var(--mu2);font-weight:400}
 .pl{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;min-width:38px;text-align:center}
 .pa{background:var(--pu);color:#fff}
@@ -108,7 +113,7 @@ button.danger:hover{background:var(--rd-l)}
   main{max-width:none;padding:16px 0 0}
   .wrap{overflow:visible}
   .mc,.mo,.rc,.pc{break-inside:avoid}
-  header,.ty,.pl,.pc.g,.win{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  header,.ty,.pl,.pc.g,.win,.when,.rm{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
 </head>
@@ -116,7 +121,7 @@ button.danger:hover{background:var(--rd-l)}
 <header>
   <p class="kicker">Kolese Mikael</p>
   <h1>English Debate Competition</h1>
-  <p class="sub">Preliminaries · Semifinals · 3rd place · Final</p>
+  <p class="sub">Day 1 · Tuesday 13 October 2026 — Preliminaries &amp; Semifinals · Day 2 — 3rd place &amp; Final</p>
 </header>
 
 <main>
@@ -124,7 +129,7 @@ button.danger:hover{background:var(--rd-l)}
     <div class="panel">
       <p class="label">Lottery box</p>
       <p id="roll">Ready to draw</p>
-      <p id="rollSub">8 teams · 4 preliminary matches</p>
+      <p id="rollSub">8 teams (A–H) · 4 preliminary matches</p>
       <p class="label">Team draw</p>
       <div class="btns">
         <button class="primary" id="bOne">Draw one team</button>
@@ -154,6 +159,7 @@ button.danger:hover{background:var(--rd-l)}
   <div class="legend">
     <span><span class="pl pa">AFF</span>&nbsp; Affirmative</span>
     <span><span class="pl po">OPP</span>&nbsp; Opposition</span>
+    <span>DH = Debater Hall</span>
   </div>
 
   <div class="wrap"><div id="br"></div></div>
@@ -185,9 +191,21 @@ const MOT={
   t:{lab:'3rd place match',ty:'THW',en:'This House Would lower the voting age in Indonesia to 16.',idn:'Menurunkan batas usia pemilih di Indonesia menjadi 16 tahun.'}
 };
 const MM={p0:'pa',p2:'pa',p1:'pb',p3:'pb',s0:'s',s1:'s',t:'t'};
+const DAY={1:'Day 1 · Tue 13 Oct',2:'Day 2'};
+const SCH={
+  p0:{d:1,t:'13:30–14:00',r:'DH 1'},
+  p1:{d:1,t:'13:30–14:00',r:'DH 2'},
+  p2:{d:1,t:'14:10–14:40',r:'DH 1'},
+  p3:{d:1,t:'14:10–14:40',r:'DH 2'},
+  s0:{d:1,t:'16:05–16:41',r:'DH 1'},
+  s1:{d:1,t:'16:05–16:41',r:'DH 2'},
+  t:{d:2,t:'14:05–14:55',r:'DH 1'},
+  f:{d:2,t:'15:55–16:45',r:'DH 1'}
+};
+const LET='ABCDEFGH';
 const B=Object.fromEntries(TEAMS.map(t=>[t.id,t]));
 const LBL={p0:'Prelim 1',p1:'Prelim 2',p2:'Prelim 3',p3:'Prelim 4',s0:'Semifinal 1',s1:'Semifinal 2',f:'Final',t:'3rd place match'};
-const NEXT={p0:'Semifinal 1',p1:'Semifinal 1',p2:'Semifinal 2',p3:'Semifinal 2',s0:'Final',s1:'Final'};
+const NEXT={p0:'Semifinal 1',p2:'Semifinal 1',p1:'Semifinal 2',p3:'Semifinal 2',s0:'Final',s1:'Final'};
 const ORDER=['p0','p1','p2','p3','s0','s1','f','t'];
 const KEY='debateBracketV3';
 const $=id=>document.getElementById(id);
@@ -207,8 +225,8 @@ const up=m=>S.adv[m]?(S.w[m]||null):null;
 
 function parts(m){
   if(m[0]==='p'){const i=+m[1];return[S.slots[2*i],S.slots[2*i+1]]}
-  if(m==='s0')return[up('p0'),up('p1')];
-  if(m==='s1')return[up('p2'),up('p3')];
+  if(m==='s0')return[up('p0'),up('p2')];
+  if(m==='s1')return[up('p1'),up('p3')];
   if(m==='f')return[up('s0'),up('s1')];
   return[S.adv.s0?loser('s0'):null,S.adv.s1?loser('s1'):null];
 }
@@ -228,6 +246,10 @@ function clean(){
 function pill(v){
   return v?`<span class="pl ${v==='A'?'pa':'po'}">${v==='A'?'AFF':'OPP'}</span>`:'<span class="pl pn">—</span>';
 }
+function whenStrip(m){
+  const s=SCH[m];
+  return `<div class="when"><span>${DAY[s.d]}</span><span class="dot">·</span><span>${s.t}</span><span class="rm">${s.r}</span></div>`;
+}
 function motStrip(m){
   if(m==='f'){
     const fm=S.fm.trim();
@@ -236,12 +258,13 @@ function motStrip(m){
   const o=MOT[MM[m]];
   return `<div class="mot" title="${esc(o.en)}"><span class="ty">${o.ty}</span><span class="tx">${esc(o.en)}</span></div>`;
 }
-function row(m,id,v,ready){
+function row(m,id,v,ready,slot){
   const w=S.w[m],isW=id&&w===id,hasW=!!w;
   const ph=m[0]==='p'?'Awaiting draw':'Awaiting winner';
   const tip=id?B[id].m.map(x=>x[0]).join(', '):'';
+  const lt=slot!=null?`<span class="lt">${LET[slot]}</span>`:'';
   return `<div class="tr ${ready?'ck':''} ${isW?'win':''} ${hasW&&!isW?'lose':''}" data-m="${m}" data-t="${id||''}" title="${tip}">
-    ${pill(id?v:null)}
+    ${lt}${pill(id?v:null)}
     <span class="nm">${id?B[id].name:`<span class="ph">${ph}</span>`}</span>
     ${isW?'<span class="check">✓</span>':''}
   </div>`;
@@ -256,26 +279,27 @@ function footer(m,ready){
 function card(m){
   const p=parts(m),ready=!!(p[0]&&p[1]);
   const v=anim[m]||(S.st[m]?S.st[m].v:null);
+  const pre=m[0]==='p',i=pre?+m[1]:0;
   let btn='';
-  if(m[0]!=='p'&&ready&&!S.w[m]){
+  if(!pre&&ready&&!S.w[m]){
     btn=S.st[m]
       ?`<button class="sb re" data-coin="${m}">↻ Redraw stance</button>`
       :`<button class="sb" data-coin="${m}">Draw stance</button>`;
   }
   const cls=m==='f'?'final':m==='t'?'third':'';
-  return `<div class="mc ${cls}"><div class="mh"><span>${LBL[m]}</span>${btn}</div>${motStrip(m)}${row(m,p[0],v,ready)}${row(m,p[1],opp(v),ready)}${footer(m,ready)}</div>`;
+  return `<div class="mc ${cls}"><div class="mh"><span>${LBL[m]}</span>${btn}</div>${whenStrip(m)}${motStrip(m)}${row(m,p[0],v,ready,pre?2*i:null)}${row(m,p[1],opp(v),ready,pre?2*i+1:null)}${footer(m,ready)}</div>`;
 }
-function colh(title,stage){
+function colh(title,day,stage){
   const list=stage==='p'?['p0','p1','p2','p3']:stage==='s'?['s0','s1']:null;
   const can=list&&list.some(m=>S.w[m]&&!S.adv[m]);
-  return `<p class="colh"><span>${title}</span>${can?`<button class="sb go" data-advall="${stage}">Advance all</button>`:''}</p>`;
+  return `<p class="colh"><span>${title}<small>${day}</small></span>${can?`<button class="sb go" data-advall="${stage}">Advance all</button>`:''}</p>`;
 }
 function render(){
   clean();
   $('br').innerHTML=`
-    <div class="colwrap">${colh('Preliminaries','p')}<div class="col">${['p0','p1','p2','p3'].map(card).join('')}</div></div>
-    <div class="colwrap">${colh('Semifinals','s')}<div class="col">${card('s0')}${card('s1')}</div></div>
-    <div class="colwrap">${colh('Finals')}<div class="col" style="justify-content:center;gap:36px">${card('f')}${card('t')}</div></div>`;
+    <div class="colwrap">${colh('Preliminaries','Day 1','p')}<div class="col">${['p0','p2','p1','p3'].map(card).join('')}</div></div>
+    <div class="colwrap">${colh('Semifinals','Day 1','s')}<div class="col">${card('s0')}${card('s1')}</div></div>
+    <div class="colwrap">${colh('Finals','Day 2')}<div class="col" style="justify-content:center;gap:36px">${card('f')}${card('t')}</div></div>`;
   $('pool').innerHTML=TEAMS.map(t=>`<span class="chip ${S.slots.includes(t.id)?'out':''}">${t.name}</span>`).join('');
   const c1=up('f'),c2=S.adv.f?loser('f'):null,c3=up('t');
   const pc=(cls,lab,id)=>`<div class="pc ${cls}"><p class="t">${lab}</p><p class="n ${id?'':'empty'}">${id?B[id].name:'To be decided'}</p></div>`;
@@ -304,7 +328,7 @@ function drawOne(dur){
     if(idx<0){res();return}
     const pool=TEAMS.map(t=>t.id).filter(id=>!S.slots.includes(id));
     $('roll').style.color='var(--mu)';
-    $('rollSub').textContent='Drawing…';
+    $('rollSub').textContent=`Drawing team ${LET[idx]}…`;
     const iv=setInterval(()=>{$('roll').textContent=B[pool[Math.floor(Math.random()*pool.length)]].name},60);
     setTimeout(()=>{
       clearInterval(iv);
@@ -313,7 +337,7 @@ function drawOne(dur){
       if(idx%2===0)S.st[m]={v:rnd(),k:''};
       S.slots[idx]=pick;
       const v=idx%2===0?S.st[m].v:opp(S.st[m].v);
-      setRoll(B[pick].name,v,`${LBL[m]} · ${v==='A'?'Affirmative':'Opposition'}`);
+      setRoll(B[pick].name,v,`Team ${LET[idx]} · ${LBL[m]} · ${v==='A'?'Affirmative':'Opposition'} · ${SCH[m].t} ${SCH[m].r}`);
       render();res();
     },dur);
   });
@@ -336,7 +360,7 @@ async function stanceOne(m){
   const v=rnd();
   S.st[m]={v,k:p.join()};
   const aff=v==='A'?p[0]:p[1],op=v==='A'?p[1]:p[0];
-  setRoll(`${B[aff].name} — AFF`,'A',`${LBL[m]} · ${B[aff].name} Affirmative vs ${B[op].name} Opposition`);
+  setRoll(`${B[aff].name} — AFF`,'A',`${LBL[m]} · ${B[aff].name} Affirmative vs ${B[op].name} Opposition · ${SCH[m].r}`);
   render();
 }
 
@@ -428,22 +452,25 @@ function exportResults(){
   let b='';
   b+=para(run('KOLESE MIKAEL',{b:1,sz:18,color:'B3202A'}),{after:0});
   b+=para(run('English Debate Competition',{b:1,sz:44,color:'5B2A86'}),{after:0});
-  b+=para(run('Bracket and results · '+date,{sz:20,color:'6F6879'}),{after:280,border:1});
+  b+=para(run('Day 1 · Tuesday 13 October 2026 · Day 2',{sz:20,color:'6F6879'}),{after:0});
+  b+=para(run('Bracket and results · exported '+date,{sz:20,color:'6F6879'}),{after:280,border:1});
 
   b+=h('Final standings');
   b+=tbl([3008,3009,3009],[['Champion','Runner-up','3rd place'],[dec(up('f')),dec(S.adv.f?loser('f'):null),dec(up('t'))]]);
 
   b+=h('Matches');
-  const rows=[['Match','Affirmative','Opposition','Winner']];
+  const rows=[['Match','Schedule','Affirmative','Opposition','Winner']];
   ['p0','p1','p2','p3','s0','s1','t','f'].forEach(m=>{
-    const p=parts(m),v=S.st[m]?S.st[m].v:null;
+    const p=parts(m),v=S.st[m]?S.st[m].v:null,s=SCH[m];
     let a,o;
     if(v){a=nm(v==='A'?p[0]:p[1]);o=nm(v==='A'?p[1]:p[0])}
     else{a=p[0]?nm(p[0])+' (stance TBD)':'TBD';o=p[1]?nm(p[1])+' (stance TBD)':'TBD'}
     const w=S.w[m]?nm(S.w[m])+(S.adv[m]?'':' (pending)'):'—';
-    rows.push([LBL[m],a,o,w]);
+    let label=LBL[m];
+    if(m[0]==='p'){const i=+m[1];label=[LBL[m],`Team ${LET[2*i]} vs ${LET[2*i+1]}`]}
+    rows.push([label,[DAY[s.d],s.t,s.r],a,o,w]);
   });
-  b+=tbl([1900,2600,2600,1926],rows);
+  b+=tbl([1500,1700,2000,2000,1826],rows);
 
   b+=h('Motions');
   ['pa','pb','s','t'].forEach(k=>{
@@ -495,7 +522,7 @@ $('bReset').onclick=()=>{
   if(!confirm('Reset the whole bracket and draw again? This also clears the final motion.'))return;
   S=fresh();
   $('fm').value='';
-  setRoll('Ready to draw',null,'8 teams · 4 preliminary matches');
+  setRoll('Ready to draw',null,'8 teams (A–H) · 4 preliminary matches');
   render();
 };
 document.querySelectorAll('[data-stage]').forEach(b=>b.onclick=()=>{
