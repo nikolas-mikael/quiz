@@ -24,6 +24,7 @@ main{max-width:1180px;margin:0 auto;padding:28px 24px 48px}
 @media(max-width:760px){.top{grid-template-columns:1fr}}
 .panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px 22px}
 .label{font-size:12px;font-weight:600;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin:0 0 10px}
+.label.gap{margin-top:18px}
 #roll{font-size:30px;font-weight:700;margin:0;min-height:42px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color .2s}
 #rollSub{font-size:14px;color:var(--mu);margin:4px 0 18px;min-height:22px}
 .btns{display:flex;gap:10px;flex-wrap:wrap}
@@ -37,20 +38,27 @@ button.danger:hover{background:var(--rd-l)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{font-size:13px;font-weight:500;padding:6px 12px;border-radius:999px;background:var(--pu-l);color:var(--pu-d)}
 .chip.out{background:transparent;color:var(--mu2);text-decoration:line-through;border:1px dashed var(--bd2)}
-.hint{font-size:13px;color:var(--mu);margin:16px 0 0;line-height:1.6}
+.hint{font-size:13px;color:var(--mu);margin:16px 0 0;line-height:1.7}
 .legend{display:flex;gap:18px;font-size:13px;color:var(--mu);margin:0 0 14px;align-items:center}
 .wrap{overflow-x:auto;padding-bottom:6px}
-#br{display:grid;grid-template-columns:repeat(3,minmax(240px,1fr));gap:28px;min-width:780px}
-.colh{font-size:13px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--pu-l)}
-.col{display:flex;flex-direction:column;justify-content:space-around;gap:16px;height:calc(100% - 42px)}
+#br{display:grid;grid-template-columns:repeat(3,minmax(260px,1fr));gap:28px;min-width:840px}
+.colh{display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:700;color:var(--pu);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--pu-l);min-height:38px}
+.colwrap{display:flex;flex-direction:column}
+.col{display:flex;flex-direction:column;justify-content:space-around;gap:16px;flex:1}
 .mc{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden}
 .mc.final{border:2px solid var(--pu)}
 .mc.third{border:2px solid var(--rd)}
-.mh{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:600;color:var(--mu);padding:8px 12px;border-bottom:1px solid var(--bd);min-height:38px;background:#FBFAFD}
-.sb{font-size:12px;padding:5px 10px;border-radius:8px;background:var(--pu-l);border:none;color:var(--pu-d)}
+.mh,.ft{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;font-weight:600;color:var(--mu);padding:8px 12px;min-height:40px;background:#FBFAFD}
+.mh{border-bottom:1px solid var(--bd)}
+.ft{border-top:1px solid var(--bd);font-weight:500}
+.ft .ok{color:var(--pu);font-weight:600}
+.ft .wait{color:var(--mu2)}
+.sb{font-size:12px;padding:5px 10px;border-radius:8px;background:var(--pu-l);border:none;color:var(--pu-d);white-space:nowrap;text-transform:none;letter-spacing:0}
 .sb:hover{background:#E4D5F2}
 .sb.re{background:var(--rd-l);color:var(--rd-d)}
 .sb.re:hover{background:#F8D3D5}
+.sb.go{background:var(--pu);color:#fff}
+.sb.go:hover{background:var(--pu-d)}
 .tr{display:flex;align-items:center;gap:10px;padding:10px 12px;font-size:14px;min-height:44px}
 .tr+.tr{border-top:1px solid var(--bd)}
 .ck{cursor:pointer}
@@ -81,7 +89,7 @@ button.danger:hover{background:var(--rd-l)}
 .rc p{font-size:13px;color:var(--mu);margin:0 0 4px;line-height:1.5}
 .rc p span{color:var(--mu2)}
 .sec{margin:40px 0 14px}
-@media print{.controls,.btns,.sb,.hint{display:none!important}body{background:#fff}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+@media print{.controls,.btns,.sb,.hint,.ft{display:none!important}body{background:#fff}header{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 </head>
 <body>
@@ -97,16 +105,23 @@ button.danger:hover{background:var(--rd-l)}
       <p class="label">Lottery box</p>
       <p id="roll">Ready to draw</p>
       <p id="rollSub">8 teams · 4 preliminary matches</p>
+      <p class="label">Team draw</p>
       <div class="btns">
         <button class="primary" id="bOne">Draw one team</button>
         <button id="bAll">Draw all</button>
         <button class="danger" id="bReset">Reset</button>
       </div>
+      <p class="label gap">Stance lottery</p>
+      <div class="btns">
+        <button data-stage="semi">Semifinals</button>
+        <button data-stage="f">Final</button>
+        <button data-stage="t">3rd place</button>
+      </div>
     </div>
     <div class="panel">
       <p class="label">Teams in the pool</p>
       <div class="chips" id="pool"></div>
-      <p class="hint">Click a team name in the bracket to set the winner, and click it again to undo. Stances for the semifinals, the final, and the 3rd place match are drawn with the button on each match and can be redrawn.</p>
+      <p class="hint">1. Click the winning team to mark them (click again to undo).<br>2. Press <b>Advance</b> on the match, or <b>Advance all</b> on the round, to move winners up.<br>3. Draw the next round's stances with the stance lottery or the button on each match.</p>
     </div>
   </div>
 
@@ -136,26 +151,29 @@ const TEAMS=[
 ];
 const B=Object.fromEntries(TEAMS.map(t=>[t.id,t]));
 const LBL={p0:'Prelim 1',p1:'Prelim 2',p2:'Prelim 3',p3:'Prelim 4',s0:'Semifinal 1',s1:'Semifinal 2',f:'Final',t:'3rd place match'};
+const NEXT={p0:'Semifinal 1',p1:'Semifinal 1',p2:'Semifinal 2',p3:'Semifinal 2',s0:'Final',s1:'Final'};
 const ORDER=['p0','p1','p2','p3','s0','s1','f','t'];
-const KEY='debateBracketV2';
+const KEY='debateBracketV3';
 const $=id=>document.getElementById(id);
 const rnd=()=>Math.random()<.5?'A':'O';
 const opp=v=>v?(v==='A'?'O':'A'):null;
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function fresh(){return{slots:Array(8).fill(null),st:{},w:{},adv:{}}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&!s.adv)s.adv={};return s}catch(e){return null}}
 
 let S=load()||fresh();
 let busy=false;
 const anim={};
-
-function fresh(){return{slots:Array(8).fill(null),st:{},w:{}}}
-function save(){localStorage.setItem(KEY,JSON.stringify(S))}
-function load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}}
+const up=m=>S.adv[m]?(S.w[m]||null):null;
 
 function parts(m){
   if(m[0]==='p'){const i=+m[1];return[S.slots[2*i],S.slots[2*i+1]]}
-  if(m==='s0')return[S.w.p0||null,S.w.p1||null];
-  if(m==='s1')return[S.w.p2||null,S.w.p3||null];
-  if(m==='f')return[S.w.s0||null,S.w.s1||null];
-  return[loser('s0'),loser('s1')];
+  if(m==='s0')return[up('p0'),up('p1')];
+  if(m==='s1')return[up('p2'),up('p3')];
+  if(m==='f')return[up('s0'),up('s1')];
+  return[S.adv.s0?loser('s0'):null,S.adv.s1?loser('s1'):null];
 }
 function loser(m){
   const p=parts(m);
@@ -166,6 +184,7 @@ function clean(){
   ORDER.forEach(m=>{
     const p=parts(m);
     if(S.w[m]&&!(p[0]&&p[1]&&p.includes(S.w[m])))delete S.w[m];
+    if(S.adv[m]&&!S.w[m])delete S.adv[m];
     if(m[0]!=='p'&&S.st[m]&&S.st[m].k!==p.join())delete S.st[m];
   });
 }
@@ -182,26 +201,38 @@ function row(m,id,v,ready){
     ${isW?'<span class="check">✓</span>':''}
   </div>`;
 }
+function footer(m,ready){
+  if(!ready)return '';
+  const fin=m==='f'||m==='t';
+  if(!S.w[m])return `<div class="ft"><span class="wait">Click the winning team</span></div>`;
+  if(!S.adv[m])return `<div class="ft"><span>Winner marked</span><button class="sb go" data-adv="${m}">${fin?'Confirm result':'Advance →'}</button></div>`;
+  return `<div class="ft"><span class="ok">✓ ${fin?'Result confirmed':'In '+NEXT[m]}</span><button class="sb re" data-undo="${m}">Undo</button></div>`;
+}
 function card(m){
   const p=parts(m),ready=!!(p[0]&&p[1]);
-  let v=anim[m]||(S.st[m]?S.st[m].v:null);
+  const v=anim[m]||(S.st[m]?S.st[m].v:null);
   let btn='';
-  if(m[0]!=='p'&&ready){
+  if(m[0]!=='p'&&ready&&!S.w[m]){
     btn=S.st[m]
       ?`<button class="sb re" data-coin="${m}">↻ Redraw stance</button>`
       :`<button class="sb" data-coin="${m}">Draw stance</button>`;
   }
   const cls=m==='f'?'final':m==='t'?'third':'';
-  return `<div class="mc ${cls}"><div class="mh"><span>${LBL[m]}</span>${btn}</div>${row(m,p[0],v,ready)}${row(m,p[1],opp(v),ready)}</div>`;
+  return `<div class="mc ${cls}"><div class="mh"><span>${LBL[m]}</span>${btn}</div>${row(m,p[0],v,ready)}${row(m,p[1],opp(v),ready)}${footer(m,ready)}</div>`;
+}
+function colh(title,stage){
+  const list=stage==='p'?['p0','p1','p2','p3']:stage==='s'?['s0','s1']:null;
+  const can=list&&list.some(m=>S.w[m]&&!S.adv[m]);
+  return `<p class="colh"><span>${title}</span>${can?`<button class="sb go" data-advall="${stage}">Advance all</button>`:''}</p>`;
 }
 function render(){
   clean();
   $('br').innerHTML=`
-    <div><p class="colh">Preliminaries</p><div class="col">${['p0','p1','p2','p3'].map(card).join('')}</div></div>
-    <div><p class="colh">Semifinals</p><div class="col">${card('s0')}${card('s1')}</div></div>
-    <div><p class="colh">Finals</p><div class="col" style="justify-content:center;gap:36px">${card('f')}${card('t')}</div></div>`;
+    <div class="colwrap">${colh('Preliminaries','p')}<div class="col">${['p0','p1','p2','p3'].map(card).join('')}</div></div>
+    <div class="colwrap">${colh('Semifinals','s')}<div class="col">${card('s0')}${card('s1')}</div></div>
+    <div class="colwrap">${colh('Finals')}<div class="col" style="justify-content:center;gap:36px">${card('f')}${card('t')}</div></div>`;
   $('pool').innerHTML=TEAMS.map(t=>`<span class="chip ${S.slots.includes(t.id)?'out':''}">${t.name}</span>`).join('');
-  const c1=S.w.f,c2=loser('f'),c3=S.w.t;
+  const c1=up('f'),c2=S.adv.f?loser('f'):null,c3=up('t');
   const pc=(cls,lab,id)=>`<div class="pc ${cls}"><p class="t">${lab}</p><p class="n ${id?'':'empty'}">${id?B[id].name:'To be decided'}</p></div>`;
   $('pod').innerHTML=pc('g','Champion',c1)+pc('s','Runner-up',c2)+pc('b','3rd place',c3);
   save();
@@ -235,26 +266,37 @@ function drawOne(dur){
   });
 }
 
-function drawStance(m){
-  if(busy)return;
+async function stanceOne(m){
   const p=parts(m);
-  if(!p[0]||!p[1])return;
-  busy=true;
   let n=0;
-  $('roll').style.color='var(--mu)';
-  $('roll').textContent=LBL[m];
-  $('rollSub').textContent='Drawing stance…';
-  const iv=setInterval(()=>{anim[m]=n++%2?'A':'O';render()},90);
-  setTimeout(()=>{
-    clearInterval(iv);
-    delete anim[m];
-    const v=rnd();
-    S.st[m]={v,k:p.join()};
-    const aff=v==='A'?p[0]:p[1],op=v==='A'?p[1]:p[0];
-    setRoll(B[aff].name,'A',`${LBL[m]} · Affirmative vs ${B[op].name} (Opposition)`);
+  $('rollSub').textContent=`${LBL[m]} · drawing stance…`;
+  const iv=setInterval(()=>{
+    const v=n++%2?'A':'O';
+    anim[m]=v;
+    $('roll').textContent=`${B[v==='A'?p[0]:p[1]].name} — ${v==='A'?'AFF':'OPP'}`;
+    $('roll').style.color=v==='A'?'var(--pu)':'var(--rd)';
     render();
-    busy=false;
-  },1100);
+  },90);
+  await sleep(1300);
+  clearInterval(iv);
+  delete anim[m];
+  const v=rnd();
+  S.st[m]={v,k:p.join()};
+  const aff=v==='A'?p[0]:p[1],op=v==='A'?p[1]:p[0];
+  setRoll(`${B[aff].name} — AFF`,'A',`${LBL[m]} · ${B[aff].name} Affirmative vs ${B[op].name} Opposition`);
+  render();
+}
+
+async function stanceStage(list,name){
+  if(busy)return;
+  const ready=list.filter(m=>{const p=parts(m);return p[0]&&p[1]&&!S.w[m]});
+  if(!ready.length){setRoll(name,null,`Teams for the ${name.toLowerCase()} aren't set yet. Advance the winners first.`);return}
+  busy=true;
+  for(let i=0;i<ready.length;i++){
+    await stanceOne(ready[i]);
+    if(i<ready.length-1)await sleep(1400);
+  }
+  busy=false;
 }
 
 $('bOne').onclick=async()=>{
@@ -276,13 +318,49 @@ $('bReset').onclick=()=>{
   setRoll('Ready to draw',null,'8 teams · 4 preliminary matches');
   render();
 };
-$('br').addEventListener('click',e=>{
-  const c=e.target.closest('[data-coin]');
-  if(c){drawStance(c.dataset.coin);return}
+document.querySelectorAll('[data-stage]').forEach(b=>b.onclick=()=>{
+  const s=b.dataset.stage;
+  if(s==='semi')stanceStage(['s0','s1'],'Semifinals');
+  else if(s==='f')stanceStage(['f'],'Final');
+  else stanceStage(['t'],'3rd place match');
+});
+
+$('br').addEventListener('click',async e=>{
   if(busy)return;
-  const r=e.target.closest('.tr.ck');
+  const t=e.target;
+
+  const c=t.closest('[data-coin]');
+  if(c){busy=true;await stanceOne(c.dataset.coin);busy=false;return}
+
+  const a=t.closest('[data-adv]');
+  if(a){
+    const m=a.dataset.adv;
+    S.adv[m]=true;
+    const fin=m==='f'||m==='t';
+    setRoll(B[S.w[m]].name,'A',fin?`${LBL[m]} result confirmed`:`Advances to ${NEXT[m]}`);
+    render();return;
+  }
+
+  const u=t.closest('[data-undo]');
+  if(u){
+    const m=u.dataset.undo;
+    const later=(m[0]==='p'&&(S.w.s0||S.w.s1))||(m[0]==='s'&&(S.w.f||S.w.t));
+    if(later&&!confirm('Undoing this will clear results in the next round that depend on it. Continue?'))return;
+    delete S.adv[m];render();return;
+  }
+
+  const aa=t.closest('[data-advall]');
+  if(aa){
+    const list=aa.dataset.advall==='p'?['p0','p1','p2','p3']:['s0','s1'];
+    list.forEach(m=>{if(S.w[m])S.adv[m]=true});
+    setRoll(aa.dataset.advall==='p'?'Semifinals set':'Finals set',null,'Winners advanced. Draw the stances next.');
+    render();return;
+  }
+
+  const r=t.closest('.tr.ck');
   if(!r||!r.dataset.t)return;
   const m=r.dataset.m,id=r.dataset.t;
+  if(S.adv[m]){setRoll(LBL[m],null,'This result is already advanced. Press Undo first to change it.');return}
   if(S.w[m]===id)delete S.w[m];else S.w[m]=id;
   render();
 });
