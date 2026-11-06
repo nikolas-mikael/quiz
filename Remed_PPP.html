@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en" translate="no" class="notranslate">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- kunci bahasa: halaman tidak boleh diterjemahkan otomatis -->
+<meta name="google" content="notranslate">
+<meta name="googlebot" content="notranslate">
+<meta http-equiv="Content-Language" content="en">
+<title>Remedial Exam - The Perfect Tenses — SMK Mikael</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ungu: #4B1D6E;
+    --ungu-2: #6B2FA0;
+    --ungu-tua: #2E0F48;
+    --ungu-muda: #EFE5F8;
+    --ungu-pucat: #F8F4FC;
+    --merah: #C21F2E;
+    --merah-tua: #9A1622;
+    --merah-muda: #FDECEE;
+    --kertas: #F5F1FA;
+    --tinta: #1D1430;
+    --abu: #6E6482;
+    --garis: #E4DCEE;
+    --benar: #16794B;
+    --benar-muda: #E3F5EC;
+    --r-besar: 22px;
+    --bayang: 0 1px 2px rgba(46,15,72,.05), 0 10px 28px rgba(46,15,72,.08);
+    --judul: "Bricolage Grotesque", "Plus Jakarta Sans", system-ui, sans-serif;
+  }
+  @property --p { syntax: "<number>"; inherits: false; initial-value: 0; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
+  html, body { min-height: 100%; }
+  body {
+    font-family: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--kertas); color: var(--tinta); line-height: 1.55;
+    -webkit-user-select: none; user-select: none; -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background:
+      radial-gradient(620px 420px at 100% -5%, rgba(140,82,200,.22), transparent 70%),
+      radial-gradient(520px 400px at -10% 105%, rgba(194,31,46,.13), transparent 70%),
+      radial-gradient(circle at 1px 1px, rgba(75,29,110,.07) 1px, transparent 0) 0 0 / 22px 22px;
+  }
+  input, textarea { -webkit-user-select: text; user-select: text; }
+  button { font: inherit; cursor: pointer; }
+  button:focus-visible, input:focus-visible, textarea:focus-visible, label:focus-within { outline: 3px solid var(--merah); outline-offset: 2px; }
+  h1, h2, h3 { font-family: var(--judul); letter-spacing: -0.02em; }
+  .ikon { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+  /* ---------- lencana sekolah ---------- */
+  .lencana {
+    width: 38px; height: 38px; border-radius: 12px; flex: none;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--ungu-2), var(--merah));
+    color: #fff; font-family: var(--judul); font-weight: 800; font-size: 18px;
+    box-shadow: 0 6px 14px rgba(107,47,160,.3);
+  }
+
+  /* ---------- gerbang kata sandi ---------- */
+  .gerbang {
+    position: fixed; inset: 0; z-index: 200; color: #fff;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+    background:
+      radial-gradient(700px 500px at 90% 0%, rgba(194,31,46,.55), transparent 60%),
+      radial-gradient(600px 500px at 0% 100%, rgba(140,82,200,.5), transparent 60%),
+      linear-gradient(160deg, #2A0D42, #4B1D6E);
+  }
+  .gerbang-kotak {
+    width: 100%; max-width: 400px; text-align: center;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18);
+    border-radius: 26px; padding: 34px 26px 28px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 30px 60px rgba(0,0,0,.28);
+  }
+  .gerbang-kotak .lencana {
+    width: 58px; height: 58px; border-radius: 18px; font-size: 26px; margin: 0 auto 16px;
+    background: #fff; color: var(--ungu); box-shadow: 0 10px 24px rgba(0,0,0,.2);
+  }
+  .gerbang-kotak .sekolah { font-weight: 700; font-size: 13px; opacity: .8; letter-spacing: .02em; }
+  .gerbang-kotak h2 { margin-top: 6px; font-size: 27px; font-weight: 800; }
+  .gerbang-kotak p { margin-top: 6px; opacity: .8; font-size: 14.5px; }
+  .gerbang-kotak input {
+    width: 100%; margin-top: 22px; padding: 15px 16px; font: inherit; font-size: 18px;
+    border-radius: 14px; border: 2px solid transparent;
+    background: #fff; color: var(--tinta); text-align: center; letter-spacing: .1em;
+  }
+  .gerbang-kotak input:focus { outline: none; border-color: #FF8E9B; box-shadow: 0 0 0 4px rgba(255,142,155,.3); }
+  .gerbang-kotak .tombol {
+    width: 100%; margin-top: 12px; padding: 15px; font-size: 16px; color: #fff;
+    background: linear-gradient(135deg, #E0323F, var(--merah)); box-shadow: 0 10px 22px rgba(154,22,34,.4);
+  }
+  .gerbang-salah { margin-top: 12px; font-weight: 700; color: #FFC2C8; min-height: 22px; font-size: 14px; }
+  .gerbang-kotak.goyang { animation: goyang .35s; }
+  @keyframes goyang { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+  body.terkunci-sandi { overflow: hidden; }
+
+  /* ---------- kop ---------- */
+  .kop {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.84);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--garis);
+  }
+  .kop::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 3px;
+    background: linear-gradient(90deg, var(--ungu-2), var(--merah));
+  }
+  .kop-in {
+    max-width: 760px; margin: 0 auto; padding: 12px 18px;
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  }
+  .kop-merek { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .kop-sekolah { font-weight: 800; font-size: 14px; color: var(--ungu-tua); min-width: 0; line-height: 1.3; }
+  .kop-sekolah small {
+    display: block; font-weight: 500; color: var(--abu); font-size: 12px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .kop-status { display: flex; gap: 8px; align-items: center; flex: none; }
+  .pil {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--ungu-muda); color: var(--ungu);
+    padding: 7px 12px; border-radius: 999px;
+    font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums;
+  }
+  .pil .ikon { width: 15px; height: 15px; }
+  .pil.bahaya { background: var(--merah); color: #fff; animation: denyut 1.6s ease-in-out infinite; }
+  @keyframes denyut { 0%,100% { box-shadow: 0 0 0 0 rgba(194,31,46,.45); } 50% { box-shadow: 0 0 0 6px rgba(194,31,46,0); } }
+
+  /* ---------- kanvas ---------- */
+  .kanvas { max-width: 760px; margin: 0 auto; padding: 26px 18px 90px; }
+  .layar { display: none; }
+  .layar.aktif { display: block; animation: naik .35s ease both; }
+  @keyframes naik { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  .kartu {
+    background: #fff; border: 1px solid var(--garis); border-radius: var(--r-besar);
+    box-shadow: var(--bayang); padding: 24px; margin-top: 16px;
+  }
+  .kartu-judul { font-size: 18px; font-weight: 700; color: var(--ungu-tua); }
+  h1 { font-size: clamp(26px, 5vw, 34px); font-weight: 800; line-height: 1.1; color: var(--ungu-tua); margin-top: 12px; }
+  .pengantar { color: var(--abu); margin-top: 8px; font-size: 15.5px; max-width: 58ch; }
+
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 11.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase;
+    background: rgba(255,255,255,.14); color: #fff; padding: 6px 12px; border-radius: 999px;
+  }
+  .eyebrow .titik { width: 7px; height: 7px; border-radius: 50%; background: #FF8E9B; box-shadow: 0 0 0 4px rgba(255,142,155,.25); }
+  .eyebrow.terang { background: var(--ungu-muda); color: var(--ungu); }
+  .eyebrow.terang .titik { background: var(--merah); box-shadow: 0 0 0 4px rgba(194,31,46,.15); }
+
+  /* ---------- hero (layar mulai) ---------- */
+  .hero {
+    position: relative; overflow: hidden; border-radius: 26px;
+    padding: 28px 26px 24px; color: #fff;
+    background: linear-gradient(135deg, #34104F 0%, #5B2390 55%, #8E1E4A 100%);
+    box-shadow: 0 18px 40px rgba(58,18,89,.28);
+  }
+  .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+  .hero::before { width: 280px; height: 280px; right: -80px; top: -110px; background: rgba(255,255,255,.08); }
+  .hero::after { width: 170px; height: 170px; right: 70px; bottom: -100px; background: rgba(255,120,140,.2); }
+  .hero > * { position: relative; }
+  .hero h1 { color: #fff; margin-top: 14px; font-size: clamp(27px, 5.4vw, 40px); line-height: 1.05; letter-spacing: -.03em; }
+  .hero .pengantar { color: rgba(255,255,255,.82); }
+  .statistik { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 22px; }
+  .stat {
+    background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16);
+    border-radius: 16px; padding: 12px 14px;
+  }
+  .stat b { display: block; font-family: var(--judul); font-size: 28px; font-weight: 800; line-height: 1.1; }
+  .stat span { font-size: 12.5px; opacity: .8; }
+  .stat.merah b { color: #FFB3BC; }
+
+  /* ---------- form ---------- */
+  .baris { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 12px; }
+  .field label { display: block; font-weight: 700; font-size: 13.5px; margin-bottom: 6px; color: var(--ungu-tua); }
+  .field input {
+    width: 100%; padding: 13px 15px; font: inherit; font-size: 16px;
+    border: 1.5px solid var(--garis); border-radius: 12px; background: var(--ungu-pucat); color: var(--tinta);
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .field input:focus { background: #fff; border-color: var(--ungu-2); outline: none; box-shadow: 0 0 0 4px var(--ungu-muda); }
+
+  /* ---------- aturan ---------- */
+  .aturan-daftar { list-style: none; margin-top: 14px; display: grid; gap: 12px; }
+  .aturan-daftar li { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; }
+  .aturan-daftar li > span:last-child { padding-top: 6px; }
+  .aturan-ikon {
+    flex: 0 0 34px; height: 34px; border-radius: 11px;
+    background: var(--ungu-muda); color: var(--ungu); display: grid; place-items: center;
+  }
+  .aturan-ikon.merah { background: var(--merah-muda); color: var(--merah); }
+  .aturan-daftar b { color: var(--merah); }
+
+  /* ---------- tombol ---------- */
+  .tombol {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 20px; border-radius: 14px; border: 0;
+    font-weight: 700; font-size: 15px;
+    transition: transform .12s, box-shadow .15s, background .15s, border-color .15s;
+  }
+  .tombol:active { transform: translateY(1px) scale(.99); }
+  .tombol.utama { background: linear-gradient(135deg, var(--ungu-2), var(--ungu)); color: #fff; box-shadow: 0 8px 20px rgba(75,29,110,.28); }
+  .tombol.utama:hover { box-shadow: 0 12px 26px rgba(75,29,110,.36); transform: translateY(-1px); }
+  .tombol.merah { background: linear-gradient(135deg, #E0323F, var(--merah)); color: #fff; box-shadow: 0 8px 20px rgba(194,31,46,.26); }
+  .tombol.merah:hover { box-shadow: 0 12px 26px rgba(194,31,46,.34); transform: translateY(-1px); }
+  .tombol.polos { background: #fff; color: var(--ungu); border: 1.5px solid var(--garis); }
+  .tombol.polos:hover:not(:disabled) { border-color: var(--ungu-2); background: var(--ungu-pucat); }
+  .tombol:disabled { opacity: .4; cursor: not-allowed; box-shadow: none; transform: none; }
+  .tombol.lebar { width: 100%; margin-top: 18px; padding: 17px; font-size: 16px; }
+
+  /* ---------- soal ---------- */
+  .soal-kartu { padding: 24px 26px 22px; }
+  .soal-kepala { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .nomor {
+    font-size: 12.5px; font-weight: 700; color: var(--merah); background: var(--merah-muda);
+    padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+  }
+  .kemajuan { flex: 1; height: 8px; border-radius: 999px; background: var(--ungu-muda); overflow: hidden; }
+  .kemajuan span {
+    display: block; height: 100%; width: 0; border-radius: inherit;
+    background: linear-gradient(90deg, var(--ungu-2), var(--merah)); transition: width .35s ease;
+  }
+  .pertanyaan {
+    font-family: var(--judul); font-size: 23px; font-weight: 700; line-height: 1.3;
+    letter-spacing: -.015em; color: var(--ungu-tua); max-width: 60ch;
+  }
+  .opsi { margin-top: 20px; display: grid; gap: 10px; }
+  .opsi label {
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px; background: #fff; border: 1.5px solid var(--garis); border-radius: 14px;
+    cursor: pointer; font-size: 16px;
+    transition: border-color .12s, background .12s, transform .12s, box-shadow .12s;
+  }
+  .opsi label:hover { border-color: #C9B4E3; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(46,15,72,.06); }
+  .opsi input[type="radio"] { position: absolute; opacity: 0; pointer-events: none; }
+  .opsi .huruf {
+    flex: 0 0 32px; height: 32px; border-radius: 10px;
+    background: var(--ungu-pucat); border: 1.5px solid var(--garis);
+    display: grid; place-items: center; font-weight: 800; font-size: 13px; color: var(--abu);
+    transition: background .12s, color .12s;
+  }
+  .opsi label:has(input:checked) { border-color: var(--ungu-2); background: var(--ungu-pucat); box-shadow: 0 0 0 3px var(--ungu-muda); }
+  .opsi label:has(input:checked) .huruf { background: linear-gradient(135deg, var(--ungu-2), var(--ungu)); border-color: transparent; color: #fff; }
+
+  .isian input {
+    width: 100%; padding: 15px 16px; font: inherit; font-size: 18px;
+    border: 1.5px solid var(--garis); border-radius: 14px; background: var(--ungu-pucat); color: var(--tinta);
+  }
+  .isian input:focus { background: #fff; border-color: var(--ungu-2); outline: none; box-shadow: 0 0 0 4px var(--ungu-muda); }
+  .petunjuk { margin-top: 10px; font-size: 13.5px; color: var(--abu); line-height: 1.55; }
+  .petunjuk em { font-style: normal; color: var(--ungu); font-weight: 700; }
+
+  /* ---------- soal kalimat ---------- */
+  .tugas {
+    background: var(--ungu-pucat); border: 1.5px dashed #D3C0EA; border-radius: 14px;
+    padding: 14px 16px; display: grid; gap: 10px;
+  }
+  .tugas-baris { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 15px; }
+  .tugas-baris .label {
+    flex: 0 0 84px; font-size: 11.5px; font-weight: 800; color: var(--abu);
+    text-transform: uppercase; letter-spacing: .07em;
+  }
+  .chip { display: inline-flex; padding: 5px 13px; border-radius: 999px; font-weight: 700; font-size: 15px; }
+  .chip.ungu { background: #fff; color: var(--ungu); border: 1.5px solid #D3C0EA; }
+  .chip.merah { background: var(--merah); color: #fff; box-shadow: 0 4px 10px rgba(194,31,46,.25); }
+  .rumus { color: var(--abu); font-weight: 600; font-size: 14px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+  .kalimat textarea {
+    width: 100%; margin-top: 14px; padding: 15px 16px; font: inherit; font-size: 18px; line-height: 1.5;
+    border: 1.5px solid var(--garis); border-radius: 14px; background: #fff; color: var(--tinta);
+    resize: vertical; min-height: 110px;
+  }
+  .kalimat textarea:focus { border-color: var(--ungu-2); outline: none; box-shadow: 0 0 0 4px var(--ungu-muda); }
+
+  .navigasi { display: flex; justify-content: space-between; gap: 12px; margin-top: 24px; padding-top: 18px; border-top: 1px solid var(--garis); }
+
+  /* ---------- peta soal ---------- */
+  .peta-kepala { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+  .legenda { display: flex; gap: 14px; font-size: 12px; color: var(--abu); }
+  .legenda i {
+    display: inline-block; width: 11px; height: 11px; border-radius: 4px; margin-right: 5px; vertical-align: -1px;
+    border: 1.5px solid var(--garis); background: #fff;
+  }
+  .legenda i.terjawab { background: var(--ungu-muda); border-color: #C9B4E3; }
+  .legenda i.sekarang { background: var(--ungu); border-color: var(--ungu); }
+  .navsoal { display: grid; grid-template-columns: repeat(auto-fill, minmax(38px, 1fr)); gap: 6px; }
+  .navsoal button {
+    height: 38px; border-radius: 10px; border: 1.5px solid var(--garis);
+    background: #fff; font-weight: 700; font-size: 13px; color: var(--abu);
+    transition: border-color .12s, background .12s;
+  }
+  .navsoal button:hover { border-color: var(--ungu-2); }
+  .navsoal button.terjawab { background: var(--ungu-muda); border-color: #C9B4E3; color: var(--ungu); }
+  .navsoal button.sekarang { background: var(--ungu); border-color: var(--ungu); color: #fff; box-shadow: 0 0 0 3px rgba(194,31,46,.35); }
+
+  .kumpul-area { margin-top: 18px; text-align: center; }
+  .kumpul-info { font-size: 13.5px; color: var(--abu); }
+  .kumpul-area .tombol.lebar { margin-top: 10px; }
+
+  /* ---------- skor ---------- */
+  .skor { display: grid; grid-template-columns: auto 1fr; gap: 24px; align-items: center; }
+  .skor .angka {
+    --warna: var(--ungu-2);
+    position: relative; width: 136px; height: 136px; border-radius: 50%;
+    background: conic-gradient(var(--warna) calc(var(--p) * 1%), var(--ungu-muda) 0);
+    display: grid; place-content: center; text-align: center;
+    transition: --p 1.1s cubic-bezier(.2,.8,.2,1);
+  }
+  .skor .angka::before { content: ""; position: absolute; inset: 11px; border-radius: 50%; background: #fff; }
+  .skor .angka span, .skor .angka small { position: relative; }
+  .skor .angka span { font-family: var(--judul); font-size: 42px; font-weight: 800; line-height: 1; color: var(--ungu-tua); letter-spacing: -.03em; }
+  .skor .angka small { font-size: 13px; color: var(--abu); font-weight: 700; }
+  .skor.dikunci .angka { --warna: var(--merah); }
+  .skor.dikunci .angka span { color: var(--merah); }
+  .status { font-family: var(--judul); font-size: 21px; font-weight: 700; }
+  .status.dikunci { color: var(--merah); }
+  .status.selesai { color: var(--benar); }
+  .meta { color: var(--abu); font-size: 14px; margin-top: 4px; }
+
+  .kirim { margin-top: 16px; padding: 13px 16px; border-radius: 14px; font-weight: 700; font-size: 14px; }
+  .kirim.proses { background: var(--ungu-muda); color: var(--ungu); }
+  .kirim.ok { background: var(--benar-muda); color: var(--benar); }
+  .kirim.gagal { background: var(--merah-muda); color: var(--merah); }
+
+  /* ---------- rekap & log ---------- */
+  .rekap h2 { font-size: 18px; color: var(--ungu-tua); margin-bottom: 8px; }
+  .rekap-item { display: flex; gap: 12px; padding: 13px 0; border-top: 1px solid var(--garis); font-size: 14.5px; }
+  .tanda { flex: 0 0 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; font-size: 13px; font-weight: 800; }
+  .tanda.ok { background: var(--benar-muda); color: var(--benar); }
+  .tanda.salah { background: var(--merah-muda); color: var(--merah); }
+  .tanda.kosong { background: #EFEDF2; color: var(--abu); }
+  .rekap-item .ket { color: var(--abu); font-size: 13px; margin-top: 2px; }
+  .rekap-item .alasan {
+    display: inline-block; margin-top: 6px; padding: 3px 10px; border-radius: 8px;
+    background: var(--merah-muda); color: var(--merah); font-size: 12.5px; font-weight: 700;
+  }
+  .log { list-style: none; font-size: 14px; }
+  .log li { padding: 10px 0; border-top: 1px solid var(--garis); display: flex; gap: 12px; }
+  .log time { flex: 0 0 76px; color: var(--abu); font-variant-numeric: tabular-nums; }
+  .log .kosong-log { color: var(--benar); font-weight: 700; border: 0; }
+
+  /* ---------- lanjut ---------- */
+  .ringkas { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-top: 18px; }
+  .ringkas div { background: var(--ungu-pucat); border-radius: 14px; padding: 12px 14px; }
+  .ringkas dt { font-size: 11.5px; font-weight: 800; color: var(--abu); text-transform: uppercase; letter-spacing: .06em; }
+  .ringkas dd { font-weight: 700; font-size: 16px; color: var(--ungu-tua); font-variant-numeric: tabular-nums; margin-top: 2px; word-break: break-word; }
+  .kotak-info { margin-top: 16px; padding: 14px 16px; border-radius: 14px; background: var(--ungu-muda); }
+  .kotak-info.merah { background: var(--merah-muda); }
+  .kotak-info h3 { font-size: 14.5px; color: var(--ungu); margin-bottom: 4px; }
+  .kotak-info.merah h3 { color: var(--merah); }
+  .kotak-info p { font-size: 14.5px; }
+
+  .banner { margin-top: 16px; padding: 13px 16px; border-radius: 14px; font-weight: 700; font-size: 14px; background: var(--benar-muda); color: var(--benar); }
+  .banner.merah { background: var(--merah-muda); color: var(--merah); }
+
+  /* ---------- tirai (overlay) ---------- */
+  .tirai {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    align-items: center; justify-content: center; padding: 24px; color: #fff;
+    background: radial-gradient(circle at 50% 30%, #D8283A 0%, #8E141F 75%);
+  }
+  .tirai.tampil { display: flex; animation: muncul .2s ease; }
+  @keyframes muncul { from { opacity: 0; } to { opacity: 1; } }
+  .tirai-kotak { max-width: 480px; width: 100%; text-align: center; }
+  .tirai .besar { font-family: var(--judul); font-size: clamp(64px, 16vw, 104px); font-weight: 800; letter-spacing: -.05em; line-height: 1; }
+  .tirai .besar small { font-size: 24px; letter-spacing: 0; font-weight: 600; opacity: .75; }
+  .tirai h2 { margin-top: 14px; font-size: 25px; }
+  .tirai p { margin-top: 8px; opacity: .9; font-size: 16px; }
+  .tirai .tombol { margin-top: 26px; background: #fff; color: var(--merah); box-shadow: 0 10px 24px rgba(0,0,0,.2); }
+  .tirai .tombol:hover { background: #FFF2F3; }
+  .cara-matikan { text-align: left; margin: 18px auto 0; font-size: 15px; line-height: 1.6; max-width: 400px; padding-left: 20px; }
+  .cara-matikan li + li { margin-top: 6px; }
+  .tirai .pesan-gagal { margin-top: 14px; font-weight: 700; }
+
+  .tirai.ungu { background: rgba(46,15,72,.55); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); color: var(--tinta); }
+  .tirai.ungu .tirai-kotak { background: #fff; border-radius: 24px; padding: 30px 26px; box-shadow: 0 30px 60px rgba(0,0,0,.25); }
+  .dialog-ikon {
+    width: 56px; height: 56px; border-radius: 18px; margin: 0 auto 12px;
+    display: grid; place-items: center; color: #fff;
+    background: linear-gradient(135deg, var(--ungu-2), var(--merah));
+  }
+  .dialog-ikon .ikon { width: 26px; height: 26px; }
+  .tirai.ungu h2 { color: var(--ungu-tua); margin-top: 0; }
+  .tirai.ungu p { color: var(--abu); opacity: 1; }
+  .dialog-aksi { display: flex; gap: 10px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+  .tirai.ungu .tombol { margin-top: 0; background: linear-gradient(135deg, var(--ungu-2), var(--ungu)); color: #fff; box-shadow: 0 8px 20px rgba(75,29,110,.28); }
+  .tirai.ungu .tombol.polos-putih { background: #fff; color: var(--ungu); border: 1.5px solid var(--garis); box-shadow: none; }
+  .tirai.ungu .tombol.polos-putih:hover { background: var(--ungu-pucat); }
+
+  /* ---------- layar kecil ---------- */
+  @media (max-width: 560px) {
+    .kanvas { padding: 18px 14px 80px; }
+    .kartu { padding: 18px; border-radius: 18px; }
+    .hero { padding: 24px 20px 20px; border-radius: 22px; }
+    .statistik { gap: 8px; }
+    .stat { padding: 10px 12px; }
+    .stat b { font-size: 22px; }
+    .stat span { font-size: 11.5px; }
+    .baris { grid-template-columns: 1fr; }
+    .soal-kartu { padding: 20px 18px 18px; }
+    .pertanyaan { font-size: 20px; }
+    .teks-pil { display: none; }
+    .kop-sekolah { font-size: 13px; }
+    .lencana { width: 34px; height: 34px; font-size: 16px; }
+    .skor { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .navigasi .tombol { flex: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body class="notranslate terkunci-sandi" translate="no">
+
+<!-- ===== GERBANG KATA SANDI ===== -->
+<div class="gerbang" id="gerbang" role="dialog" aria-modal="true" aria-labelledby="gerbangJudul">
+  <form class="gerbang-kotak" id="gerbangForm" autocomplete="off">
+    <div class="lencana" aria-hidden="true">M</div>
+    <div class="sekolah">SMK Katolik St. Mikael Surakarta</div>
+    <h2 id="gerbangJudul">Enter the exam password</h2>
+    <p>Your teacher will give you the password.</p>
+    <input type="password" id="gerbangSandi" placeholder="Password" aria-label="Password" autocomplete="off" spellcheck="false">
+    <div class="gerbang-salah" id="gerbangSalah" aria-live="polite"></div>
+    <button type="submit" class="tombol">Open the exam</button>
+  </form>
+</div>
+
+<header class="kop">
+  <div class="kop-in">
+    <div class="kop-merek">
+      <span class="lencana" aria-hidden="true">M</span>
+      <div class="kop-sekolah">SMK Katolik St. Mikael Surakarta<small id="kopJudul">Locked exam</small></div>
+    </div>
+    <div class="kop-status" id="kopStatus" hidden>
+      <span class="pil" id="pilWaktu">
+        <svg class="ikon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>
+        <span id="waktu">00:00</span>
+      </span>
+      <span class="pil" id="pilPelanggaran">
+        <svg class="ikon" viewBox="0 0 24 24"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>
+        <span class="teks-pil">Violations</span> <span id="pelanggaranTeks">0/3</span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<main class="kanvas">
+
+  <!-- ===== MULAI ===== -->
+  <section class="layar aktif" id="layarMulai">
+    <div class="hero">
+      <span class="eyebrow"><span class="titik"></span>English · Remedial</span>
+      <h1 id="judulKuis">Remedial Exam</h1>
+      <p class="pengantar" id="deskripsiKuis"></p>
+      <div class="statistik">
+        <div class="stat"><b id="statSoal">–</b><span>questions</span></div>
+        <div class="stat"><b id="durasiTeks"></b><span>minutes</span></div>
+        <div class="stat merah"><b class="maksPelanggaran">3</b><span>violations max</span></div>
+      </div>
+    </div>
+
+    <div class="banner" id="bannerReset" hidden>Previous attempt cleared by the teacher. A new attempt can be started.</div>
+    <div class="banner merah" id="bannerResetGagal" hidden>Wrong reset key. The saved attempt was not cleared.</div>
+
+    <div class="kartu">
+      <h2 class="kartu-judul">Your details</h2>
+      <div class="baris">
+        <div class="field">
+          <label for="nama">Full name</label>
+          <input id="nama" type="text" autocomplete="off" placeholder="As written on the attendance list">
+        </div>
+        <div class="field">
+          <label for="kelas">Class</label>
+          <input id="kelas" type="text" autocomplete="off" placeholder="e.g. XI TPM 2">
+        </div>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <h2 class="kartu-judul">Rules during the exam</h2>
+      <ul class="aturan-daftar">
+        <li>
+          <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></span>
+          <span>The exam runs in fullscreen. Do not leave fullscreen mode.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon merah"><svg class="ikon" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M8 5v4"/></svg></span>
+          <span>Do not switch tabs, open other apps, or minimise the window. Every time you leave this page counts as <b>one violation</b>.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon merah"><svg class="ikon" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>
+          <span>After <b><span class="maksPelanggaran">3</span> violations</b>, the exam locks and your answers are submitted as they are.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg></span>
+          <span>Your question set is <b>fixed on this device</b>. Reloading the page does not change it.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></span>
+          <span>Questions: <b><span id="infoSoal"></span></b>.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg></span>
+          <span>Sentence writing: write <b>one complete sentence</b> in the tense shown and use the <b>required word</b>. Both are checked automatically.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
+          <span>The exam is submitted automatically when time runs out.</span>
+        </li>
+      </ul>
+    </div>
+
+    <button class="tombol utama lebar" id="btnMulai">
+      Start the exam in fullscreen
+      <svg class="ikon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </section>
+
+  <!-- ===== LANJUTKAN SETELAH REFRESH ===== -->
+  <section class="layar" id="layarLanjut">
+    <div class="kartu">
+      <span class="eyebrow terang"><span class="titik"></span>Saved attempt</span>
+      <h1>Resume your exam</h1>
+      <p class="pengantar">An unfinished attempt was found on this device. Your answers were saved, so you continue from where you stopped. You cannot start a new attempt.</p>
+
+      <dl class="ringkas">
+        <div><dt>Name</dt><dd id="lanjutNama"></dd></div>
+        <div><dt>Class</dt><dd id="lanjutKelas"></dd></div>
+        <div><dt>Answered</dt><dd id="lanjutJawab"></dd></div>
+        <div><dt>Time left</dt><dd id="lanjutWaktu"></dd></div>
+        <div><dt>Violations</dt><dd id="lanjutPelanggaran"></dd></div>
+      </dl>
+
+      <div class="kotak-info merah">
+        <h3>Important</h3>
+        <p id="lanjutCatatan"></p>
+      </div>
+    </div>
+
+    <button class="tombol utama lebar" id="btnLanjut">
+      <svg class="ikon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      Resume in fullscreen
+    </button>
+  </section>
+
+  <!-- ===== SUDAH DIKERJAKAN ===== -->
+  <section class="layar" id="layarTerkunci">
+    <div class="kartu">
+      <span class="eyebrow terang"><span class="titik"></span>Submitted</span>
+      <h1>This exam is already finished</h1>
+      <p class="pengantar">You have submitted this exam on this device. It cannot be taken again. Only your teacher can unlock a new attempt.</p>
+    </div>
+
+    <div class="skor kartu" id="kunciSkorKotak">
+      <div class="angka"><span id="kunciSkor">0</span><small>/100</small></div>
+      <div>
+        <div class="status" id="kunciStatus"></div>
+        <div class="meta" id="kunciMeta"></div>
+        <div class="meta" id="kunciPelanggaran"></div>
+      </div>
+    </div>
+
+    <button class="tombol polos lebar" id="btnSalinKunci">Copy summary for the teacher</button>
+  </section>
+
+  <!-- ===== SOAL ===== -->
+  <section class="layar" id="layarSoal">
+    <div class="kartu soal-kartu">
+      <div class="soal-kepala">
+        <div class="nomor" id="nomor"></div>
+        <div class="kemajuan" aria-hidden="true"><span id="kemajuanIsi"></span></div>
+      </div>
+      <div class="pertanyaan" id="pertanyaan"></div>
+      <div class="opsi" id="opsi"></div>
+      <div class="navigasi">
+        <button class="tombol polos" id="btnSebelum">
+          <svg class="ikon" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+          Previous
+        </button>
+        <button class="tombol polos" id="btnBerikut">
+          Next
+          <svg class="ikon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="kartu">
+      <div class="peta-kepala">
+        <h2 class="kartu-judul">Question map</h2>
+        <div class="legenda"><span><i class="terjawab"></i>Answered</span><span><i class="sekarang"></i>Current</span><span><i></i>Empty</span></div>
+      </div>
+      <div class="navsoal" id="navsoal"></div>
+    </div>
+
+    <div class="kumpul-area">
+      <p class="kumpul-info" id="kumpulInfo"></p>
+      <button class="tombol merah lebar" id="btnKumpul">
+        <svg class="ikon" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg>
+        Submit all answers
+      </button>
+    </div>
+  </section>
+
+  <!-- ===== HASIL ===== -->
+  <section class="layar" id="layarHasil">
+    <span class="eyebrow terang"><span class="titik"></span>Finished</span>
+    <h1>Exam results</h1>
+    <div class="kirim" id="statusKirim" hidden></div>
+
+    <div class="skor kartu" id="skorKotak">
+      <div class="angka"><span id="skorAngka">0</span><small>/100</small></div>
+      <div>
+        <div class="status" id="statusHasil"></div>
+        <div class="meta" id="metaHasil"></div>
+        <div class="meta" id="metaPelanggaran"></div>
+      </div>
+    </div>
+
+    <div class="kartu rekap" id="rekapWrap">
+      <h2>Answer review</h2>
+      <div id="rekapJawaban"></div>
+    </div>
+
+    <div class="kartu rekap">
+      <h2>Violation log</h2>
+      <ul class="log" id="logPelanggaran"></ul>
+    </div>
+
+    <button class="tombol polos lebar" id="btnSalin">Copy summary for the teacher</button>
+  </section>
+</main>
+
+<!-- ===== DIALOG KUMPULKAN ===== -->
+<div class="tirai ungu" id="dialogKumpul" role="dialog" aria-modal="true">
+  <div class="tirai-kotak">
+    <div class="dialog-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/></svg></div>
+    <h2 id="dialogJudul">Submit your answers now?</h2>
+    <p id="dialogIsi"></p>
+    <div class="dialog-aksi">
+      <button class="tombol polos-putih" id="btnBatalKumpul">Check again</button>
+      <button class="tombol" id="btnYakinKumpul">Yes, submit</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OVERLAY PELANGGARAN ===== -->
+<div class="tirai" id="tirai" role="alertdialog" aria-modal="true">
+  <div class="tirai-kotak">
+    <div class="besar"><span id="tiraiHitung">1</span><small> / <span class="maksPelanggaran">3</span></small></div>
+    <h2>You left the exam page</h2>
+    <p id="tiraiAlasan"></p>
+    <p id="tiraiSisa"></p>
+    <button class="tombol" id="btnKembali">Back to the exam</button>
+  </div>
+</div>
+
+<!-- ===== OVERLAY TERJEMAHAN ===== -->
+<div class="tirai" id="tiraiTerjemahan" role="alertdialog" aria-modal="true">
+  <div class="tirai-kotak">
+    <div class="besar">EN</div>
+    <h2>Translation detected</h2>
+    <p>This exam must stay in English. Turn the translation off, then press the button below.</p>
+    <ol class="cara-matikan">
+      <li>Chrome: click the translate icon in the address bar &rarr; <b>Show original</b>.</li>
+      <li>Or right-click the page &rarr; <b>Translate to English</b> &rarr; turn it off.</li>
+      <li>Disable any translate extension for this page, then press the button.</li>
+    </ol>
+    <p class="pesan-gagal" id="terjemahMasihAktif" hidden>Translation is still active. Turn it off first.</p>
+    <button class="tombol" id="btnTerjemahanSelesai">I have turned it off</button>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   TAMPILAN: progress bar, cincin skor, jumlah soal di kartu awal.
+   Tidak mengubah logika ujian; hanya membaca elemen yang diisi skrip utama.
+   ========================================================= */
+(function () {
+  const $ = id => document.getElementById(id);
+  const amati = (el, fn) => {
+    if (!el) return;
+    new MutationObserver(fn).observe(el, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+    fn();
+  };
+  amati($("navsoal"), () => {
+    const semua = $("navsoal").querySelectorAll("button").length;
+    const jawab = $("navsoal").querySelectorAll("button.terjawab").length;
+    $("kemajuanIsi").style.width = semua ? (jawab / semua * 100) + "%" : "0%";
+  });
+  amati($("infoSoal"), () => {
+    const m = ($("infoSoal").textContent || "").match(/^(\d+)/);
+    $("statSoal").textContent = m ? m[1] : "–";
+  });
+  ["skorAngka", "kunciSkor"].forEach(id => amati($(id), () => {
+    const n = parseInt($(id).textContent, 10) || 0;
+    $(id).parentElement.style.setProperty("--p", Math.max(0, Math.min(100, n)));
+  }));
+})();
+</script>
+
+<script>
+/* =========================================================
+   BANK SOAL REMEDIAL — Present Perfect, Past Perfect, Future Perfect
+   Tiap paket: 20 PG + 10 menulis kalimat = 30 soal. Soal jebakan MAKSIMAL 2 per paket.
+   Pola tiap paket (nomor asli):
+     PG 1–8       : Present Perfect
+     PG 9         : JEBAKAN 1 — Simple Past
+     PG 10–15     : Past Perfect
+     PG 16–19     : Future Perfect
+     PG 20        : JEBAKAN 2 — Future Continuous (AT vs BY)
+     Kalimat 21–24: Present Perfect
+     Kalimat 25–27: Past Perfect
+     Kalimat 28–30: Future Perfect
+   Format:
+     PG      : { t:"pg", q:"...", p:["A","B","C","D"], j:indeks_benar (mulai 0) }
+     Isian   : { t:"isian", q:"... ____ (verb) ...", j:["jawaban benar", "variasi lain"] }
+     Kalimat : { t:"kalimat", pola:"presp" | "pastp" | "futp", kata:["kata wajib"], q:"konteks/tugas" }
+   Penilaian kalimat (otomatis): BENAR jika
+     1) semua kata wajib muncul (tidak peduli huruf besar/kecil),
+     2) pola tense ditemukan: have/has + V3, had + V3, atau will have + V3
+        (boleh ada never/already/just/not di tengah; bentuk tanya juga dikenali),
+     3) minimal 4 kata.
+   V3 dikenali dari akhiran -ed atau daftar kata kerja tak beraturan (V3_TAK_BERATURAN).
+   ========================================================= */
+const BANK_SOAL = [
+{ nama: "Set A", soal: [
+  { t:"pg", q:"I ____ my lunch. I'm not hungry now.", p:["have eaten","has eaten","have ate","had eat"], j:0 },
+  { t:"pg", q:"She ____ in Solo since 2020.", p:["has lived","have lived","lives","had live"], j:0 },
+  { t:"pg", q:"We have been friends ____ five years.", p:["since","for","ago","yet"], j:1 },
+  { t:"pg", q:"He has worked here ____ January.", p:["for","since","ago","just"], j:1 },
+  { t:"pg", q:"____ you ever ____ a car?", p:["Have – washed","Has – washed","Have – wash","Did – washed"], j:0 },
+  { t:"pg", q:"Choose the correct sentence.", p:["They has finished the work.","They have finished the work.","They have finish the work.","They had finishing the work."], j:1 },
+  { t:"pg", q:"Find the mistake: \"I have saw the new machine.\"", p:["I","have","saw","the new machine"], j:2 },
+  { t:"pg", q:"\"Has the bus arrived?\" Choose the correct short answer.", p:["Yes, it has.","Yes, it did.","Yes, it had.","Yes, it is."], j:0 },
+  { t:"pg", q:"I ____ to the dentist last Tuesday.", p:["go","went","have gone","had gone"], j:1 },
+  { t:"pg", q:"When I arrived, the lesson ____ already ____.", p:["has – started","had – started","did – start","is – starting"], j:1 },
+  { t:"pg", q:"She ____ the room before her mother came home.", p:["has cleaned","had cleaned","cleans","have cleaned"], j:1 },
+  { t:"pg", q:"Which sentence is in the past perfect tense?", p:["I have repaired it.","I had repaired it.","I repaired it.","I was repairing it."], j:1 },
+  { t:"pg", q:"Find the mistake: \"We had eat dinner before the film started.\"", p:["We","had","eat","the film"], j:2 },
+  { t:"pg", q:"\"The bus had left when I got to the stop.\" Which happened FIRST?", p:["I got to the stop.","The bus left.","Both at the same time.","We cannot know."], j:1 },
+  { t:"pg", q:"\"Had you finished your work?\" Choose the correct short answer.", p:["Yes, I had.","Yes, I have.","Yes, I did.","Yes, I was."], j:0 },
+  { t:"pg", q:"By 5 p.m., I ____ my homework.", p:["will have finished","will has finished","have finished","had finished"], j:0 },
+  { t:"pg", q:"Which sentence is in the future perfect tense?", p:["She will cook dinner.","She will be cooking dinner.","She will have cooked dinner.","She has cooked dinner."], j:2 },
+  { t:"pg", q:"Find the mistake: \"By Friday, we will have paint the fence.\"", p:["By Friday","will","have","paint"], j:3 },
+  { t:"pg", q:"____ they ____ the work by tomorrow?", p:["Have – finished","Will – have finished","Will – finished","Had – finish"], j:1 },
+  { t:"pg", q:"At 8 p.m. tonight, I ____ TV with my family.", p:["will be watching","will have watched","have watched","had watched"], j:0 },
+  { t:"kalimat", pola:"presp", kata:["since"], q:"Write about how long you have studied or lived somewhere." },
+  { t:"kalimat", pola:"presp", kata:["never"], q:"Write about a food or a place you have never tried." },
+  { t:"kalimat", pola:"presp", kata:["already"], q:"Write about something you have already done today." },
+  { t:"kalimat", pola:"presp", kata:["yet"], q:"Write about a task or homework you haven't finished." },
+  { t:"kalimat", pola:"pastp", kata:["before"], q:"Write about something you had done before you left home this morning." },
+  { t:"kalimat", pola:"pastp", kata:["by the time"], q:"Write about something that had happened by the time you arrived at school." },
+  { t:"kalimat", pola:"pastp", kata:["after"], q:"Write about what you did after you had finished an activity." },
+  { t:"kalimat", pola:"futp", kata:["by"], q:"Write about something you will have finished by tonight." },
+  { t:"kalimat", pola:"futp", kata:["by the time"], q:"Write about something you will have done by the time you graduate." },
+  { t:"kalimat", pola:"futp", kata:["next year"], q:"Write about something you will have achieved by next year." }
+]},
+
+{ nama: "Set B", soal: [
+  { t:"pg", q:"My brother ____ his motorcycle. It is clean now.", p:["has washed","have washed","had wash","washes"], j:0 },
+  { t:"pg", q:"We ____ this teacher for two years.", p:["have known","has known","know","had know"], j:0 },
+  { t:"pg", q:"I have lived here ____ 2015.", p:["for","since","ago","yet"], j:1 },
+  { t:"pg", q:"They have waited ____ an hour.", p:["since","for","ago","already"], j:1 },
+  { t:"pg", q:"____ she ____ her homework yet?", p:["Have – done","Has – done","Has – did","Did – done"], j:1 },
+  { t:"pg", q:"Choose the correct sentence.", p:["He have broken the glass.","He has broken the glass.","He has broke the glass.","He had break the glass."], j:1 },
+  { t:"pg", q:"Find the mistake: \"Rina has wrote a letter to her friend.\"", p:["Rina","has","wrote","her friend"], j:2 },
+  { t:"pg", q:"\"Have you seen my bag?\" Choose the correct short answer.", p:["No, I haven't.","No, I didn't.","No, I hadn't.","No, I'm not."], j:0 },
+  { t:"pg", q:"My father ____ a new car two months ago.", p:["buys","bought","has bought","had bought"], j:1 },
+  { t:"pg", q:"When we got to the cinema, the film ____ already ____.", p:["has – begun","had – begun","did – begin","is – beginning"], j:1 },
+  { t:"pg", q:"She was sad because she ____ her phone.", p:["has lost","had lost","loses","have lost"], j:1 },
+  { t:"pg", q:"Which sentence is in the past perfect tense?", p:["We have eaten.","We had eaten.","We ate.","We were eating."], j:1 },
+  { t:"pg", q:"Find the mistake: \"He had forget his key before he left.\"", p:["He","had","forget","he left"], j:2 },
+  { t:"pg", q:"\"I had cleaned the workshop before Pak Budi came.\" Which happened FIRST?", p:["Pak Budi came.","I cleaned the workshop.","Both at the same time.","We cannot know."], j:1 },
+  { t:"pg", q:"\"Had they left when you called?\" Choose the correct short answer.", p:["No, they hadn't.","No, they haven't.","No, they didn't.","No, they weren't."], j:0 },
+  { t:"pg", q:"By next month, she ____ the course.", p:["will have completed","will has completed","has completed","had completed"], j:0 },
+  { t:"pg", q:"Which sentence is in the future perfect tense?", p:["We will repair the car.","We will be repairing the car.","We will have repaired the car.","We had repaired the car."], j:2 },
+  { t:"pg", q:"Find the mistake: \"By noon, he will has fixed the printer.\"", p:["By noon","will","has","fixed"], j:2 },
+  { t:"pg", q:"\"Will you have finished by 6 p.m.?\" Choose the correct short answer.", p:["Yes, I will.","Yes, I have.","Yes, I had.","Yes, I am."], j:0 },
+  { t:"pg", q:"Don't call me at 9 a.m. tomorrow. I ____ an exam.", p:["will be taking","will have taken","have taken","had taken"], j:0 },
+  { t:"kalimat", pola:"presp", kata:["for"], q:"Write about a friend you have known for a long time." },
+  { t:"kalimat", pola:"presp", kata:["ever"], q:"Write a QUESTION to ask your friend about an experience." },
+  { t:"kalimat", pola:"presp", kata:["just"], q:"Write about something that has just happened." },
+  { t:"kalimat", pola:"presp", kata:["eaten"], q:"Write about a food you have eaten (or have never eaten)." },
+  { t:"kalimat", pola:"pastp", kata:["already"], q:"Write about a time you arrived somewhere and something had already happened." },
+  { t:"kalimat", pola:"pastp", kata:["when"], q:"Write about something that had happened when you got home yesterday." },
+  { t:"kalimat", pola:"pastp", kata:["written"], q:"Write about a letter, message or report that someone had written before an event." },
+  { t:"kalimat", pola:"futp", kata:["by"], q:"Write about a job you will have completed by the end of this week." },
+  { t:"kalimat", pola:"futp", kata:["before"], q:"Write about something you will have done before your next holiday." },
+  { t:"kalimat", pola:"futp", kata:["finished"], q:"Write about a project you will have finished by a certain time." }
+]},
+
+{ nama: "Set C", soal: [
+  { t:"pg", q:"Andi ____ the floor. Now it is clean.", p:["has swept","have swept","had sweep","sweeps"], j:0 },
+  { t:"pg", q:"I ____ Bali twice.", p:["have visited","has visited","visit","had visit"], j:0 },
+  { t:"pg", q:"She has been sick ____ Monday.", p:["for","since","ago","yet"], j:1 },
+  { t:"pg", q:"I have had this bag ____ three years.", p:["since","for","ago","already"], j:1 },
+  { t:"pg", q:"____ they ____ the new computer?", p:["Have – tried","Has – tried","Have – try","Had – trying"], j:0 },
+  { t:"pg", q:"Choose the correct sentence.", p:["We has bought the tickets.","We have bought the tickets.","We have buy the tickets.","We have buyed the tickets."], j:1 },
+  { t:"pg", q:"Find the mistake: \"My mother has make a cake.\"", p:["My mother","has","make","a cake"], j:2 },
+  { t:"pg", q:"\"Has Pak Joko checked the machine?\" Choose the correct short answer.", p:["No, he hasn't.","No, he didn't.","No, he hadn't.","No, he isn't."], j:0 },
+  { t:"pg", q:"We ____ the football match on TV last night.", p:["watch","watched","have watched","had watched"], j:1 },
+  { t:"pg", q:"When the teacher came, we ____ already ____ the test.", p:["have – finished","had – finished","did – finish","are – finishing"], j:1 },
+  { t:"pg", q:"He couldn't pay because he ____ his wallet at home.", p:["has left","had left","leaves","have left"], j:1 },
+  { t:"pg", q:"Which sentence is in the past perfect tense?", p:["She has gone.","She had gone.","She went.","She was going."], j:1 },
+  { t:"pg", q:"Find the mistake: \"They had drink all the tea before I arrived.\"", p:["They","had","drink","I arrived"], j:2 },
+  { t:"pg", q:"\"After I had done my homework, I played games.\" Which happened FIRST?", p:["I played games.","I did my homework.","Both at the same time.","We cannot know."], j:1 },
+  { t:"pg", q:"\"Had she seen the film before?\" Choose the correct short answer.", p:["Yes, she had.","Yes, she has.","Yes, she did.","Yes, she was."], j:0 },
+  { t:"pg", q:"By 9 p.m., they ____ the house.", p:["will have cleaned","will has cleaned","have cleaned","had cleaned"], j:0 },
+  { t:"pg", q:"Which sentence is in the future perfect tense?", p:["I will write the report.","I will be writing the report.","I will have written the report.","I have written the report."], j:2 },
+  { t:"pg", q:"Find the mistake: \"By next week, she will have send the letter.\"", p:["By next week","will","have","send"], j:3 },
+  { t:"pg", q:"____ the workers ____ the bridge by June?", p:["Have – built","Will – have built","Will – built","Had – build"], j:1 },
+  { t:"pg", q:"This time next week, we ____ on the beach.", p:["will be relaxing","will have relaxed","have relaxed","had relaxed"], j:0 },
+  { t:"kalimat", pola:"presp", kata:["since"], q:"Write about something you have had or used since a certain time." },
+  { t:"kalimat", pola:"presp", kata:["so far"], q:"Write about how many times you have done something so far this year." },
+  { t:"kalimat", pola:"presp", kata:["gone"], q:"Write about a person who has gone somewhere." },
+  { t:"kalimat", pola:"presp", kata:["already"], q:"Write about a school task you have already completed." },
+  { t:"kalimat", pola:"pastp", kata:["before"], q:"Write about something you had never done before a certain day." },
+  { t:"kalimat", pola:"pastp", kata:["left"], q:"Write about a time someone or something had left before you arrived." },
+  { t:"kalimat", pola:"pastp", kata:["because"], q:"Write about why you felt tired or happy one day. Explain what had happened." },
+  { t:"kalimat", pola:"futp", kata:["by the time"], q:"Write about something your family will have done by the time you get home." },
+  { t:"kalimat", pola:"futp", kata:["tomorrow"], q:"Write about something you will have finished by tomorrow." },
+  { t:"kalimat", pola:"futp", kata:["repaired"], q:"Write about something a mechanic will have repaired by a certain time." }
+]},
+
+{ nama: "Set D", soal: [
+  { t:"pg", q:"Oh no! I ____ my finger.", p:["have cut","has cut","had cuts","cuts"], j:0 },
+  { t:"pg", q:"My parents ____ married for twenty years.", p:["have been","has been","are","had be"], j:0 },
+  { t:"pg", q:"I have studied English ____ I was seven.", p:["for","since","ago","yet"], j:1 },
+  { t:"pg", q:"The shop has been closed ____ two weeks.", p:["since","for","ago","already"], j:1 },
+  { t:"pg", q:"____ your sister ever ____ to Jakarta?", p:["Have – been","Has – been","Has – be","Did – been"], j:1 },
+  { t:"pg", q:"Choose the correct sentence.", p:["The students have finish the test.","The students have finished the test.","The students has finished the test.","The students have finishing the test."], j:1 },
+  { t:"pg", q:"Find the mistake: \"We have took many photos today.\"", p:["We","have","took","today"], j:2 },
+  { t:"pg", q:"\"Have they paid the fee?\" Choose the correct short answer.", p:["Yes, they have.","Yes, they did.","Yes, they had.","Yes, they are."], j:0 },
+  { t:"pg", q:"I ____ my grandmother in Klaten last weekend.", p:["visit","visited","have visited","had visited"], j:1 },
+  { t:"pg", q:"When I woke up, my father ____ already ____ to work.", p:["has – gone","had – gone","did – go","is – going"], j:1 },
+  { t:"pg", q:"The grass was wet because it ____ in the night.", p:["has rained","had rained","rains","have rained"], j:1 },
+  { t:"pg", q:"Which sentence is in the past perfect tense?", p:["They have arrived.","They had arrived.","They arrived.","They were arriving."], j:1 },
+  { t:"pg", q:"Find the mistake: \"She had already ate when we came.\"", p:["She","had","ate","we came"], j:2 },
+  { t:"pg", q:"\"When Rina arrived, Budi had gone home.\" Which happened FIRST?", p:["Rina arrived.","Budi went home.","Both at the same time.","We cannot know."], j:1 },
+  { t:"pg", q:"\"Had the class ended?\" Choose the correct short answer.", p:["No, it hadn't.","No, it hasn't.","No, it didn't.","No, it wasn't."], j:0 },
+  { t:"pg", q:"By the end of the day, we ____ ten parts.", p:["will have made","will has made","have made","had made"], j:0 },
+  { t:"pg", q:"Which sentence is in the future perfect tense?", p:["They will drive home.","They will be driving home.","They will have driven home.","They had driven home."], j:2 },
+  { t:"pg", q:"Find the mistake: \"By 2027, I will have finish school.\"", p:["By 2027","will","have","finish"], j:3 },
+  { t:"pg", q:"\"Will she have arrived by noon?\" Choose the correct short answer.", p:["No, she won't.","No, she hasn't.","No, she hadn't.","No, she isn't."], j:0 },
+  { t:"pg", q:"At 7 a.m. tomorrow, I ____ to school.", p:["will be walking","will have walked","have walked","had walked"], j:0 },
+  { t:"kalimat", pola:"presp", kata:["for"], q:"Write about how long you have had something (a phone, a bag, a bike)." },
+  { t:"kalimat", pola:"presp", kata:["yet"], q:"Write about a homework or task you haven't finished." },
+  { t:"kalimat", pola:"presp", kata:["ever"], q:"Write a QUESTION to ask your teacher about an experience." },
+  { t:"kalimat", pola:"presp", kata:["seen"], q:"Write about a film or place you have seen." },
+  { t:"kalimat", pola:"pastp", kata:["after"], q:"Write about what you did after you had eaten dinner." },
+  { t:"kalimat", pola:"pastp", kata:["already"], q:"Write about a time you were late and something had already happened." },
+  { t:"kalimat", pola:"pastp", kata:["by the time"], q:"Write about something that had happened by the time the bell rang." },
+  { t:"kalimat", pola:"futp", kata:["by"], q:"Write about something you will have saved or bought by a certain time." },
+  { t:"kalimat", pola:"futp", kata:["by the end of"], q:"Write about something you will have done by the end of this semester." },
+  { t:"kalimat", pola:"futp", kata:["graduated"], q:"Write about someone who will have graduated by a certain year." }
+]},
+
+{ nama: "Set E", soal: [
+  { t:"pg", q:"The guests ____. Let's say hello.", p:["have arrived","has arrived","had arrive","arrives"], j:0 },
+  { t:"pg", q:"He ____ three glasses of water today.", p:["has drunk","have drunk","has drank","had drink"], j:0 },
+  { t:"pg", q:"We have used this computer ____ 2021.", p:["for","since","ago","yet"], j:1 },
+  { t:"pg", q:"She has taught here ____ ten years.", p:["since","for","ago","already"], j:1 },
+  { t:"pg", q:"____ you ever ____ a famous person?", p:["Have – met","Has – met","Have – meet","Did – met"], j:0 },
+  { t:"pg", q:"Choose the correct sentence.", p:["I have never seen snow.","I have never saw snow.","I has never seen snow.","I have never see snow."], j:0 },
+  { t:"pg", q:"Find the mistake: \"Andi have repaired the bike.\"", p:["Andi","have","repaired","the bike"], j:1 },
+  { t:"pg", q:"\"Has your friend called you?\" Choose the correct short answer.", p:["Yes, she has.","Yes, she did.","Yes, she had.","Yes, she is."], j:0 },
+  { t:"pg", q:"We ____ the museum in 2023.", p:["visit","visited","have visited","had visited"], j:1 },
+  { t:"pg", q:"When we reached the station, the train ____ already ____.", p:["has – left","had – left","did – leave","is – leaving"], j:1 },
+  { t:"pg", q:"I didn't watch the film because I ____ it before.", p:["have seen","had seen","see","has seen"], j:1 },
+  { t:"pg", q:"Which sentence is in the past perfect tense?", p:["He has written a letter.","He had written a letter.","He wrote a letter.","He was writing a letter."], j:1 },
+  { t:"pg", q:"Find the mistake: \"I had see her before the party.\"", p:["I","had","see","the party"], j:2 },
+  { t:"pg", q:"\"Before the bell rang, we had finished the test.\" Which happened FIRST?", p:["The bell rang.","We finished the test.","Both at the same time.","We cannot know."], j:1 },
+  { t:"pg", q:"\"Had he eaten before he left?\" Choose the correct short answer.", p:["Yes, he had.","Yes, he has.","Yes, he did.","Yes, he was."], j:0 },
+  { t:"pg", q:"By the time you come, I ____ the food.", p:["will have cooked","will has cooked","have cooked","had cooked"], j:0 },
+  { t:"pg", q:"Which sentence is in the future perfect tense?", p:["He will fix the bike.","He will be fixing the bike.","He will have fixed the bike.","He has fixed the bike."], j:2 },
+  { t:"pg", q:"Find the mistake: \"By tonight, they will have wrote the report.\"", p:["By tonight","will","have","wrote"], j:3 },
+  { t:"pg", q:"____ you ____ the book by Monday?", p:["Have – read","Will – have read","Has – read","Had – reading"], j:1 },
+  { t:"pg", q:"Please be quiet at 10 a.m. tomorrow. The students ____ an exam.", p:["will be doing","will have done","have done","had done"], j:0 },
+  { t:"kalimat", pola:"presp", kata:["since"], q:"Write about a hobby you have had since a certain time." },
+  { t:"kalimat", pola:"presp", kata:["just"], q:"Write about something you have just finished." },
+  { t:"kalimat", pola:"presp", kata:["never"], q:"Write about something you have never done." },
+  { t:"kalimat", pola:"presp", kata:["done"], q:"Write about a job or homework you have done this week." },
+  { t:"kalimat", pola:"pastp", kata:["before"], q:"Write about something you had learned before you joined SMK Mikael." },
+  { t:"kalimat", pola:"pastp", kata:["never"], q:"Write about something you had never seen before a certain trip or day." },
+  { t:"kalimat", pola:"pastp", kata:["taken"], q:"Write about something someone had taken before you arrived." },
+  { t:"kalimat", pola:"futp", kata:["by the time"], q:"Write about something the class will have done by the time the teacher arrives." },
+  { t:"kalimat", pola:"futp", kata:["by next"], q:"Write about something you will have done by next week, next month or next year." },
+  { t:"kalimat", pola:"futp", kata:["completed"], q:"Write about a task you will have completed by a certain time." }
+]}
+];
+
+/* =========================================================
+   KONFIGURASI — ubah bagian ini saja
+   ========================================================= */
+const KONFIG = {
+  judul: "Remedial Exam — Present, Past & Future Perfect",
+  deskripsi: "Remedial exam on the present perfect, past perfect and future perfect: multiple choice and sentence writing. Each student gets one of five question sets at random.",
+  durasiMenit: 60,
+  maksPelanggaran: 3,      // setelah ini ujian dikunci otomatis
+  acakPaket: true,         // siswa mendapat salah satu paket secara acak
+  acakSoal: true,          // urutan soal diacak
+  kelompokkanJenis: true,  // PG dulu, lalu kalimat (acak di dalam tiap bagian)
+  acakPilihan: true,       // urutan opsi pilihan ganda diacak
+  tampilkanRincian: true,  // tampilkan benar/salah per soal di layar hasil
+  tampilkanKunci: false,   // tampilkan jawaban yang benar di layar hasil
+  minKataKalimat: 4,       // jumlah kata minimal untuk soal menulis kalimat
+  // URL Web App dari Google Apps Script (lihat PANDUAN.md). Kosongkan jika tidak dipakai.
+  sheetUrl: "https://script.google.com/macros/s/AKfycbxtMHaZTYqv6n39nFDDU63S8LWPggPgTwHsqklSKWb4R0xj4ADf1BmF-m6Jdapn_wJMzQ/exec",
+
+  /* ---- kata sandi masuk ----
+     Disimpan tersamar: tiap huruf = kode huruf + 7. Sandi saat ini: micojosjis26
+     Kosongkan array ini ( [] ) untuk mematikan gerbang kata sandi. */
+  sandiKode: [116,112,106,118,113,118,122,113,112,122,57,61],
+
+  /* ---- sesi, anti-ulang, anti-terjemah ---- */
+  idUjian: "remedial-perfect-tenses",   // kunci penyimpanan; WAJIB unik per file
+  kunciReset: "",            // kosong = cukup ?reset-exam ; isi "mikael2026" = ?reset-exam=mikael2026
+  simpanProgres: true,       // progres dipulihkan otomatis setelah refresh
+  refreshJadiPelanggaran: true,  // reload halaman dihitung sebagai pelanggaran
+  waktuTerusBerjalan: true,      // waktu jalan terus walau halaman ditutup
+  blokirTerjemahan: true,        // deteksi Google Translate dan sejenisnya
+
+  paket: BANK_SOAL
+};
+
+/* =========================================================
+   STATE
+   ========================================================= */
+const S = {
+  mulai: false, selesai: false, sandiOk: false,
+  soal: [], jawaban: [], indeks: 0,
+  pelanggaran: [], sisaDetik: KONFIG.durasiMenit * 60,
+  timer: null, terakhirPelanggaran: 0, overlayTerbuka: false,
+  // sesi & bahasa
+  rencana: null, mulaiEpoch: 0, tenggat: 0,
+  logTerjemah: [], terjemahTerbuka: false, tundaSimpan: null
+};
+
+const $ = id => document.getElementById(id);
+const huruf = "ABCDEFGH";
+const pad = n => String(n).padStart(2, "0");
+const fmtWaktu = d => `${pad(Math.floor(d / 60))}:${pad(d % 60)}`;
+const jamSekarang = () => new Date().toLocaleTimeString("id-ID", { hour12: false });
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const NAMA_JENIS = { pg: "Multiple choice", isian: "Fill in the blank", kalimat: "Write a sentence" };
+
+/* =========================================================
+   INISIALISASI
+   ========================================================= */
+$("judulKuis").textContent = KONFIG.judul;
+$("kopJudul").textContent = KONFIG.judul;
+$("deskripsiKuis").textContent = KONFIG.deskripsi;
+$("durasiTeks").textContent = KONFIG.durasiMenit;
+document.querySelectorAll(".maksPelanggaran").forEach(el => el.textContent = KONFIG.maksPelanggaran);
+$("pelanggaranTeks").textContent = `0/${KONFIG.maksPelanggaran}`;
+$("waktu").textContent = fmtWaktu(S.sisaDetik);
+
+const acak = a => { for (let i = a.length - 1; i > 0; i--) { const k = Math.floor(Math.random() * (i + 1)); [a[i], a[k]] = [a[k], a[i]]; } return a; };
+
+/* Paket, urutan soal, dan urutan pilihan dibangun lewat buatRencana() + terapkanRencana()
+   di blok SESI (paling bawah), supaya bisa dipulihkan persis setelah halaman di-refresh. */
+
+const terjawab = i => S.jawaban[i] !== null && S.jawaban[i] !== undefined && String(S.jawaban[i]).trim() !== "";
+
+/* bentuk singkat disamakan dengan bentuk panjang: hasn't eaten = has not eaten */
+const KONTRAKSI = {
+  "haven't":"have not", "hasn't":"has not", "hadn't":"had not", "didn't":"did not", "won't":"will not",
+  "i've":"i have", "you've":"you have", "we've":"we have", "they've":"they have",
+  "i'd":"i had", "you'd":"you had", "he'd":"he had", "she'd":"she had", "we'd":"we had", "they'd":"they had",
+  "i'll":"i will", "you'll":"you will", "he'll":"he will", "she'll":"she will", "it'll":"it will",
+  "we'll":"we will", "they'll":"they will"
+};
+const norm = s => String(s ?? "").toLowerCase()
+  .replace(/[\u2019\u2018`\u00b4]/g, "'")
+  .replace(/[.!?]+$/, "").replace(/\s+/g, " ").trim()
+  .split(" ").map(w => KONTRAKSI[w] || w).join(" ");
+
+/* =========================================================
+   PEMERIKSA KALIMAT: kata wajib + pola tense
+   ========================================================= */
+const POLA = {
+  presp: { nama: "Present Perfect", rumus: "have / has + V3" },
+  pastp: { nama: "Past Perfect",    rumus: "had + V3" },
+  futp:  { nama: "Future Perfect",  rumus: "will have + V3" }
+};
+const V3_TAK_BERATURAN = new Set(("been gone done eaten seen written taken given spoken drunk made come become had read met " +
+  "left lost found bought brought taught thought caught fought sold told said paid built sent spent lent put cut hit set let " +
+  "shut hurt cost quit run won begun sung rung swum sunk known grown thrown flown drawn shown blown worn torn sworn born " +
+  "broken chosen frozen stolen woken forgotten gotten got ridden driven hidden bitten risen fallen held kept slept felt fed " +
+  "led fled bled bred sped sat stood understood heard laid meant dealt burnt learnt dreamt spelt spilt smelt lit slid stuck " +
+  "struck hung dug shot ground bound wound beaten forgiven shaken mistaken bent sought wept swept crept leapt overslept " +
+  "withdrawn misunderstood upset spread bet split rid sewn shone sold swung stung sprung shrunk woven wet beat forbidden " +
+  "overcome undergone undertaken rewritten forgot"
+).split(/\s+/));
+const BUKAN_V3 = new Set(["red","bed","shed","hundred","sacred","naked","wicked","kindred","rugged","ragged","seed"]);
+const EED_V3 = new Set(["agreed","freed","guaranteed","decreed","disagreed","refereed"]);
+const KETERANGAN = new Set(["not","never","already","just","ever","always","recently","also","still","really","only",
+  "nearly","almost","finally","all","both","even","certainly","probably","definitely","surely","completely"]);
+const MODAL = new Set(["will","would","could","should","must","might","may","shall","can"]);
+
+function adalahV3(w) {
+  if (V3_TAK_BERATURAN.has(w)) return true;
+  if (w.length <= 3 || !w.endsWith("ed") || BUKAN_V3.has(w)) return false;
+  if (w.endsWith("eed")) return EED_V3.has(w);   // need, feed, succeed = bukan V3
+  return true;
+}
+const tokenKalimat = s => String(s ?? "").toLowerCase()
+  .replace(/[\u2019\u2018`\u00b4]/g, "'")
+  .replace(/[^a-z0-9' ]+/g, " ")
+  .split(/\s+/).filter(Boolean)
+  .flatMap(w => (KONTRAKSI[w] || w).split(" "))
+  .map(w => w.replace(/^'+|'+$/g, ""))
+  .filter(Boolean);
+
+/* setelah auxiliary di posisi k: lewati keterangan (never, already, not, ...) lalu harus ada V3.
+   Pada kalimat tanya, boleh melewati subjek (maks. 3 kata). */
+function adaV3Setelah(tok, k, bolehSubjek) {
+  let j = k + 1, lompat = 0;
+  while (j < tok.length) {
+    const w = tok[j];
+    if (adalahV3(w)) return true;
+    if (KETERANGAN.has(w)) { j++; continue; }
+    if (bolehSubjek && lompat < 3) { lompat++; j++; continue; }
+    return false;
+  }
+  return false;
+}
+
+function deteksiPola(teks) {
+  const tok = tokenKalimat(teks);
+  const tanya = /\?\s*$/.test(String(teks ?? "").trim());
+  const hasil = new Set(), dipakai = new Set();
+  // future perfect: will ... have + V3  (will not have, will already have, Will you have ...)
+  tok.forEach((w, i) => {
+    if (w !== "will") return;
+    for (let k = i + 1; k <= i + 4 && k < tok.length; k++) {
+      if (tok[k] === "have") {
+        if (adaV3Setelah(tok, k, false)) { hasil.add("futp"); dipakai.add(k); }
+        break;
+      }
+    }
+  });
+  // present perfect & past perfect
+  tok.forEach((w, k) => {
+    if (dipakai.has(k)) return;
+    const modeTanya = tanya || k === 0;
+    if (w === "have" || w === "has") {
+      if (tok.slice(Math.max(0, k - 3), k).some(x => MODAL.has(x))) return; // should have, could have, ...
+      if (adaV3Setelah(tok, k, modeTanya)) hasil.add("presp");
+    } else if (w === "had") {
+      if (adaV3Setelah(tok, k, modeTanya)) hasil.add("pastp");
+    }
+  });
+  return { tok, hasil };
+}
+
+function cekKalimat(s, teks) {
+  const { tok, hasil } = deteksiPola(teks);
+  const gabung = " " + tok.join(" ") + " ";
+  const kurang = s.kata.filter(k => !gabung.includes(" " + tokenKalimat(k).join(" ") + " "));
+  const pendek = tok.length < KONFIG.minKataKalimat;
+  const polaAda = hasil.has(s.pola);
+  return { ok: !pendek && !kurang.length && polaAda, pendek, kurang, polaAda };
+}
+function alasanKalimat(s, teks) {
+  const r = cekKalimat(s, teks), a = [];
+  if (r.pendek) a.push(`Sentence is too short (min. ${KONFIG.minKataKalimat} words)`);
+  if (r.kurang.length) a.push(`Missing word: ${r.kurang.join(", ")}`);
+  if (!r.polaAda) a.push(`${POLA[s.pola].nama} pattern not found (${POLA[s.pola].rumus})`);
+  return a.join(" \u00b7 ");
+}
+const kunciKalimat = s => `${POLA[s.pola].nama} (${POLA[s.pola].rumus}) + "${s.kata.join('", "')}"`;
+
+const benarkah = i => {
+  const s = S.soal[i], j = S.jawaban[i];
+  if (!terjawab(i)) return false;
+  if (s.t === "pg") return j === s.j;
+  if (s.t === "kalimat") return cekKalimat(s, j).ok;
+  return s.j.some(k => norm(k) === norm(j));
+};
+
+/* =========================================================
+   GERBANG KATA SANDI
+   ========================================================= */
+const KUNCI_SANDI = "smkmikael:sandi:" + KONFIG.idUjian;
+const sandiCocok = s => s.length === KONFIG.sandiKode.length
+  && [...s].every((c, i) => c.charCodeAt(0) + 7 === KONFIG.sandiKode[i]);
+
+function bukaGerbang() {
+  S.sandiOk = true;
+  $("gerbang").hidden = true;
+  document.body.classList.remove("terkunci-sandi");
+}
+function siapkanGerbang() {
+  if (!KONFIG.sandiKode || !KONFIG.sandiKode.length) { bukaGerbang(); return; }
+  // sandi sudah benar di tab ini: tidak ditanya lagi
+  try { if (sessionStorage.getItem(KUNCI_SANDI) === "1") { bukaGerbang(); return; } } catch (e) {}
+  document.body.classList.add("terkunci-sandi");
+  setTimeout(() => $("gerbangSandi").focus(), 50);
+}
+$("gerbangForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const inp = $("gerbangSandi");
+  if (sandiCocok(inp.value.trim())) {
+    try { sessionStorage.setItem(KUNCI_SANDI, "1"); } catch (err) {}
+    bukaGerbang();
+  } else {
+    $("gerbangSalah").textContent = "Wrong password. Try again.";
+    inp.value = ""; inp.focus();
+    const k = $("gerbangForm");
+    k.classList.remove("goyang"); void k.offsetWidth; k.classList.add("goyang");
+  }
+});
+
+/* =========================================================
+   MULAI
+   ========================================================= */
+$("btnMulai").addEventListener("click", async () => {
+  const nama = $("nama").value.trim(), kelas = $("kelas").value.trim();
+  if (!nama || !kelas) { alert("Please fill in your name and class first."); return; }
+  S.nama = nama; S.kelas = kelas;
+  S.mulaiEpoch = Date.now();
+  S.waktuMulai = new Date(S.mulaiEpoch);
+  S.tenggat = S.mulaiEpoch + KONFIG.durasiMenit * 60 * 1000;
+
+  await mintaLayarPenuh();
+  S.mulai = true;
+  tampilkan("layarSoal");
+  $("kopStatus").hidden = false;
+  renderSoal();
+  S.timer = setInterval(detak, 1000);
+  detak();
+  simpanProgres();
+});
+
+/* lanjutkan sesi lama setelah halaman di-refresh */
+$("btnLanjut").addEventListener("click", async () => {
+  await mintaLayarPenuh();
+  S.mulai = true;
+  tampilkan("layarSoal");
+  $("kopStatus").hidden = false;
+  $("pelanggaranTeks").textContent = `${S.pelanggaran.length}/${KONFIG.maksPelanggaran}`;
+  if (S.pelanggaran.length) $("pilPelanggaran").classList.add("bahaya");
+  renderSoal();
+  S.timer = setInterval(detak, 1000);
+  detak();
+  if (KONFIG.refreshJadiPelanggaran && !S.selesai) {
+    S.terakhirPelanggaran = 0;
+    catatPelanggaran("Page was reloaded", true);
+  }
+  simpanProgres();
+});
+
+async function mintaLayarPenuh() {
+  const el = document.documentElement;
+  try { await (el.requestFullscreen || el.webkitRequestFullscreen).call(el); } catch (e) {}
+}
+const dalamLayarPenuh = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+
+/* waktu dihitung dari tenggat (jam dinding), bukan dari hitungan mundur di memori,
+   supaya refresh atau menutup tab tidak menambah waktu pengerjaan */
+function sisaDetikSekarang() {
+  if (!S.tenggat) return KONFIG.durasiMenit * 60;
+  return Math.max(0, Math.round((S.tenggat - Date.now()) / 1000));
+}
+function detak() {
+  S.sisaDetik = sisaDetikSekarang();
+  $("waktu").textContent = fmtWaktu(S.sisaDetik);
+  if (S.sisaDetik <= 60) $("pilWaktu").classList.add("bahaya");
+  if (S.sisaDetik <= 0) selesaikan("Time is up");
+}
+
+/* =========================================================
+   PENGAWASAN
+   ========================================================= */
+function catatPelanggaran(alasan, senyap) {
+  if (!S.mulai || S.selesai || S.overlayTerbuka || S.dialogTerbuka || S.terjemahTerbuka) return;
+  const kini = Date.now();
+  if (kini - S.terakhirPelanggaran < 1500) return;   // blur + visibilitychange sering muncul bersamaan
+  S.terakhirPelanggaran = kini;
+
+  S.pelanggaran.push({ jam: jamSekarang(), alasan, soal: S.indeks + 1 });
+  const n = S.pelanggaran.length;
+  kirimKeSheet({ jenis: "pelanggaran", paket: S.paket, nama: S.nama, kelas: S.kelas, jam: jamSekarang(),
+                 alasan, soal: S.indeks + 1, urutan: n });
+  $("pelanggaranTeks").textContent = `${n}/${KONFIG.maksPelanggaran}`;
+  $("pilPelanggaran").classList.add("bahaya");
+
+  simpanProgres();
+
+  if (n >= KONFIG.maksPelanggaran) { selesaikan("Locked due to violations"); return; }
+  if (senyap) return;
+
+  S.overlayTerbuka = true;
+  $("tiraiHitung").textContent = n;
+  $("tiraiAlasan").textContent = alasan + ".";
+  const sisa = KONFIG.maksPelanggaran - n;
+  $("tiraiSisa").textContent = sisa === 1
+    ? "One more violation and the exam will be locked."
+    : `${sisa} chances left before the exam is locked.`;
+  $("tirai").classList.add("tampil");
+}
+
+$("btnKembali").addEventListener("click", async () => {
+  await mintaLayarPenuh();
+  $("tirai").classList.remove("tampil");
+  S.overlayTerbuka = false;
+  S.terakhirPelanggaran = Date.now();
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) catatPelanggaran("Switched tab or minimised the window");
+});
+window.addEventListener("blur", () => catatPelanggaran("Focus moved to another app or window"));
+document.addEventListener("fullscreenchange", () => {
+  if (!dalamLayarPenuh()) catatPelanggaran("Left fullscreen mode");
+});
+document.addEventListener("webkitfullscreenchange", () => {
+  if (!dalamLayarPenuh()) catatPelanggaran("Left fullscreen mode");
+});
+
+// hambat klik kanan, salin, dan beberapa pintasan umum
+document.addEventListener("contextmenu", e => { if (S.mulai) e.preventDefault(); });
+["copy", "cut", "paste"].forEach(ev => document.addEventListener(ev, e => { if (S.mulai) e.preventDefault(); }));
+document.addEventListener("keydown", e => {
+  const k = e.key.toLowerCase();
+  // setelah sandi benar: F5 / Ctrl+R / Cmd+R diblokir
+  const muatUlang = e.key === "F5" || ((e.ctrlKey || e.metaKey) && k === "r");
+  if (S.sandiOk && !S.selesai && muatUlang) { e.preventDefault(); return; }
+
+  if (!S.mulai || S.selesai) return;
+  const blok = e.key === "F12" || e.key === "Escape"
+    || (e.ctrlKey && ["c","v","x","u","s","p","t","n","w","r"].includes(k))
+    || (e.ctrlKey && e.shiftKey && ["i","j","c"].includes(k))
+    || (e.altKey && e.key === "Tab");
+  if (blok) e.preventDefault();
+});
+// peringatan sebelum meninggalkan / memuat ulang halaman, sejak sandi dimasukkan
+window.addEventListener("beforeunload", e => {
+  if ((S.sandiOk || S.mulai) && !S.selesai) { e.preventDefault(); e.returnValue = ""; }
+});
+
+/* =========================================================
+   SOAL
+   ========================================================= */
+function renderSoal() {
+  const i = S.indeks, s = S.soal[i], total = S.soal.length;
+  $("nomor").textContent = `Question ${i + 1} of ${total} · ${NAMA_JENIS[s.t] || ""}`;
+  $("pertanyaan").textContent = s.q;
+
+  if (s.t === "pg") {
+    $("opsi").innerHTML = s.p.map((p, j) => `
+      <label>
+        <input type="radio" name="jwb" value="${j}" ${S.jawaban[i] === j ? "checked" : ""}>
+        <span class="huruf">${huruf[j]}</span><span>${esc(p)}</span>
+      </label>`).join("");
+    $("opsi").querySelectorAll("input").forEach(r => r.addEventListener("change", () => {
+      S.jawaban[i] = Number(r.value);
+      renderNav();
+      simpanProgres();
+    }));
+  } else if (s.t === "kalimat") {
+    const pl = POLA[s.pola];
+    $("opsi").innerHTML = `
+      <div class="kalimat">
+        <div class="tugas">
+          <div class="tugas-baris"><span class="label">Tense</span><span class="chip ungu">${pl.nama}</span><span class="rumus">${pl.rumus}</span></div>
+          <div class="tugas-baris"><span class="label">Must use</span>${s.kata.map(k => `<span class="chip merah">${esc(k)}</span>`).join("")}</div>
+        </div>
+        <textarea id="jwbKalimat" rows="3" autocomplete="off" autocapitalize="sentences" spellcheck="false"
+                  placeholder="Write one complete sentence here"></textarea>
+        <div class="petunjuk">Write <em>one</em> complete sentence (at least ${KONFIG.minKataKalimat} words) in the tense shown, and use the word in red.
+          You may write <em>haven't</em>, <em>hasn't</em>, <em>hadn't</em>, <em>won't</em>, but do not shorten <em>has</em> to <em>'s</em>.</div>
+      </div>`;
+    const ta = $("jwbKalimat");
+    ta.value = S.jawaban[i] ?? "";
+    ta.addEventListener("input", () => { S.jawaban[i] = ta.value; renderNav(); simpanNanti(); });
+    ta.addEventListener("keydown", e => { if (e.key === "Enter") e.preventDefault(); });
+    ta.focus();
+  } else {
+    $("opsi").innerHTML = `
+      <div class="isian">
+        <input type="text" id="jwbIsian" autocomplete="off" spellcheck="false" placeholder="Type your answer here">
+        <div class="petunjuk">Write the correct form of the verb in brackets, e.g. <em>has eaten</em>, <em>had left</em>, <em>will have finished</em>.</div>
+      </div>`;
+    const inp = $("jwbIsian");
+    inp.value = S.jawaban[i] ?? "";
+    inp.addEventListener("input", () => { S.jawaban[i] = inp.value; renderNav(); simpanNanti(); });
+    inp.addEventListener("keydown", e => { if (e.key === "Enter" && i < total - 1) { S.indeks++; renderSoal(); } });
+    inp.focus();
+  }
+
+  $("btnSebelum").disabled = i === 0;
+  $("btnBerikut").disabled = i === total - 1;
+  renderNav();
+}
+
+function renderNav() {
+  const nJawab = S.soal.filter((_, j) => terjawab(j)).length;
+  $("kumpulInfo").textContent = `${nJawab} of ${S.soal.length} answered. Press this only when you have finished all questions.`;
+
+  $("navsoal").innerHTML = S.soal.map((_, j) => {
+    const cls = [j === S.indeks ? "sekarang" : "", terjawab(j) ? "terjawab" : ""].join(" ");
+    return `<button class="${cls}" data-i="${j}" aria-label="Question ${j + 1}">${j + 1}</button>`;
+  }).join("");
+  $("navsoal").querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
+    S.indeks = Number(b.dataset.i); renderSoal(); simpanProgres();
+  }));
+}
+
+$("btnSebelum").addEventListener("click", () => { if (S.indeks > 0) { S.indeks--; renderSoal(); simpanProgres(); } });
+$("btnBerikut").addEventListener("click", () => { if (S.indeks < S.soal.length - 1) { S.indeks++; renderSoal(); simpanProgres(); } });
+$("btnKumpul").addEventListener("click", () => {
+  const kosong = S.soal.filter((_, j) => !terjawab(j)).length;
+  $("dialogIsi").textContent = kosong
+    ? `${kosong} question${kosong > 1 ? "s are" : " is"} still unanswered. Blank answers count as wrong.`
+    : "All questions are answered. Once submitted, answers cannot be changed.";
+  S.dialogTerbuka = true;
+  $("dialogKumpul").classList.add("tampil");
+  $("btnBatalKumpul").focus();
+});
+$("btnBatalKumpul").addEventListener("click", () => {
+  $("dialogKumpul").classList.remove("tampil");
+  S.dialogTerbuka = false;
+});
+$("btnYakinKumpul").addEventListener("click", () => {
+  $("dialogKumpul").classList.remove("tampil");
+  S.dialogTerbuka = false;
+  selesaikan("Submitted by student");
+});
+
+/* =========================================================
+   SELESAI
+   ========================================================= */
+function selesaikan(cara) {
+  if (S.selesai) return;
+  S.selesai = true;
+  S.sisaDetik = sisaDetikSekarang();
+  clearInterval(S.timer);
+  $("tirai").classList.remove("tampil");
+  S.overlayTerbuka = false;
+  if (dalamLayarPenuh() && document.exitFullscreen) document.exitFullscreen().catch(() => {});
+
+  const benar = S.soal.filter((_, i) => benarkah(i)).length;
+  const skor = Math.round(benar / S.soal.length * 100);
+  const dikunci = cara.startsWith("Locked");
+  const durasi = KONFIG.durasiMenit * 60 - S.sisaDetik;
+
+  $("skorAngka").textContent = skor;
+  $("skorKotak").classList.toggle("dikunci", dikunci);
+  $("statusHasil").textContent = cara;
+  $("statusHasil").className = "status " + (dikunci ? "dikunci" : "selesai");
+  $("metaHasil").textContent = `${S.nama} · ${S.kelas} · ${S.paket} · ${benar} of ${S.soal.length} correct · ${fmtWaktu(durasi)} used`;
+  $("metaPelanggaran").textContent = `${S.pelanggaran.length} violation${S.pelanggaran.length === 1 ? "" : "s"} recorded`;
+
+  const teksJawab = i => {
+    const s = S.soal[i], j = S.jawaban[i];
+    if (!terjawab(i)) return "-";
+    return s.t === "pg" ? huruf[j] : String(j).trim();
+  };
+  $("rekapWrap").hidden = !KONFIG.tampilkanRincian;
+  $("rekapJawaban").innerHTML = S.soal.map((s, i) => {
+    const st = !terjawab(i) ? "kosong" : benarkah(i) ? "ok" : "salah";
+    const tanda = st === "ok" ? "\u2713" : st === "salah" ? "\u2715" : "\u2013";
+    let ket = !terjawab(i) ? "Not answered"
+      : s.t === "pg" ? `Your answer: ${huruf[S.jawaban[i]]}. ${esc(s.p[S.jawaban[i]])}`
+      : s.t === "kalimat" ? `Your sentence: ${esc(teksJawab(i))}`
+      : `Your answer: ${esc(teksJawab(i))}`;
+    if (KONFIG.tampilkanKunci && st !== "ok") {
+      ket += ` \u00b7 Correct answer: ${esc(s.t === "pg" ? s.p[s.j] : s.t === "kalimat" ? kunciKalimat(s) : s.j[0])}`;
+    }
+    const alasan = (s.t === "kalimat" && st === "salah") ? `<div class="alasan">${esc(alasanKalimat(s, S.jawaban[i]))}</div>` : "";
+    const label = s.t === "kalimat" ? `${esc(s.q)} [${POLA[s.pola].nama} + ${esc(s.kata.join(", "))}]` : esc(s.q);
+    return `<div class="rekap-item"><span class="tanda ${st}">${tanda}</span>
+      <div><div>${i + 1}. ${label}</div><div class="ket">${ket}</div>${alasan}</div></div>`;
+  }).join("");
+
+  // jawaban urut nomor asli paket, agar mudah dicocokkan guru
+  const jawabanUrut = S.soal.map((s, i) => ({ n: s.asli + 1, t: s.t, v: teksJawab(i), ok: benarkah(i) }))
+    .sort((a, b) => a.n - b.n);
+  S.jawabanTeks = jawabanUrut.filter(x => !x.ok).map(x => `${x.n}:${x.v}`).join(" | ");
+
+  // detail per soal (untuk sheet "Detail Jawaban") dan ringkasan soal yang salah
+  const kunciAsli = s => {
+    // kunci PG dalam huruf urutan ASLI bank soal (bukan urutan acak), agar cocok dengan kunci guru
+    const asli = KONFIG.paket.find(pk => pk.nama === S.paket).soal[s.asli];
+    if (asli.t === "pg") return `${huruf[asli.j]}. ${asli.p[asli.j]}`;
+    if (asli.t === "kalimat") return kunciKalimat(asli);
+    return asli.j[0];
+  };
+  const jawabTeksPenuh = i => {
+    const s = S.soal[i], j = S.jawaban[i];
+    if (!terjawab(i)) return "-";
+    return s.t === "pg" ? s.p[j] : String(j).trim();
+  };
+  const tipeTeks = { pg: "PG", isian: "Isian", kalimat: "Kalimat" };
+  S.detail = S.soal.map((s, i) => ({
+    no: s.asli + 1, tipe: tipeTeks[s.t] || s.t,
+    soal: s.t === "kalimat" ? `${s.q} [${POLA[s.pola].nama} + ${s.kata.join(", ")}]` : s.q,
+    jawaban: jawabTeksPenuh(i), kunci: kunciAsli(s), benar: benarkah(i) ? 1 : 0
+  })).sort((a, b) => a.no - b.no);
+  const salah = S.detail.filter(d => !d.benar);
+  S.salahNomor = salah.map(d => d.no).join(", ");
+  S.salahRincian = salah.map(d => `#${d.no} ${d.soal} → jawab: ${d.jawaban} | kunci: ${d.kunci}`).join("\n");
+
+  const semuaLog = S.pelanggaran.map(p => `<li><time>${p.jam}</time><span>${esc(p.alasan)} (question ${p.soal})</span></li>`)
+    .concat(S.logTerjemah.map(p => `<li><time>${p.jam}</time><span>${esc(p.alasan)} (question ${p.soal}) \u00b7 not counted</span></li>`));
+  $("logPelanggaran").innerHTML = semuaLog.length
+    ? semuaLog.join("")
+    : `<li class="kosong-log">No violations. Well done.</li>`;
+
+  S.ringkasan = [
+    `EXAM: ${KONFIG.judul} (${S.paket})`,
+    `Name: ${S.nama} | Class: ${S.kelas}`,
+    `Score: ${skor} (${benar}/${S.soal.length}) | Status: ${cara}`,
+    `Started: ${S.waktuMulai.toLocaleString("id-ID")} | Time used: ${fmtWaktu(durasi)}`,
+    `Violations: ${S.pelanggaran.length}`,
+    ...S.pelanggaran.map(p => `  - ${p.jam} ${p.alasan} (question ${p.soal})`),
+    `Translation attempts: ${S.logTerjemah.length}`,
+    ...S.logTerjemah.map(p => `  - ${p.jam} ${p.alasan} (question ${p.soal})`),
+    `Wrong answers: ${S.jawabanTeks || "none"}`
+  ].join("\n");
+
+  S.caraSelesai = cara; S.skorAkhir = skor; S.benarAkhir = benar; S.durasiAkhir = fmtWaktu(durasi);
+  simpanProgres();
+
+  $("kopStatus").hidden = true;
+  tampilkan("layarHasil");
+  window.scrollTo(0, 0);
+
+  kirimHasil({
+    jenis: "hasil", kuis: KONFIG.judul, paket: S.paket, nama: S.nama, kelas: S.kelas,
+    mulai: S.waktuMulai.toLocaleString("id-ID"), durasi: fmtWaktu(durasi),
+    skor, benar, total: S.soal.length, status: cara,
+    jumlahPelanggaran: S.pelanggaran.length,
+    pelanggaran: S.pelanggaran.map(p => `${p.jam} ${p.alasan} (question ${p.soal})`).join("; "),
+    jawaban: S.jawabanTeks,
+    salahNomor: S.salahNomor, salahRincian: S.salahRincian,
+    detail: S.detail
+  });
+}
+
+/* =========================================================
+   KIRIM KE GOOGLE SHEET
+   ========================================================= */
+function kirimKeSheet(data) {
+  if (!KONFIG.sheetUrl) return Promise.resolve(false);
+  return fetch(KONFIG.sheetUrl, {
+    method: "POST", mode: "no-cors", keepalive: true,
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(data)
+  }).then(() => true).catch(() => false);
+}
+
+async function kirimHasil(data) {
+  const el = $("statusKirim");
+  if (!KONFIG.sheetUrl) { el.hidden = true; return; }
+  el.hidden = false;
+  el.className = "kirim proses";
+  el.textContent = "Sending your results to the teacher…";
+  let ok = await kirimKeSheet(data);
+  if (!ok) { await new Promise(r => setTimeout(r, 2000)); ok = await kirimKeSheet(data); }
+  el.className = "kirim " + (ok ? "ok" : "gagal");
+  el.textContent = ok
+    ? "Your results have been sent to the teacher."
+    : "Sending failed. Copy the summary below and send it to your teacher.";
+}
+
+$("btnSalin").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(S.ringkasan); $("btnSalin").textContent = "Summary copied"; }
+  catch { prompt("Copy this text:", S.ringkasan); }
+});
+
+function tampilkan(id) {
+  document.querySelectorAll(".layar").forEach(l => l.classList.remove("aktif"));
+  $(id).classList.add("aktif");
+}
+
+/* =========================================================
+   SESI: SIMPAN PROGRES, KUNCI PAKET, LANJUT SETELAH REFRESH, KUNCI ULANG
+   ========================================================= */
+const KUNCI_SIMPAN = "smkmikael:kuis:" + KONFIG.idUjian;
+
+const sandiIn  = o => btoa(unescape(encodeURIComponent(JSON.stringify(o))));
+const sandiOut = s => JSON.parse(decodeURIComponent(escape(atob(s))));
+
+function bacaSimpanan() {
+  try { const r = localStorage.getItem(KUNCI_SIMPAN); return r ? sandiOut(r) : null; }
+  catch (e) { return null; }
+}
+function hapusSimpanan() { try { localStorage.removeItem(KUNCI_SIMPAN); } catch (e) {} }
+
+function simpanProgres() {
+  if (!KONFIG.simpanProgres || !S.mulai || !S.rencana) return;
+  try {
+    localStorage.setItem(KUNCI_SIMPAN, sandiIn({
+      v: 1, id: KONFIG.idUjian, dimulai: true,
+      nama: S.nama, kelas: S.kelas, rencana: S.rencana,
+      jawaban: S.jawaban, indeks: S.indeks,
+      pelanggaran: S.pelanggaran, logTerjemah: S.logTerjemah,
+      mulaiEpoch: S.mulaiEpoch, tenggat: S.tenggat,
+      selesai: S.selesai, cara: S.caraSelesai || "",
+      skor: S.skorAkhir ?? null, benar: S.benarAkhir ?? null,
+      total: S.soal.length, durasi: S.durasiAkhir || "",
+      ringkasan: S.ringkasan || ""
+    }));
+  } catch (e) {}
+}
+
+/* paket dikunci di perangkat ini sejak halaman pertama kali dibuka.
+   Refresh / tutup-buka tab tetap mendapat paket yang sama.
+   Hanya ?reset-exam yang menghapusnya sehingga paket diundi ulang. */
+function kunciRencana() {
+  try {
+    const ada = bacaSimpanan();
+    if (ada && ada.id === KONFIG.idUjian && ada.dimulai !== false) return; // jangan timpa sesi yang sudah berjalan
+    localStorage.setItem(KUNCI_SIMPAN, sandiIn({ v: 1, id: KONFIG.idUjian, dimulai: false, rencana: S.rencana }));
+  } catch (e) {}
+}
+
+/* simpan yang ditunda, dipakai untuk ketikan isian/kalimat supaya tidak menulis tiap huruf */
+function simpanNanti() {
+  clearTimeout(S.tundaSimpan);
+  S.tundaSimpan = setTimeout(simpanProgres, 400);
+}
+window.addEventListener("pagehide", simpanProgres);
+
+/* ---------- rencana soal (paket + urutan) ---------- */
+function buatRencana() {
+  const iPaket = KONFIG.acakPaket ? Math.floor(Math.random() * KONFIG.paket.length) : 0;
+  const soal = KONFIG.paket[iPaket].soal;
+  let urut;
+  if (KONFIG.kelompokkanJenis) {
+    // PG dulu, lalu kalimat; diacak di dalam tiap kelompok
+    const jenis = [...new Set(soal.map(s => s.t))];
+    urut = jenis.flatMap(t => {
+      const g = soal.map((_, i) => i).filter(i => soal[i].t === t);
+      return KONFIG.acakSoal ? acak(g) : g;
+    });
+  } else {
+    urut = soal.map((_, i) => i);
+    if (KONFIG.acakSoal) acak(urut);
+  }
+  const pilihan = {};
+  soal.forEach((s, i) => {
+    if (s.t === "pg" && KONFIG.acakPilihan) pilihan[i] = acak(s.p.map((_, k) => k));
+  });
+  return { paket: iPaket, urut, pilihan };
+}
+function rencanaSah(r) {
+  const pk = r && KONFIG.paket[r.paket];
+  return !!(pk && Array.isArray(r.urut) && r.urut.length === pk.soal.length);
+}
+function terapkanRencana(r) {
+  const pk = KONFIG.paket[r.paket] || KONFIG.paket[0];
+  S.rencana = r;
+  S.paket = pk.nama;
+  S.soal = r.urut.map(i => {
+    const s = pk.soal[i], soal = { ...s, asli: i };
+    const ord = r.pilihan ? r.pilihan[i] : null;
+    if (s.t === "pg" && ord) {
+      soal.p = ord.map(k => s.p[k]);
+      soal.j = ord.indexOf(s.j);
+    }
+    return soal;
+  });
+  const hitung = t => S.soal.filter(s => s.t === t).length;
+  const bagian = [];
+  if (hitung("pg")) bagian.push(`${hitung("pg")} multiple choice`);
+  if (hitung("isian")) bagian.push(`${hitung("isian")} fill in the blank`);
+  if (hitung("kalimat")) bagian.push(`${hitung("kalimat")} sentence writing`);
+  $("infoSoal").textContent = `${S.soal.length} questions: ${bagian.join(", ")}`;
+  $("kopJudul").textContent = `${KONFIG.judul} \u00b7 ${S.paket}`;
+}
+
+/* ---------- ?reset-exam : hanya guru yang boleh membuka ulang ---------- */
+function cekReset() {
+  const q = new URLSearchParams(location.search);
+  if (!q.has("reset-exam")) return null;
+  const diberi = q.get("reset-exam") || "";
+  const perlu = String(KONFIG.kunciReset || "");
+  const sah = perlu === "" || diberi === perlu;
+  if (sah) hapusSimpanan();
+  q.delete("reset-exam");
+  const sisa = q.toString();
+  // buang parameter dari address bar supaya siswa tidak menyalinnya
+  try { history.replaceState(null, "", location.pathname + (sisa ? "?" + sisa : "") + location.hash); }
+  catch (e) {}
+  return sah ? "ok" : "gagal";
+}
+
+/* ---------- layar lanjutkan & layar terkunci ---------- */
+function tampilkanLanjut() {
+  const jml = S.soal.filter((_, j) => terjawab(j)).length;
+  $("lanjutNama").textContent = S.nama || "-";
+  $("lanjutKelas").textContent = S.kelas || "-";
+  $("lanjutJawab").textContent = `${jml} of ${S.soal.length}`;
+  $("lanjutWaktu").textContent = fmtWaktu(sisaDetikSekarang());
+  $("lanjutPelanggaran").textContent = `${S.pelanggaran.length} of ${KONFIG.maksPelanggaran}`;
+  $("lanjutCatatan").textContent = KONFIG.refreshJadiPelanggaran
+    ? "The clock keeps running while the page is closed, and reloading this page is recorded as a violation."
+    : "The clock keeps running while the page is closed.";
+  $("waktu").textContent = fmtWaktu(sisaDetikSekarang());
+  tampilkan("layarLanjut");
+}
+
+function tampilkanTerkunci(d) {
+  S.selesai = true;
+  $("kunciSkor").textContent = d.skor ?? 0;
+  const dikunci = String(d.cara || "").startsWith("Locked");
+  $("kunciSkorKotak").classList.toggle("dikunci", dikunci);
+  $("kunciStatus").textContent = d.cara || "Submitted";
+  $("kunciStatus").className = "status " + (dikunci ? "dikunci" : "selesai");
+  $("kunciMeta").textContent =
+    `${d.nama} \u00b7 ${d.kelas} \u00b7 ${S.paket} \u00b7 ${d.benar ?? 0} of ${d.total ?? S.soal.length} correct` +
+    (d.durasi ? ` \u00b7 ${d.durasi} used` : "");
+  $("kunciPelanggaran").textContent =
+    `${(d.pelanggaran || []).length} violation${(d.pelanggaran || []).length === 1 ? "" : "s"} recorded`;
+  S.ringkasan = d.ringkasan || "";
+  $("kopStatus").hidden = true;
+  tampilkan("layarTerkunci");
+}
+
+$("btnSalinKunci").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText(S.ringkasan); $("btnSalinKunci").textContent = "Summary copied"; }
+  catch { prompt("Copy this text:", S.ringkasan); }
+});
+
+/* =========================================================
+   PENJAGA BAHASA: halaman wajib tetap bahasa Inggris
+   ========================================================= */
+function terjemahanAktif() {
+  const h = document.documentElement;
+  if (h.classList.contains("translated-ltr") || h.classList.contains("translated-rtl")) return true;
+  if (document.querySelector(".goog-te-banner-frame, .skiptranslate, #goog-gt-tt")) return true;
+  if (document.querySelector("font[_msttexthash], [_msthash], [_mstmutation]")) return true;
+  // Google Translate membungkus teks dengan <font style="vertical-align: inherit;">
+  if (document.querySelector("font[style*='vertical-align']")) return true;
+  return false;
+}
+
+function periksaTerjemahan() {
+  if (!KONFIG.blokirTerjemahan || S.terjemahTerbuka) return;
+  if (!terjemahanAktif()) return;
+  S.terjemahTerbuka = true;
+  if (S.mulai && !S.selesai) {
+    const catatan = { jam: jamSekarang(), alasan: "Translation tool detected", soal: S.indeks + 1 };
+    S.logTerjemah.push(catatan);
+    kirimKeSheet({ jenis: "pelanggaran", paket: S.paket, nama: S.nama, kelas: S.kelas,
+                   jam: catatan.jam, alasan: catatan.alasan, soal: catatan.soal,
+                   urutan: S.pelanggaran.length + S.logTerjemah.length });
+    simpanProgres();
+  }
+  $("terjemahMasihAktif").hidden = true;
+  $("tiraiTerjemahan").classList.add("tampil");
+}
+
+$("btnTerjemahanSelesai").addEventListener("click", async () => {
+  if (terjemahanAktif()) { $("terjemahMasihAktif").hidden = false; return; }
+  $("tiraiTerjemahan").classList.remove("tampil");
+  S.terjemahTerbuka = false;
+  S.terakhirPelanggaran = Date.now();
+  if (S.mulai && !S.selesai) await mintaLayarPenuh();
+});
+
+function jagaBahasa() {
+  if (!KONFIG.blokirTerjemahan) return;
+  try {
+    new MutationObserver(periksaTerjemahan).observe(document.documentElement, {
+      attributes: true, attributeFilter: ["class", "lang", "_msthash"],
+      childList: true, subtree: true
+    });
+  } catch (e) {}
+  setInterval(periksaTerjemahan, 1500);
+  periksaTerjemahan();
+}
+
+/* =========================================================
+   BOOTSTRAP
+   ========================================================= */
+(function jalan() {
+  const hasilReset = cekReset();
+  if (hasilReset === "ok") $("bannerReset").hidden = false;
+  if (hasilReset === "gagal") $("bannerResetGagal").hidden = false;
+
+  siapkanGerbang();
+
+  const d = bacaSimpanan();
+  const cocok = d && d.id === KONFIG.idUjian && rencanaSah(d.rencana);
+
+  /* ---- sesi yang sudah dimulai: lanjutkan atau tampilkan hasil ---- */
+  if (cocok && d.dimulai !== false && KONFIG.simpanProgres) {
+    terapkanRencana(d.rencana);
+    S.nama = d.nama; S.kelas = d.kelas;
+    S.jawaban = Array.isArray(d.jawaban) && d.jawaban.length === S.soal.length
+      ? d.jawaban : S.soal.map(() => null);
+    S.indeks = Math.min(Math.max(0, d.indeks || 0), S.soal.length - 1);
+    S.pelanggaran = d.pelanggaran || [];
+    S.logTerjemah = d.logTerjemah || [];
+    S.mulaiEpoch = d.mulaiEpoch || Date.now();
+    S.tenggat = d.tenggat || (S.mulaiEpoch + KONFIG.durasiMenit * 60 * 1000);
+    S.waktuMulai = new Date(S.mulaiEpoch);
+    S.sisaDetik = sisaDetikSekarang();
+
+    jagaBahasa();
+
+    if (d.selesai) { tampilkanTerkunci(d); return; }
+
+    // waktu habis saat halaman tertutup: langsung dikumpulkan apa adanya
+    if (KONFIG.waktuTerusBerjalan && sisaDetikSekarang() <= 0) {
+      S.mulai = true;
+      selesaikan("Time is up");
+      return;
+    }
+    tampilkanLanjut();
+    return;
+  }
+
+  /* ---- belum mulai: pakai paket yang sudah terkunci, atau undi sekali lalu kunci ---- */
+  terapkanRencana(cocok ? d.rencana : buatRencana());
+  kunciRencana();
+  S.jawaban = S.soal.map(() => null);
+  $("waktu").textContent = fmtWaktu(KONFIG.durasiMenit * 60);
+  jagaBahasa();
+  tampilkan("layarMulai");
+})();
+</script>
+</body>
+</html>
