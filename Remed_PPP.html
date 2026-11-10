@@ -271,7 +271,6 @@
   .chip { display: inline-flex; padding: 5px 13px; border-radius: 999px; font-weight: 700; font-size: 15px; }
   .chip.ungu { background: #fff; color: var(--ungu); border: 1.5px solid #D3C0EA; }
   .chip.merah { background: var(--merah); color: #fff; box-shadow: 0 4px 10px rgba(194,31,46,.25); }
-  .rumus { color: var(--abu); font-weight: 600; font-size: 14px; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
   .kalimat textarea {
     width: 100%; margin-top: 14px; padding: 15px 16px; font: inherit; font-size: 18px; line-height: 1.5;
     border: 1.5px solid var(--garis); border-radius: 14px; background: #fff; color: var(--tinta);
@@ -357,9 +356,6 @@
   .kotak-info.merah h3 { color: var(--merah); }
   .kotak-info p { font-size: 14.5px; }
 
-  .banner { margin-top: 16px; padding: 13px 16px; border-radius: 14px; font-weight: 700; font-size: 14px; background: var(--benar-muda); color: var(--benar); }
-  .banner.merah { background: var(--merah-muda); color: var(--merah); }
-
   /* ---------- tirai (overlay) ---------- */
   .tirai {
     position: fixed; inset: 0; z-index: 100; display: none;
@@ -393,6 +389,18 @@
   .tirai.ungu .tombol { margin-top: 0; background: linear-gradient(135deg, var(--ungu-2), var(--ungu)); color: #fff; box-shadow: 0 8px 20px rgba(75,29,110,.28); }
   .tirai.ungu .tombol.polos-putih { background: #fff; color: var(--ungu); border: 1.5px solid var(--garis); box-shadow: none; }
   .tirai.ungu .tombol.polos-putih:hover { background: var(--ungu-pucat); }
+
+  /* ---------- reset guru (hanya di layar hasil) ---------- */
+  .tombol.lebar.reset-guru { margin-top: 10px; color: var(--merah); }
+  .tombol.polos.reset-guru:hover:not(:disabled) { border-color: #F0B8BF; background: var(--merah-muda); }
+  .reset-input {
+    width: 100%; margin-top: 18px; padding: 14px 16px; font: inherit; font-size: 17px;
+    text-align: center; letter-spacing: .1em; color: var(--tinta);
+    border: 1.5px solid var(--garis); border-radius: 14px; background: var(--ungu-pucat);
+  }
+  .reset-input:focus { outline: none; background: #fff; border-color: var(--ungu-2); box-shadow: 0 0 0 4px var(--ungu-muda); }
+  .reset-salah { margin-top: 10px; min-height: 20px; font-size: 14px; font-weight: 700; color: var(--merah); }
+  .tirai.ungu .tombol.bahaya-btn { background: linear-gradient(135deg, #E0323F, var(--merah)); box-shadow: 0 8px 20px rgba(194,31,46,.26); }
 
   /* ---------- layar kecil ---------- */
   @media (max-width: 560px) {
@@ -464,9 +472,6 @@
       </div>
     </div>
 
-    <div class="banner" id="bannerReset" hidden>Previous attempt cleared by the teacher. A new attempt can be started.</div>
-    <div class="banner merah" id="bannerResetGagal" hidden>Wrong reset key. The saved attempt was not cleared.</div>
-
     <div class="kartu">
       <h2 class="kartu-judul">Your details</h2>
       <div class="baris">
@@ -503,6 +508,10 @@
         <li>
           <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4 6h.01M4 12h.01M4 18h.01"/></svg></span>
           <span>Questions: <b><span id="infoSoal"></span></b>.</span>
+        </li>
+        <li>
+          <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M4 7h16M4 12h10M4 17h7"/></svg></span>
+          <span>Fill in the blank: type the correct form of the verb in brackets. Capital letters do not matter.</span>
         </li>
         <li>
           <span class="aturan-ikon"><svg class="ikon" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16v4z"/><path d="M13.5 6.5l4 4"/></svg></span>
@@ -548,7 +557,7 @@
     </button>
   </section>
 
-  <!-- ===== SUDAH DIKERJAKAN ===== -->
+  <!-- ===== SUDAH DIKERJAKAN (hasil setelah halaman dibuka ulang) ===== -->
   <section class="layar" id="layarTerkunci">
     <div class="kartu">
       <span class="eyebrow terang"><span class="titik"></span>Submitted</span>
@@ -566,6 +575,10 @@
     </div>
 
     <button class="tombol polos lebar" id="btnSalinKunci">Copy summary for the teacher</button>
+    <button type="button" class="tombol polos lebar reset-guru">
+      <svg class="ikon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      Reset exam (teacher only)
+    </button>
   </section>
 
   <!-- ===== SOAL ===== -->
@@ -632,6 +645,10 @@
     </div>
 
     <button class="tombol polos lebar" id="btnSalin">Copy summary for the teacher</button>
+    <button type="button" class="tombol polos lebar reset-guru">
+      <svg class="ikon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      Reset exam (teacher only)
+    </button>
   </section>
 </main>
 
@@ -646,6 +663,21 @@
       <button class="tombol" id="btnYakinKumpul">Yes, submit</button>
     </div>
   </div>
+</div>
+
+<!-- ===== DIALOG RESET GURU ===== -->
+<div class="tirai ungu" id="dialogReset" role="dialog" aria-modal="true" aria-labelledby="resetJudul">
+  <form class="tirai-kotak" id="resetForm" autocomplete="off">
+    <div class="dialog-ikon"><svg class="ikon" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+    <h2 id="resetJudul">Reset this exam?</h2>
+    <p>For teachers only. All saved answers on this device will be deleted and a new question set will be drawn.</p>
+    <input type="password" class="reset-input" id="resetSandi" placeholder="Teacher password" aria-label="Teacher password" autocomplete="off" spellcheck="false">
+    <div class="reset-salah" id="resetSalah" aria-live="polite"></div>
+    <div class="dialog-aksi">
+      <button type="button" class="tombol polos-putih" id="btnBatalReset">Cancel</button>
+      <button type="submit" class="tombol bahaya-btn">Reset exam</button>
+    </div>
+  </form>
 </div>
 
 <!-- ===== OVERLAY PELANGGARAN ===== -->
@@ -706,16 +738,20 @@
 <script>
 /* =========================================================
    BANK SOAL REMEDIAL — Present Perfect, Past Perfect, Future Perfect
-   Tiap paket: 20 PG + 10 menulis kalimat = 30 soal. Soal jebakan MAKSIMAL 2 per paket.
+   Tiap paket: 20 PG + 10 isian + 10 menulis kalimat = 40 soal.
+   Soal jebakan MAKSIMAL 2 per paket (keduanya di PG).
    Pola tiap paket (nomor asli):
      PG 1–8       : Present Perfect
      PG 9         : JEBAKAN 1 — Simple Past
      PG 10–15     : Past Perfect
      PG 16–19     : Future Perfect
      PG 20        : JEBAKAN 2 — Future Continuous (AT vs BY)
-     Kalimat 21–24: Present Perfect
-     Kalimat 25–27: Past Perfect
-     Kalimat 28–30: Future Perfect
+     Isian 21–24  : Present Perfect
+     Isian 25–27  : Past Perfect
+     Isian 28–30  : Future Perfect
+     Kalimat 31–34: Present Perfect
+     Kalimat 35–37: Past Perfect
+     Kalimat 38–40: Future Perfect
    Format:
      PG      : { t:"pg", q:"...", p:["A","B","C","D"], j:indeks_benar (mulai 0) }
      Isian   : { t:"isian", q:"... ____ (verb) ...", j:["jawaban benar", "variasi lain"] }
@@ -725,7 +761,7 @@
      2) pola tense ditemukan: have/has + V3, had + V3, atau will have + V3
         (boleh ada never/already/just/not di tengah; bentuk tanya juga dikenali),
      3) minimal 4 kata.
-   V3 dikenali dari akhiran -ed atau daftar kata kerja tak beraturan (V3_TAK_BERATURAN).
+   Rumus TIDAK ditampilkan ke siswa; hanya nama tense dan kata wajib.
    ========================================================= */
 const BANK_SOAL = [
 { nama: "Set A", soal: [
@@ -749,6 +785,16 @@ const BANK_SOAL = [
   { t:"pg", q:"Find the mistake: \"By Friday, we will have paint the fence.\"", p:["By Friday","will","have","paint"], j:3 },
   { t:"pg", q:"____ they ____ the work by tomorrow?", p:["Have – finished","Will – have finished","Will – finished","Had – finish"], j:1 },
   { t:"pg", q:"At 8 p.m. tonight, I ____ TV with my family.", p:["will be watching","will have watched","have watched","had watched"], j:0 },
+  { t:"isian", q:"My sister ____ (clean) her room. It looks nice now.", j:["has cleaned","has just cleaned","has already cleaned"] },
+  { t:"isian", q:"I ____ (not / see) my cousin since last year.", j:["haven't seen","have not seen"] },
+  { t:"isian", q:"____ (you / ever / ride) a horse?", j:["have you ever ridden"] },
+  { t:"isian", q:"We ____ (live) in this house for ten years.", j:["have lived","have been living"] },
+  { t:"isian", q:"When I got home, my brother ____ (already / eat) all the cake.", j:["had already eaten"] },
+  { t:"isian", q:"She ____ (not / do) her homework before the teacher came.", j:["hadn't done","had not done"] },
+  { t:"isian", q:"____ (you / lock) the door before you left?", j:["had you locked"] },
+  { t:"isian", q:"By 8 p.m., I ____ (finish) my essay.", j:["will have finished"] },
+  { t:"isian", q:"They ____ (not / arrive) by noon.", j:["won't have arrived","will not have arrived"] },
+  { t:"isian", q:"____ (she / clean) the kitchen by the time we come back?", j:["will she have cleaned"] },
   { t:"kalimat", pola:"presp", kata:["since"], q:"Write about how long you have studied or lived somewhere." },
   { t:"kalimat", pola:"presp", kata:["never"], q:"Write about a food or a place you have never tried." },
   { t:"kalimat", pola:"presp", kata:["already"], q:"Write about something you have already done today." },
@@ -782,6 +828,16 @@ const BANK_SOAL = [
   { t:"pg", q:"Find the mistake: \"By noon, he will has fixed the printer.\"", p:["By noon","will","has","fixed"], j:2 },
   { t:"pg", q:"\"Will you have finished by 6 p.m.?\" Choose the correct short answer.", p:["Yes, I will.","Yes, I have.","Yes, I had.","Yes, I am."], j:0 },
   { t:"pg", q:"Don't call me at 9 a.m. tomorrow. I ____ an exam.", p:["will be taking","will have taken","have taken","had taken"], j:0 },
+  { t:"isian", q:"The students ____ (just / start) the test.", j:["have just started"] },
+  { t:"isian", q:"My father ____ (not / buy) a new car yet.", j:["hasn't bought","has not bought"] },
+  { t:"isian", q:"____ (he / ever / eat) sate kambing?", j:["has he ever eaten"] },
+  { t:"isian", q:"I ____ (know) Andi since primary school.", j:["have known"] },
+  { t:"isian", q:"When we arrived, the bus ____ (already / leave).", j:["had already left"] },
+  { t:"isian", q:"He ____ (never / see) snow before he went to Japan.", j:["had never seen"] },
+  { t:"isian", q:"____ (they / finish) the work before the boss came?", j:["had they finished"] },
+  { t:"isian", q:"By next year, my brother ____ (graduate).", j:["will have graduated"] },
+  { t:"isian", q:"I ____ (not / read) the book by Friday.", j:["won't have read","will not have read"] },
+  { t:"isian", q:"____ (you / pack) your bag by 6 a.m.?", j:["will you have packed"] },
   { t:"kalimat", pola:"presp", kata:["for"], q:"Write about a friend you have known for a long time." },
   { t:"kalimat", pola:"presp", kata:["ever"], q:"Write a QUESTION to ask your friend about an experience." },
   { t:"kalimat", pola:"presp", kata:["just"], q:"Write about something that has just happened." },
@@ -815,6 +871,16 @@ const BANK_SOAL = [
   { t:"pg", q:"Find the mistake: \"By next week, she will have send the letter.\"", p:["By next week","will","have","send"], j:3 },
   { t:"pg", q:"____ the workers ____ the bridge by June?", p:["Have – built","Will – have built","Will – built","Had – build"], j:1 },
   { t:"pg", q:"This time next week, we ____ on the beach.", p:["will be relaxing","will have relaxed","have relaxed","had relaxed"], j:0 },
+  { t:"isian", q:"Andi ____ (break) his phone. He can't call anyone.", j:["has broken"] },
+  { t:"isian", q:"We ____ (not / finish) our project yet.", j:["haven't finished","have not finished"] },
+  { t:"isian", q:"____ (they / ever / meet) a famous singer?", j:["have they ever met"] },
+  { t:"isian", q:"She ____ (work) in this shop for three years.", j:["has worked","has been working"] },
+  { t:"isian", q:"By the time I woke up, the sun ____ (rise).", j:["had risen","had already risen"] },
+  { t:"isian", q:"We ____ (not / eat) anything before the trip, so we were hungry.", j:["hadn't eaten","had not eaten"] },
+  { t:"isian", q:"____ (she / buy) the tickets before the show started?", j:["had she bought"] },
+  { t:"isian", q:"By the end of the month, we ____ (save) enough money.", j:["will have saved"] },
+  { t:"isian", q:"He ____ (not / come) back by tonight.", j:["won't have come","will not have come"] },
+  { t:"isian", q:"____ (the workers / build) the house by June?", j:["will the workers have built"] },
   { t:"kalimat", pola:"presp", kata:["since"], q:"Write about something you have had or used since a certain time." },
   { t:"kalimat", pola:"presp", kata:["so far"], q:"Write about how many times you have done something so far this year." },
   { t:"kalimat", pola:"presp", kata:["gone"], q:"Write about a person who has gone somewhere." },
@@ -848,6 +914,16 @@ const BANK_SOAL = [
   { t:"pg", q:"Find the mistake: \"By 2027, I will have finish school.\"", p:["By 2027","will","have","finish"], j:3 },
   { t:"pg", q:"\"Will she have arrived by noon?\" Choose the correct short answer.", p:["No, she won't.","No, she hasn't.","No, she hadn't.","No, she isn't."], j:0 },
   { t:"pg", q:"At 7 a.m. tomorrow, I ____ to school.", p:["will be walking","will have walked","have walked","had walked"], j:0 },
+  { t:"isian", q:"I ____ (lose) my wallet. I can't buy lunch.", j:["have lost"] },
+  { t:"isian", q:"Rina ____ (not / call) me yet.", j:["hasn't called","has not called"] },
+  { t:"isian", q:"____ (you / ever / drive) a car?", j:["have you ever driven"] },
+  { t:"isian", q:"They ____ (be) in Solo since Monday.", j:["have been"] },
+  { t:"isian", q:"When the teacher came in, we ____ (already / clean) the class.", j:["had already cleaned"] },
+  { t:"isian", q:"She was hungry because she ____ (not / have) breakfast.", j:["hadn't had","had not had"] },
+  { t:"isian", q:"____ (he / leave) when you arrived?", j:["had he left","had he already left"] },
+  { t:"isian", q:"By 10 p.m., my mother ____ (cook) dinner.", j:["will have cooked"] },
+  { t:"isian", q:"We ____ (not / repair) the machine by Monday.", j:["won't have repaired","will not have repaired"] },
+  { t:"isian", q:"____ (they / finish) the project by Friday?", j:["will they have finished"] },
   { t:"kalimat", pola:"presp", kata:["for"], q:"Write about how long you have had something (a phone, a bag, a bike)." },
   { t:"kalimat", pola:"presp", kata:["yet"], q:"Write about a homework or task you haven't finished." },
   { t:"kalimat", pola:"presp", kata:["ever"], q:"Write a QUESTION to ask your teacher about an experience." },
@@ -881,6 +957,16 @@ const BANK_SOAL = [
   { t:"pg", q:"Find the mistake: \"By tonight, they will have wrote the report.\"", p:["By tonight","will","have","wrote"], j:3 },
   { t:"pg", q:"____ you ____ the book by Monday?", p:["Have – read","Will – have read","Has – read","Had – reading"], j:1 },
   { t:"pg", q:"Please be quiet at 10 a.m. tomorrow. The students ____ an exam.", p:["will be doing","will have done","have done","had done"], j:0 },
+  { t:"isian", q:"Look! Someone ____ (open) the window.", j:["has opened"] },
+  { t:"isian", q:"I ____ (not / write) the report yet.", j:["haven't written","have not written"] },
+  { t:"isian", q:"____ (your mother / ever / cook) rendang?", j:["has your mother ever cooked"] },
+  { t:"isian", q:"He ____ (have) this bike for two years.", j:["has had"] },
+  { t:"isian", q:"By the time we got to the shop, it ____ (close).", j:["had closed","had already closed"] },
+  { t:"isian", q:"I ____ (never / fly) before that trip.", j:["had never flown"] },
+  { t:"isian", q:"____ (you / see) the film before you read the book?", j:["had you seen"] },
+  { t:"isian", q:"By next week, she ____ (finish) the course.", j:["will have finished"] },
+  { t:"isian", q:"I ____ (not / complete) the task by 5 p.m.", j:["won't have completed","will not have completed"] },
+  { t:"isian", q:"____ (he / arrive) by the time the meeting starts?", j:["will he have arrived"] },
   { t:"kalimat", pola:"presp", kata:["since"], q:"Write about a hobby you have had since a certain time." },
   { t:"kalimat", pola:"presp", kata:["just"], q:"Write about something you have just finished." },
   { t:"kalimat", pola:"presp", kata:["never"], q:"Write about something you have never done." },
@@ -899,12 +985,12 @@ const BANK_SOAL = [
    ========================================================= */
 const KONFIG = {
   judul: "Remedial Exam — Present, Past & Future Perfect",
-  deskripsi: "Remedial exam on the present perfect, past perfect and future perfect: multiple choice and sentence writing. Each student gets one of five question sets at random.",
-  durasiMenit: 60,
+  deskripsi: "Remedial exam on the present perfect, past perfect and future perfect: multiple choice, fill in the blank and sentence writing. Each student gets one of five question sets at random.",
+  durasiMenit: 75,
   maksPelanggaran: 3,      // setelah ini ujian dikunci otomatis
   acakPaket: true,         // siswa mendapat salah satu paket secara acak
   acakSoal: true,          // urutan soal diacak
-  kelompokkanJenis: true,  // PG dulu, lalu kalimat (acak di dalam tiap bagian)
+  kelompokkanJenis: true,  // PG dulu, lalu isian, lalu kalimat (acak di dalam tiap bagian)
   acakPilihan: true,       // urutan opsi pilihan ganda diacak
   tampilkanRincian: true,  // tampilkan benar/salah per soal di layar hasil
   tampilkanKunci: false,   // tampilkan jawaban yang benar di layar hasil
@@ -913,13 +999,16 @@ const KONFIG = {
   sheetUrl: "https://script.google.com/macros/s/AKfycbxtMHaZTYqv6n39nFDDU63S8LWPggPgTwHsqklSKWb4R0xj4ADf1BmF-m6Jdapn_wJMzQ/exec",
 
   /* ---- kata sandi masuk ----
-     Disimpan tersamar: tiap huruf = kode huruf + 7. Sandi saat ini: micojosjis26
+     Disimpan tersamar: tiap huruf = kode huruf + 7.
      Kosongkan array ini ( [] ) untuk mematikan gerbang kata sandi. */
   sandiKode: [116,112,106,118,113,118,122,113,112,122,57,61],
 
+  /* ---- kata sandi reset guru (tombol Reset di layar hasil) ----
+     Disimpan tersamar dengan cara yang sama: tiap huruf = kode huruf + 7. */
+  sandiResetKode: [126,118,126,118,114,123,118,115,118,115],
+
   /* ---- sesi, anti-ulang, anti-terjemah ---- */
   idUjian: "remedial-perfect-tenses",   // kunci penyimpanan; WAJIB unik per file
-  kunciReset: "",            // kosong = cukup ?reset-exam ; isi "mikael2026" = ?reset-exam=mikael2026
   simpanProgres: true,       // progres dipulihkan otomatis setelah refresh
   refreshJadiPelanggaran: true,  // reload halaman dihitung sebagai pelanggaran
   waktuTerusBerjalan: true,      // waktu jalan terus walau halaman ditutup
@@ -938,7 +1027,8 @@ const S = {
   timer: null, terakhirPelanggaran: 0, overlayTerbuka: false,
   // sesi & bahasa
   rencana: null, mulaiEpoch: 0, tenggat: 0,
-  logTerjemah: [], terjemahTerbuka: false, tundaSimpan: null
+  logTerjemah: [], terjemahTerbuka: false, tundaSimpan: null,
+  sedangReset: false
 };
 
 const $ = id => document.getElementById(id);
@@ -1067,13 +1157,15 @@ function cekKalimat(s, teks) {
   const polaAda = hasil.has(s.pola);
   return { ok: !pendek && !kurang.length && polaAda, pendek, kurang, polaAda };
 }
+/* alasan untuk siswa: tanpa rumus */
 function alasanKalimat(s, teks) {
   const r = cekKalimat(s, teks), a = [];
   if (r.pendek) a.push(`Sentence is too short (min. ${KONFIG.minKataKalimat} words)`);
   if (r.kurang.length) a.push(`Missing word: ${r.kurang.join(", ")}`);
-  if (!r.polaAda) a.push(`${POLA[s.pola].nama} pattern not found (${POLA[s.pola].rumus})`);
+  if (!r.polaAda) a.push(`Not written in the ${POLA[s.pola].nama}`);
   return a.join(" \u00b7 ");
 }
+/* kunci untuk guru (sheet): dengan rumus */
 const kunciKalimat = s => `${POLA[s.pola].nama} (${POLA[s.pola].rumus}) + "${s.kata.join('", "')}"`;
 
 const benarkah = i => {
@@ -1242,7 +1334,7 @@ document.addEventListener("keydown", e => {
 });
 // peringatan sebelum meninggalkan / memuat ulang halaman, sejak sandi dimasukkan
 window.addEventListener("beforeunload", e => {
-  if ((S.sandiOk || S.mulai) && !S.selesai) { e.preventDefault(); e.returnValue = ""; }
+  if (!S.sedangReset && (S.sandiOk || S.mulai) && !S.selesai) { e.preventDefault(); e.returnValue = ""; }
 });
 
 /* =========================================================
@@ -1269,12 +1361,12 @@ function renderSoal() {
     $("opsi").innerHTML = `
       <div class="kalimat">
         <div class="tugas">
-          <div class="tugas-baris"><span class="label">Tense</span><span class="chip ungu">${pl.nama}</span><span class="rumus">${pl.rumus}</span></div>
+          <div class="tugas-baris"><span class="label">Tense</span><span class="chip ungu">${pl.nama}</span></div>
           <div class="tugas-baris"><span class="label">Must use</span>${s.kata.map(k => `<span class="chip merah">${esc(k)}</span>`).join("")}</div>
         </div>
         <textarea id="jwbKalimat" rows="3" autocomplete="off" autocapitalize="sentences" spellcheck="false"
                   placeholder="Write one complete sentence here"></textarea>
-        <div class="petunjuk">Write <em>one</em> complete sentence (at least ${KONFIG.minKataKalimat} words) in the tense shown, and use the word in red.
+        <div class="petunjuk">Write <em>one</em> complete sentence (at least ${KONFIG.minKataKalimat} words) and use the word in red.
           You may write <em>haven't</em>, <em>hasn't</em>, <em>hadn't</em>, <em>won't</em>, but do not shorten <em>has</em> to <em>'s</em>.</div>
       </div>`;
     const ta = $("jwbKalimat");
@@ -1286,7 +1378,7 @@ function renderSoal() {
     $("opsi").innerHTML = `
       <div class="isian">
         <input type="text" id="jwbIsian" autocomplete="off" spellcheck="false" placeholder="Type your answer here">
-        <div class="petunjuk">Write the correct form of the verb in brackets, e.g. <em>has eaten</em>, <em>had left</em>, <em>will have finished</em>.</div>
+        <div class="petunjuk">Write the correct form of the verb in brackets. Include every word shown in the brackets.</div>
       </div>`;
     const inp = $("jwbIsian");
     inp.value = S.jawaban[i] ?? "";
@@ -1496,7 +1588,7 @@ function bacaSimpanan() {
 function hapusSimpanan() { try { localStorage.removeItem(KUNCI_SIMPAN); } catch (e) {} }
 
 function simpanProgres() {
-  if (!KONFIG.simpanProgres || !S.mulai || !S.rencana) return;
+  if (S.sedangReset || !KONFIG.simpanProgres || !S.mulai || !S.rencana) return;
   try {
     localStorage.setItem(KUNCI_SIMPAN, sandiIn({
       v: 1, id: KONFIG.idUjian, dimulai: true,
@@ -1514,7 +1606,7 @@ function simpanProgres() {
 
 /* paket dikunci di perangkat ini sejak halaman pertama kali dibuka.
    Refresh / tutup-buka tab tetap mendapat paket yang sama.
-   Hanya ?reset-exam yang menghapusnya sehingga paket diundi ulang. */
+   Hanya tombol Reset guru (di layar hasil) yang menghapusnya sehingga paket diundi ulang. */
 function kunciRencana() {
   try {
     const ada = bacaSimpanan();
@@ -1536,7 +1628,7 @@ function buatRencana() {
   const soal = KONFIG.paket[iPaket].soal;
   let urut;
   if (KONFIG.kelompokkanJenis) {
-    // PG dulu, lalu kalimat; diacak di dalam tiap kelompok
+    // PG dulu, lalu isian, lalu kalimat; diacak di dalam tiap kelompok
     const jenis = [...new Set(soal.map(s => s.t))];
     urut = jenis.flatMap(t => {
       const g = soal.map((_, i) => i).filter(i => soal[i].t === t);
@@ -1578,21 +1670,36 @@ function terapkanRencana(r) {
   $("kopJudul").textContent = `${KONFIG.judul} \u00b7 ${S.paket}`;
 }
 
-/* ---------- ?reset-exam : hanya guru yang boleh membuka ulang ---------- */
-function cekReset() {
-  const q = new URLSearchParams(location.search);
-  if (!q.has("reset-exam")) return null;
-  const diberi = q.get("reset-exam") || "";
-  const perlu = String(KONFIG.kunciReset || "");
-  const sah = perlu === "" || diberi === perlu;
-  if (sah) hapusSimpanan();
-  q.delete("reset-exam");
-  const sisa = q.toString();
-  // buang parameter dari address bar supaya siswa tidak menyalinnya
-  try { history.replaceState(null, "", location.pathname + (sisa ? "?" + sisa : "") + location.hash); }
-  catch (e) {}
-  return sah ? "ok" : "gagal";
+/* ---------- tombol reset guru: hanya muncul di layar hasil ---------- */
+const resetCocok = s => s.length === KONFIG.sandiResetKode.length
+  && [...s].every((c, i) => c.charCodeAt(0) + 7 === KONFIG.sandiResetKode[i]);
+
+function bukaDialogReset() {
+  $("resetSandi").value = "";
+  $("resetSalah").textContent = "";
+  S.dialogTerbuka = true;
+  $("dialogReset").classList.add("tampil");
+  setTimeout(() => $("resetSandi").focus(), 50);
 }
+function tutupDialogReset() {
+  $("dialogReset").classList.remove("tampil");
+  S.dialogTerbuka = false;
+}
+document.querySelectorAll(".reset-guru").forEach(b => b.addEventListener("click", bukaDialogReset));
+$("btnBatalReset").addEventListener("click", tutupDialogReset);
+$("resetForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const inp = $("resetSandi");
+  if (!resetCocok(inp.value.trim())) {
+    $("resetSalah").textContent = "Wrong password.";
+    inp.value = ""; inp.focus();
+    return;
+  }
+  S.sedangReset = true;            // cegah pagehide menyimpan ulang data lama
+  clearTimeout(S.tundaSimpan);
+  hapusSimpanan();
+  location.reload();
+});
 
 /* ---------- layar lanjutkan & layar terkunci ---------- */
 function tampilkanLanjut() {
@@ -1684,10 +1791,6 @@ function jagaBahasa() {
    BOOTSTRAP
    ========================================================= */
 (function jalan() {
-  const hasilReset = cekReset();
-  if (hasilReset === "ok") $("bannerReset").hidden = false;
-  if (hasilReset === "gagal") $("bannerResetGagal").hidden = false;
-
   siapkanGerbang();
 
   const d = bacaSimpanan();
