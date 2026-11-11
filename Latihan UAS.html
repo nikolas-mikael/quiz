@@ -143,6 +143,24 @@
   .tirai .pesan-gagal{margin-top:14px;font-weight:700}
   .dialog-aksi{display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap}
   @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  /* === tombol tema + counter percobaan === */
+  .kop-status{margin-left:auto}
+  .tema{flex:0 0 36px;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--garis);background:var(--kartu);color:var(--ungu);font-size:16px;line-height:1}
+  .hitung{margin-top:16px;font-size:14px;color:var(--abu);text-align:center}
+  .hitung b{font-family:var(--mono);color:var(--ungu)}
+
+  /* === tema gelap === */
+  html[data-tema="gelap"]{color-scheme:dark;--ungu:#C9A4EC;--ungu2:#B48AE0;--unguT:#33214A;--merah:#E5484D;--merahT:#431A20;--bg:#15101C;--kartu:#201829;--tinta:#EEE8F5;--abu:#A79DB8;--garis:#3A2F49;--ok:#5FCB90;--okT:#16352A}
+  :where(html[data-tema="gelap"]) .gerbang{background:linear-gradient(135deg,#4A1A6B,#2A0F42)}
+  :where(html[data-tema="gelap"]) .gerbang-kotak input,:where(html[data-tema="gelap"]) .reset-kotak input{color:#1C1626}
+  :where(html[data-tema="gelap"]) .tombol.utama{background:#6B3A91}
+  :where(html[data-tema="gelap"]) .tombol.utama:hover{background:#7D49A8}
+  :where(html[data-tema="gelap"]) .tirai.ungu .tombol{color:#4A1A6B}
+  :where(html[data-tema="gelap"]) .tombol.polos,:where(html[data-tema="gelap"]) .navsoal button,:where(html[data-tema="gelap"]) .skor,:where(html[data-tema="gelap"]) .field input{background:var(--kartu)}
+  :where(html[data-tema="gelap"]) .isian input,:where(html[data-tema="gelap"]) .fixrow input,:where(html[data-tema="gelap"]) .seg,:where(html[data-tema="gelap"]) .jelas{background:var(--bg)}
+  :where(html[data-tema="gelap"]) .tanda.kosong{background:var(--garis)}
+  :where(html[data-tema="gelap"]) .dlg mark{color:#1C1626}
 </style>
 </head>
 <body class="notranslate terkunci-sandi" translate="no">
@@ -165,6 +183,7 @@
       <span class="pil" id="pilWaktu"><span id="waktu">00:00</span></span>
       <span class="pil" id="pilPelanggaran">⚠ <span id="pelanggaranTeks">0/3</span></span>
     </div>
+    <button type="button" class="tema" id="btnTema"></button>
   </div>
 </header>
 
@@ -187,21 +206,22 @@
         <li>The exam runs in fullscreen. Do not leave fullscreen mode.</li>
         <li>Do not switch tabs, open other apps, or minimise the window.</li>
         <li>Every time you leave this page counts as <b>one violation</b>. After <b><span class="maksPelanggaran">3</span></b>, the exam locks.</li>
-        <li>Your question set is <b>fixed on this device</b>. Reloading does not change it.</li>
+        <li>Your question set is <b>fixed on this device</b>. Reloading does not change it. After a teacher reset, you get <b>a set you have not done yet</b>.</li>
         <li>Questions: <b><span id="infoSoal"></span></b>. Type only the words for the blank; capital letters do not matter; contractions are accepted.</li>
         <li>Time limit: <b><span id="durasiTeks"></span> minutes</b>. Submitted automatically when time runs out.</li>
-        <li>After you submit, every question shows the <b>correct answer and a short explanation</b>. Read them carefully.</li>
+        <li>The <b>correct answers and explanations</b> open after you submit <b>only if you answered every question</b>. Leave one blank and they stay locked.</li>
       </ul>
     </div>
-    <div class="banner" id="bannerReset" hidden>Previous attempt cleared by the teacher. A new attempt can be started.</div>
+    <div class="banner" id="bannerReset" hidden>Previous attempt cleared by the teacher. A new attempt with a different set can be started.</div>
     <div class="banner merah" id="bannerResetGagal" hidden>Wrong reset key. The saved attempt was not cleared.</div>
+    <p class="hitung">Attempts taken on this device: <b class="hitungPercobaan">0</b></p>
     <button class="tombol utama lebar" id="btnMulai">Start in fullscreen</button>
   </section>
 
   <section class="layar" id="layarLanjut">
     <h1>Resume your exam</h1>
     <p class="pengantar">An unfinished attempt was found on this device. Your answers were saved. You cannot start a new attempt.</p>
-    <div class="kotak-info"><h3>Saved attempt</h3><dl><dt>Name</dt><dd id="lanjutNama"></dd><dt>Class</dt><dd id="lanjutKelas"></dd><dt>Answered</dt><dd id="lanjutJawab"></dd><dt>Time left</dt><dd id="lanjutWaktu"></dd><dt>Violations</dt><dd id="lanjutPelanggaran"></dd></dl></div>
+    <div class="kotak-info"><h3>Saved attempt</h3><dl><dt>Name</dt><dd id="lanjutNama"></dd><dt>Class</dt><dd id="lanjutKelas"></dd><dt>Answered</dt><dd id="lanjutJawab"></dd><dt>Time left</dt><dd id="lanjutWaktu"></dd><dt>Violations</dt><dd id="lanjutPelanggaran"></dd><dt>Attempt</dt><dd class="hitungPercobaan">0</dd></dl></div>
     <div class="kotak-info merah"><h3>Important</h3><p id="lanjutCatatan"></p></div>
     <button class="tombol utama lebar" id="btnLanjut">Resume in fullscreen</button>
   </section>
@@ -209,7 +229,7 @@
   <section class="layar" id="layarTerkunci">
     <h1>Already finished</h1>
     <p class="pengantar">You have submitted this exam on this device. Only your teacher can unlock a new attempt.</p>
-    <div class="skor" id="kunciSkorKotak"><div class="angka"><span id="kunciSkor">0</span><small>/100</small></div><div><div class="status" id="kunciStatus"></div><div class="meta" id="kunciMeta"></div><div class="meta" id="kunciPelanggaran"></div></div></div>
+    <div class="skor" id="kunciSkorKotak"><div class="angka"><span id="kunciSkor">0</span><small>/100</small></div><div><div class="status" id="kunciStatus"></div><div class="meta" id="kunciMeta"></div><div class="meta" id="kunciPelanggaran"></div><div class="meta">Attempt <span class="hitungPercobaan">0</span> on this device</div></div></div>
     <button class="tombol polos lebar" id="btnSalinKunci">Copy summary for the teacher</button>
     <button class="tombol polos lebar reset" id="btnResetKunci">Reset attempt (teacher only)</button>
   </section>
@@ -227,8 +247,8 @@
   <section class="layar" id="layarHasil">
     <h1>Results</h1>
     <div class="kirim" id="statusKirim" hidden></div>
-    <div class="skor" id="skorKotak"><div class="angka"><span id="skorAngka">0</span><small>/100</small></div><div><div class="status" id="statusHasil"></div><div class="meta" id="metaHasil"></div><div class="meta" id="metaPelanggaran"></div></div></div>
-    <div class="rekap" id="rekapWrap"><h2>Answer review &amp; explanations</h2><div id="rekapJawaban"></div></div>
+    <div class="skor" id="skorKotak"><div class="angka"><span id="skorAngka">0</span><small>/100</small></div><div><div class="status" id="statusHasil"></div><div class="meta" id="metaHasil"></div><div class="meta" id="metaPelanggaran"></div><div class="meta">Attempt <span class="hitungPercobaan">0</span> on this device</div></div></div>
+    <div class="rekap" id="rekapWrap"><h2>Answer review &amp; explanations</h2><div class="banner merah" id="kunciInfo" hidden></div><div id="rekapJawaban"></div></div>
     <div class="rekap"><h2>Violation log</h2><ul class="log" id="logPelanggaran"></ul></div>
     <button class="tombol polos lebar" id="btnSalin">Copy summary for the teacher</button>
     <button class="tombol polos lebar reset" id="btnResetHasil">Reset attempt (teacher only)</button>
@@ -236,13 +256,13 @@
 </main>
 
 <div class="tirai ungu" id="dialogKumpul" role="dialog" aria-modal="true"><div class="tirai-kotak"><h2>Submit your answers now?</h2><p id="dialogIsi"></p><div class="dialog-aksi"><button class="tombol polos-putih" id="btnBatalKumpul">Check again</button><button class="tombol" id="btnYakinKumpul">Yes, submit</button></div></div></div>
-<div class="tirai ungu" id="dialogReset" role="dialog" aria-modal="true" aria-labelledby="resetJudul"><form class="tirai-kotak reset-kotak" id="formReset" autocomplete="off"><h2 id="resetJudul">Reset this attempt?</h2><p>Teacher only. The answers and score saved on this device will be deleted, and a new attempt can be started.</p><input type="password" id="sandiReset" placeholder="Reset password" aria-label="Reset password" autocomplete="off" spellcheck="false"><div class="reset-salah" id="resetSalah" aria-live="polite"></div><div class="dialog-aksi"><button type="button" class="tombol polos-putih" id="btnBatalReset">Cancel</button><button type="submit" class="tombol hapus">Reset attempt</button></div></form></div>
+<div class="tirai ungu" id="dialogReset" role="dialog" aria-modal="true" aria-labelledby="resetJudul"><form class="tirai-kotak reset-kotak" id="formReset" autocomplete="off"><h2 id="resetJudul">Reset this attempt?</h2><p>Teacher only. The answers and score saved on this device will be deleted, and a new attempt with a different set can be started.</p><input type="password" id="sandiReset" placeholder="Reset password" aria-label="Reset password" autocomplete="off" spellcheck="false"><div class="reset-salah" id="resetSalah" aria-live="polite"></div><div class="dialog-aksi"><button type="button" class="tombol polos-putih" id="btnBatalReset">Cancel</button><button type="submit" class="tombol hapus">Reset attempt</button></div></form></div>
 <div class="tirai" id="tirai" role="alertdialog" aria-modal="true"><div class="tirai-kotak"><div class="besar"><span id="tiraiHitung">1</span><small> / <span class="maksPelanggaran">3</span></small></div><h2>You left the exam page</h2><p id="tiraiAlasan"></p><p id="tiraiSisa"></p><button class="tombol" id="btnKembali">Back to the exam</button></div></div>
 <div class="tirai" id="tiraiTerjemahan" role="alertdialog" aria-modal="true"><div class="tirai-kotak"><div class="besar">EN</div><h2>Translation detected</h2><p>This exam must stay in English. Turn the translation off, then press the button.</p><ol class="cara-matikan"><li>Chrome: translate icon in the address bar → <b>Show original</b>.</li><li>Or right-click the page → <b>Translate to English</b> → turn it off.</li><li>Disable any translate extension, then press the button.</li></ol><p class="pesan-gagal" id="terjemahMasihAktif" hidden>Translation is still active. Turn it off first.</p><button class="tombol" id="btnTerjemahanSelesai">I have turned it off</button></div></div>
 
 <script>
 /* =========================================================
-   BANK SOAL — 5 paket × 40 soal (praktik, semua kalimat berbeda dari UH kertas)
+   BANK SOAL — 6 paket × 40 soal
    Urutan tense tiap paket (nomor asli):
      1 SPr(-) 2 SPa 3 PrC 4 PaC 5 PaP 6 PrP 7 FC 8 FP 9 SPr(?) 10 SPa 11 SF 12 PrC 13 PaC 14 PrP 15 PaP 16 FC(?) 17 FP(?) 18 SF 19 PrC(-) 20 SPa(-)
      21 SPr 22 SPa 23 SF 24 PrC 25 PaC 26 FC 27 PrP 28 PrP 29 PaP 30 FP   (koreksi: 4 bagian [ ], satu salah)
@@ -251,35 +271,38 @@
      isian   : ["kalimat ____ (verb)", ["jawaban","variasi"]]
      koreksi : ["[bag A] [bag B] [bag C] [bag D] sisa kalimat", "huruf salah", ["bentuk benar","variasi"]]
      dialog  : { judul, baris:[ ["Pembicara","teks ____ (verb)", ["jawaban"]] , ["Pembicara","teks tanpa blank"] ] }
+   SOAL UAS (Prototype UAS · Set A · Section A & B = 30 soal) disebar 5 per paket, ditandai  // UAS n
+     Set A: UAS 1, 7, 14, 18, 22      Set B: UAS 2, 8, 11, 19, 30     Set C: UAS 12, 16, 17, 27, 28
+     Set D: UAS 9, 13 (di nomor 4), 20, 21, 24     Set E: UAS 3, 5, 10, 25, 29     Set F: UAS 4, 6, 15, 23, 26
    PENJELASAN dibuat otomatis dari urutan tense di atas (lihat bagian PENJELASAN).
    Kalau urutan tense diubah, ubah juga array INFO_NOMOR.
    ========================================================= */
 const PAKET=[
 {nama:"Set A",
  isian:[
-  ["My brother ____ (not / eat) meat.",["does not eat","doesn't eat"]],
+  ["Rina ____ (not / like) spicy food.",["does not like","doesn't like"]], // UAS 1
   ["Two days ago, the technician ____ (replace) the old sensor.",["replaced"]],
   ["Look! The students ____ (run) to the canteen.",["are running"]],
   ["When the power failed, the operators ____ (still / calibrate) the gauges.",["were still calibrating"]],
   ["By the time the inspector arrived, we ____ (already / clean) the machines.",["had already cleaned"]],
   ["She ____ (just / leave) the office.",["has just left"]],
-  ["At 10 a.m. tomorrow, the welders ____ (still / repair) the gate, so the yard will be closed.",["will still be repairing"]],
+  ["At 8 p.m. tomorrow, I ____ (still / study) for the test, so don't call me.",["will still be studying","'ll still be studying"]], // UAS 7
   ["By the end of this year, this factory ____ (produce) one million parts.",["will have produced"]],
   ["____ (your mother / sell) food at the market every day?",["Does your mother sell"]],
   ["Last Saturday we ____ (ride) our bikes to Tawangmangu.",["rode"]],
   ["Don't worry, I ____ (carry) those tools for you.",["will carry","'ll carry","am going to carry","'m going to carry"]],
   ["The apprentice ____ (use) the drill press at the moment.",["is using"]],
   ["At 9 o'clock last night, Rina ____ (still / do) her homework.",["was still doing"]],
-  ["We ____ (be) friends since primary school.",["have been"]],
+  ["She ____ (know) her best friend since 2019.",["has known"]], // UAS 14
   ["Before the bell rang, the students ____ (already / finish) the test.",["had already finished"]],
   ["____ (you / still / weld) at 5 p.m. tomorrow?",["Will you still be welding"]],
   ["____ (the mechanic / fix) the truck by tomorrow morning?",["Will the mechanic have fixed"]],
-  ["The engine is making a strange noise. It ____ (break) down soon.",["is going to break","will break","'s going to break"]],
+  ["Look at those dark clouds! It ____ (rain) soon.",["is going to rain","will rain","'s going to rain"]], // UAS 18
   ["I ____ (not / use) the computer right now; you can take it.",["am not using","'m not using"]],
   ["We ____ (not / go) to school yesterday because it was a holiday.",["did not go","didn't go"]]],
  koreksi:[
   ["[My father work] [at the factory] [near the station] [with my uncle] every day.","A",["My father works","works"]],
-  ["[We] [have visited] [our grandmother] [in Klaten] last night.","B",["visited"]],
+  ["[My cousin] [and I] [have seen] [that film] yesterday.","C",["saw"]], // UAS 22
   ["[I'm sure] [the team] [win] [the match] next week.","C",["will win","is going to win","are going to win"]],
   ["[Look!] [The baby] [in the pram] [cries].","D",["is crying"]],
   ["When the teacher came in, [Andi] [and Budi] [still eat] [their snacks].","C",["were still eating"]],
@@ -296,24 +319,24 @@ const PAKET=[
 {nama:"Set B",
  isian:[
   ["Pak Budi ____ (not / drink) coffee in the morning.",["does not drink","doesn't drink"]],
-  ["Last week the students ____ (paint) the workshop walls.",["painted"]],
+  ["Last night my brother ____ (fix) the broken fan.",["fixed"]], // UAS 2
   ["Listen! Somebody ____ (play) the guitar in the music room.",["is playing"]],
   ["When the alarm rang, the operator ____ (still / test) the engine.",["was still testing"]],
   ["By the time the guests arrived, my aunt ____ (already / cook) all the food.",["had already cooked"]],
   ["The parcel ____ (just / arrive) at the office.",["has just arrived"]],
   ["At 2 p.m. tomorrow, we ____ (still / assemble) the frames, so please come later.",["will still be assembling"]],
-  ["By Friday, the team ____ (paint) the whole workshop.",["will have painted"]],
+  ["By 5 p.m., the welders ____ (finish) the gate.",["will have finished"]], // UAS 8
   ["____ (your father / drive) a truck for a living?",["Does your father drive"]],
   ["Three days ago, the manager ____ (give) us a new schedule.",["gave"]],
-  ["I'm sure our team ____ (win) the match next week.",["will win","is going to win"]],
+  ["I promise I ____ (return) your book tomorrow.",["will return","'ll return","am going to return","'m going to return"]], // UAS 11
   ["The mechanic ____ (change) the oil right now.",["is changing"]],
-  ["At 10 o'clock last night, my parents ____ (still / watch) the news.",["were still watching"]],
+  ["At 7 o'clock last night, my sisters ____ (still / iron) their uniforms.",["were still ironing"]],
   ["My uncle ____ (have) that old motorcycle since 2010.",["has had"]],
   ["By the time the film started, we ____ (already / buy) our tickets.",["had already bought"]],
   ["____ (the students / still / take) the exam at 10 a.m. tomorrow?",["Will the students still be taking"]],
   ["____ (you / write) the essay by Monday?",["Will you have written"]],
   ["The sky is very dark. There ____ (be) a storm tonight.",["is going to be","will be","'s going to be"]],
-  ["I ____ (not / wear) my uniform today because it is still wet.",["am not wearing","'m not wearing"]],
+  ["The boys ____ (not / play) football now; they are in the lab.",["are not playing","aren't playing"]], // UAS 19
   ["They ____ (not / win) the competition last year.",["did not win","didn't win"]]],
  koreksi:[
   ["[The canteen open] [at seven] [in] [the morning] every day.","A",["The canteen opens","opens"]],
@@ -325,7 +348,7 @@ const PAKET=[
   ["[Andi] [has] [just] [wrote the report].","D",["written the report","written"]],
   ["[We] [have never] [saw] [real snow] in our lives.","C",["seen"]],
   ["By the time the shop opened, [a long queue] [had] [already] [form].","D",["formed"]],
-  ["[By 2030,] [the company] [will has built] [three new factories].","C",["will have built"]]],
+  ["By Friday, [he] [will has repaired] [the machine] [in the workshop].","B",["will have repaired"]]], // UAS 30
  dialog:[
   {judul:"Dialogue 1 · At the bus stop",baris:[["Rina","Why are you running?"],["Andi","The bus ____ (come)! Look, it's at the corner.",["is coming"]],["Rina","Relax. ____ (you / buy) your ticket yet?",["Have you bought"]],["Andi","Yes, I ____ (buy) it this morning at the office.",["bought"]],["Rina","Good. By 7, we ____ (reach) school, so we won't be late.",["will have reached"]]]},
   {judul:"Dialogue 2 · In the staff room",baris:[["Bu Maria","Why did Dina look so tired this morning?"],["Pak Budi","She said that when she got home at 9, her family ____ (already / eat) dinner.",["had already eaten"]],["Bu Maria","Poor girl. Her mother ____ (usually / cook) early, I think.",["usually cooks"]],["Pak Budi","Yes. I ____ (talk) to her later today, I promise.",["will talk","'ll talk","am going to talk","'m going to talk"]]]},
@@ -335,8 +358,8 @@ const PAKET=[
  isian:[
   ["Our teacher ____ (not / give) homework on Fridays.",["does not give","doesn't give"]],
   ["Yesterday the welders ____ (finish) the new gate.",["finished"]],
-  ["Be quiet! The baby ____ (sleep) in the next room.",["is sleeping"]],
-  ["When the teacher came in, the boys ____ (still / play) cards.",["were still playing"]],
+  ["Look! The technician ____ (climb) the ladder.",["is climbing"]],
+  ["When the guard came, the boys ____ (still / play) cards.",["were still playing"]],
   ["By the time the bus came, Rina ____ (already / leave) the station.",["had already left"]],
   ["I ____ (never / see) a real volcano.",["have never seen"]],
   ["At 7 p.m. tonight, my family ____ (still / have) dinner, so call me at 8.",["will still be having"]],
@@ -344,12 +367,12 @@ const PAKET=[
   ["____ (Bu Ana / teach) English in class X?",["Does Bu Ana teach"]],
   ["In 2024, our school ____ (buy) two new lathe machines.",["bought"]],
   ["I promise I ____ (not / be) late again.",["will not be","won't be","am not going to be","'m not going to be"]],
-  ["Right now, the operator ____ (cut) a steel plate.",["is cutting"]],
+  ["Right now, the operator ____ (cut) a steel plate with the CNC machine.",["is cutting"]], // UAS 12
   ["At this time yesterday, we ____ (still / clean) the workshop.",["were still cleaning"]],
   ["Pak Joko ____ (know) the principal for twenty years.",["has known"]],
-  ["Before the inspector came, the mechanic ____ (already / repair) the engine.",["had already repaired"]],
-  ["____ (you / still / use) the printer at 3 o'clock this afternoon?",["Will you still be using"]],
-  ["____ (they / complete) the project by Friday?",["Will they have completed"]],
+  ["Before the customer came back, the mechanic ____ (already / change) the tyres.",["had already changed"]],
+  ["____ (you / still / use) the printer at 3 o'clock this afternoon?",["Will you still be using"]], // UAS 16
+  ["____ (they / complete) the project by Friday?",["Will they have completed"]], // UAS 17
   ["Look at the time! We ____ (miss) the bus.",["are going to miss","will miss","'re going to miss"]],
   ["Rina ____ (not / listen) to music now; she is studying.",["is not listening","isn't listening"]],
   ["I ____ (not / see) Andi at school yesterday.",["did not see","didn't see"]]],
@@ -360,8 +383,8 @@ const PAKET=[
   ["Look! [The students] [in the yard] [play] [football].","C",["are playing"]],
   ["When I called at 10 last night, [my brother] [still sleep] [in] [his room].","B",["was still sleeping"]],
   ["At 6 p.m. tomorrow, [I] [and my friends] [in the hall] [will be watch] the match.","D",["will be watching"]],
-  ["[She has wrote] [the letter] [to] [her grandmother].","A",["She has written","has written"]],
-  ["[The bus] [doesn't arrive] [at] [the station] yet.","B",["hasn't arrived","has not arrived"]],
+  ["[She has wrote] [three] [letters] [to her friends] today.","A",["She has written","has written"]], // UAS 27
+  ["[The bus] [to Solo] [from Semarang] [doesn't arrive] yet.","D",["hasn't arrived","has not arrived"]], // UAS 28
   ["[Andi] [had] [never] [drove a car] before that day.","D",["driven a car","driven"]],
   ["[By December,] [they] [will has finished] [the new road].","C",["will have finished"]]],
  dialog:[
@@ -374,12 +397,12 @@ const PAKET=[
   ["Bu Maria ____ (not / live) far from the school.",["does not live","doesn't live"]],
   ["The students ____ (clean) the workshop yesterday afternoon.",["cleaned"]],
   ["Look! Pak Joko ____ (wave) at us from the gate.",["is waving"]],
-  ["When the fire alarm rang, the students ____ (still / sit) in the lab.",["were still sitting"]],
+  ["When the teacher came in, the students ____ (still / talk).",["were still talking"]], // UAS 13
   ["By the time the doctor came, the patient ____ (already / wake) up.",["had already woken"]],
   ["Rina ____ (just / finish) her welding test.",["has just finished"]],
   ["At 11 a.m. tomorrow, the students ____ (still / take) the written exam.",["will still be taking"]],
   ["By the end of the semester, we ____ (read) five English books.",["will have read"]],
-  ["____ (your sister / study) at a university in Yogyakarta?",["Does your sister study"]],
+  ["____ (your father / work) at the textile factory?",["Does your father work"]], // UAS 9
   ["My uncle ____ (sell) his old car two months ago.",["sold"]],
   ["It's cold in here. I ____ (close) the window.",["will close","'ll close","am going to close","'m going to close"]],
   ["The welders ____ (take) a break at the moment.",["are taking"]],
@@ -390,12 +413,12 @@ const PAKET=[
   ["____ (the bus / leave) by the time we get to the station?",["Will the bus have left"]],
   ["Look at the sky! It ____ (rain) in a few minutes.",["is going to rain","will rain","'s going to rain"]],
   ["We ____ (not / have) a lesson right now; the teacher is absent.",["are not having","aren't having"]],
-  ["Rudi ____ (not / bring) his helmet yesterday, so the guard stopped him.",["did not bring","didn't bring"]]],
+  ["Pak Budi ____ (not / come) to school yesterday because he was sick.",["did not come","didn't come"]]], // UAS 20
  koreksi:[
-  ["[Our school have] [three] [workshops] [for the students].","A",["Our school has","has"]],
+  ["[My uncle] [work] [at the factory] [near our school] every day.","B",["works"]], // UAS 21
   ["[My family] [has moved] [to] [a new house] last year.","B",["moved"]],
   ["[I promise] [I] [send] [the photos] tonight.","C",["will send","'ll send","am going to send"]],
-  ["Be quiet! [The teacher] [explains] [the task] [to class X].","B",["is explaining"]],
+  ["[Listen!] [Somebody] [in the corridor] [knocks] on the door.","D",["is knocking"]], // UAS 24
   ["At 5 p.m. yesterday, [the boys] [in the field] [near the gate] [still play football].","D",["were still playing football","were still playing"]],
   ["This time tomorrow, [we] [will be fly] [to Bali] [with our family].","B",["will be flying"]],
   ["[They] [have] [already] [ate lunch].","D",["eaten lunch","eaten"]],
@@ -411,14 +434,14 @@ const PAKET=[
  isian:[
   ["My parents ____ (not / work) on Sundays.",["do not work","don't work"]],
   ["A week ago, the school ____ (hold) a flag ceremony.",["held"]],
-  ["Listen! The bell ____ (ring).",["is ringing"]],
+  ["Be quiet! The baby ____ (sleep).",["is sleeping"]], // UAS 3
   ["When the manager came in, the workers ____ (still / have) their break.",["were still having"]],
-  ["By the time I got to the cinema, the film ____ (already / begin).",["had already begun"]],
+  ["By the time I got to the station, the train ____ (already / leave).",["had already left"]], // UAS 5
   ["The technician ____ (not / check) the compressor yet.",["has not checked","hasn't checked"]],
   ["At 9 a.m. tomorrow, Pak Budi ____ (still / teach) class X, so wait outside.",["will still be teaching"]],
   ["By 2030, my brother ____ (open) his own workshop.",["will have opened"]],
   ["____ (the canteen / sell) nasi goreng every day?",["Does the canteen sell"]],
-  ["Two years ago, my family ____ (move) to Solo.",["moved"]],
+  ["We ____ (go) to Tawangmangu two weeks ago.",["went"]], // UAS 10
   ["Don't worry, I ____ (lend) you my calculator.",["will lend","'ll lend","am going to lend","'m going to lend"]],
   ["Bu Ana ____ (talk) to the principal at the moment.",["is talking"]],
   ["At midnight last night, my brother ____ (still / play) games.",["was still playing"]],
@@ -434,16 +457,54 @@ const PAKET=[
   ["[Pak Budi] [has repaired] [my motorcycle] [at his house] two days ago.","B",["repaired"]],
   ["Don't worry, [I] [lend] [you] [my pen] tomorrow.","B",["will lend","'ll lend","am going to lend"]],
   ["Look! [The cat] [on the roof] [chases] [a bird].","C",["is chasing"]],
-  ["When the teacher arrived, [Andi] [still write] [on] [the whiteboard].","B",["was still writing"]],
+  ["At 10 o'clock last night, [my parents] [still watch] [the news] [in the living room].","B",["were still watching"]], // UAS 25
   ["At 9 p.m. tonight, [my sister] [and I] [will be watch] [a film].","C",["will be watching"]],
-  ["[Rina] [has] [never] [ate durian].","D",["eaten durian","eaten"]],
+  ["[Rina] [has] [never] [drank coconut water].","D",["drunk coconut water","drunk"]],
   ["[We haven't finish] [the project] [for] [Pak Joko] yet.","A",["We haven't finished","haven't finished","have not finished","we have not finished"]],
-  ["By the time the bus came, [Dina] [had] [already] [went home].","D",["gone home","gone"]],
-  ["[By 5 p.m.,] [the welders] [will has finished] [the gate].","C",["will have finished"]]],
+  ["[She] [had] [already] [went home] before I called.","D",["gone home","gone"]], // UAS 29
+  ["[By 6 p.m.,] [the cleaners] [will has swept] [the whole hall].","C",["will have swept"]]],
  dialog:[
   {judul:"Dialogue 1 · Project day",baris:[["Bu Ana","Why is everyone outside the lab?"],["Rudi","The technician ____ (repair) the compressor right now, Bu.",["is repairing"]],["Bu Ana","____ (he / find) the problem yet?",["Has he found"]],["Rudi","Yes, he ____ (find) a broken valve an hour ago.",["found"]],["Bu Ana","Good. By 2, he ____ (replace) it, I'm sure. Go back in at 2.",["will have replaced"]]]},
   {judul:"Dialogue 2 · At home",baris:[["Mother","Why do you look so disappointed?"],["Andi","When I got to the shop at 5, it ____ (already / sell) the last helmet.",["had already sold"]],["Mother","Oh. That shop ____ (always / get) new stock on Thursdays.",["always gets"]],["Andi","Then I ____ (go) back on Thursday, Mum. I promise I won't forget.",["will go","'ll go","am going to go","'m going to go"]]]},
-  {judul:"Dialogue 3 · A voice note",baris:[["Sinta","I knocked on your door at 10 last night. ____ (you / still / draw)?",["Were you still drawing"]],["Dina","Yes, sorry. By the time you knocked, I ____ (already / put) on my headphones.",["had already put"]],["Sinta","OK. Will you be at the library at 3 tomorrow?"],["Dina","Yes, but I ____ (still / draw) at 3. Sit next to me.",["will still be drawing"]]]}]}
+  {judul:"Dialogue 3 · A voice note",baris:[["Sinta","I knocked on your door at 10 last night. ____ (you / still / draw)?",["Were you still drawing"]],["Dina","Yes, sorry. By the time you knocked, I ____ (already / put) on my headphones.",["had already put"]],["Sinta","OK. Will you be at the library at 3 tomorrow?"],["Dina","Yes, but I ____ (still / draw) at 3. Sit next to me.",["will still be drawing"]]]}]},
+
+{nama:"Set F",
+ isian:[
+  ["Our neighbours ____ (not / own) a car.",["do not own","don't own"]],
+  ["Yesterday morning, the electrician ____ (install) a new lamp in the lab.",["installed"]],
+  ["Look! The crane ____ (lift) a huge steel beam.",["is lifting"]],
+  ["When the lights went out, I ____ (still / weld) the frame.",["was still welding"]], // UAS 4
+  ["By the time the teacher returned, the students ____ (already / tidy) the classroom.",["had already tidied"]],
+  ["I ____ (never / eat) durian in my life.",["have never eaten","'ve never eaten"]], // UAS 6
+  ["At noon tomorrow, the painters ____ (still / paint) the fence, so don't touch it.",["will still be painting"]],
+  ["By next month, our class ____ (complete) the bench-work project.",["will have completed"]],
+  ["____ (this bus / stop) near the school every morning?",["Does this bus stop"]],
+  ["In 2022, my cousin ____ (win) a welding competition.",["won"]],
+  ["Wait here. I ____ (get) the first-aid kit.",["will get","'ll get","am going to get","'m going to get"]],
+  ["The students ____ (measure) the workpiece at the moment.",["are measuring"]],
+  ["At 4 o'clock yesterday afternoon, the players ____ (still / train) on the field.",["were still training"]],
+  ["My father ____ (be) a welder for fifteen years.",["has been"]],
+  ["By the time the inspector came, the mechanic ____ (already / repair) the engine.",["had already repaired"]], // UAS 15
+  ["____ (the technicians / still / test) the machine at 2 p.m. tomorrow?",["Will the technicians still be testing"]],
+  ["____ (you / save) enough money by next December?",["Will you have saved"]],
+  ["Careful! That ladder is shaking. You ____ (fall)!",["are going to fall","will fall","'re going to fall"]],
+  ["Pak Joko ____ (not / teach) at the moment; he is in a meeting.",["is not teaching","isn't teaching"]],
+  ["The canteen ____ (not / open) last Saturday.",["did not open","didn't open"]]],
+ koreksi:[
+  ["[This machine] [need] [new oil] [and a filter] every month.","B",["needs"]],
+  ["[The principal] [has given] [a speech] [in the hall] last Monday.","B",["gave"]],
+  ["I promise [I help] [you] [with] [the drawing] tomorrow.","A",["I will help","I'll help","will help","I am going to help"]], // UAS 23
+  ["Look! [The smoke] [from the engine] [gets] [thicker].","C",["is getting"]],
+  ["When the bell rang, [the girls] [in the lab] [still clean] [the tables].","C",["were still cleaning"]],
+  ["At 9 a.m. tomorrow, [the students] [of class XI] [will be take] [the practical exam].","C",["will be taking"]], // UAS 26
+  ["[My brother] [has] [just] [broke the window].","D",["broken the window","broken"]],
+  ["[I didn't see] [the new workshop] [behind] [the library] yet.","A",["I haven't seen","haven't seen","have not seen","I have not seen"]],
+  ["When we reached the hall, [the ceremony] [had] [already] [began].","D",["begun"]],
+  ["[By next week,] [the students] [will has learned] [all the tenses].","C",["will have learned","will have learnt"]]],
+ dialog:[
+  {judul:"Dialogue 1 · In the computer lab",baris:[["Pak Budi","Why isn't the projector on?"],["Sinta","Rudi ____ (connect) the cable right now, Pak.",["is connecting"]],["Pak Budi","____ (you / open) the windows yet?",["Have you opened"]],["Sinta","Yes, I ____ (open) them five minutes ago.",["opened"]],["Pak Budi","Good. By 9, we ____ (start) the presentation, I hope.",["will have started"]]]},
+  {judul:"Dialogue 2 · A missed delivery",baris:[["Rudi","Did you get the spare parts?"],["Andi","No. When I arrived at the shop at 5, the owner ____ (already / go) home.",["had already gone"]],["Rudi","Oh. He ____ (usually / leave) at 4 on Saturdays.",["usually leaves"]],["Andi","I see. I ____ (come) earlier next time.",["will come","'ll come","am going to come","'m going to come"]]]},
+  {judul:"Dialogue 3 · A chat message",baris:[["Dina","I waved at you from the bus at 5 yesterday, but you didn't see me. ____ (you / still / wait) for your father?",["Were you still waiting"]],["Rina","Yes. By the time he came, the rain ____ (already / start).",["had already started"]],["Dina","Poor you. Will you be at the library at 2 tomorrow?"],["Rina","Yes, but I ____ (still / finish) my drawing at 2. Sit with me.",["will still be finishing"]]]}]}
 ];
 
 /* bangun array soal 40 item per paket dari definisi di atas */
@@ -460,14 +521,14 @@ const BANK_SOAL=PAKET.map(p=>{
    ========================================================= */
 const KONFIG={
   judul:"Practice Exam — Tenses (Simple, Continuous, Perfect)",
-  deskripsi:"40 items in three sections, the same format as the written test. Each student gets one of five sets at random.",
+  deskripsi:"40 items in three sections, the same format as the written test. Each student gets one of six sets at random; after a reset, a set that has not been done yet.",
   durasiMenit:60,
   maksPelanggaran:3,
-  acakPaket:true,
+  acakPaket:true,          // true = paket acak, dan setelah reset selalu paket yang belum pernah dikerjakan
   acakSoal:false,          // false = urut 1–40 (dialog tetap berurutan); true = diacak
   tampilkanRincian:true,
-  tampilkanKunci:true,     // praktik: kunci ditampilkan setelah submit
-  tampilkanPenjelasan:true,// penjelasan tense di tiap soal setelah submit
+  tampilkanKunci:true,     // kunci ditampilkan setelah submit — HANYA jika semua soal dijawab
+  tampilkanPenjelasan:true,// penjelasan tense setelah submit — HANYA jika semua soal dijawab
   sheetUrl:"https://script.google.com/macros/s/AKfycbzyFE9wr_jkr1rEKPCjDYRZmPBa6iloXpXUyU5pvZtjeasZ-DsE7uPCVmVd4gNGHos/exec",
   /* sandi: tiap huruf = kode + 7. Sandi saat ini: micojosjis26 */
   sandiKode:[116,112,106,118,113,118,122,113,112,122,57,61],
@@ -539,7 +600,7 @@ const INFO_NOMOR=[
   ["PrC","'right now' / 'at the moment' → am / is / are + V-ing."],
   ["PaC","A specific moment in the past (at 9 last night, at this time yesterday) → was/were (still) + V-ing."],
   ["PrP","since + starting point / for + length of time → it started in the past and is still true now: has/have + V3."],
-  ["PaP","'Before …' marks the later past action, so the earlier action takes had (already) + V3."],
+  ["PaP","'Before …' or 'By the time …' marks the later past action, so the earlier action takes had (already) + V3."],
   ["FC","Question: Will + subject + still be + V-ing?"],
   ["FP","Question: Will + subject + have + V3? (by + future time = finished before then)"],
   ["SF","You can see evidence now (dark sky, strange noise, the clock) → 'be going to' is the best choice; 'will' is also accepted."],
@@ -576,7 +637,7 @@ const POLA_PETUNJUK=[
   /\b(?:at|this time) [^,!?]*?\b(?:tomorrow|tonight|yesterday(?: (?:morning|afternoon|evening))?|last night|this (?:morning|afternoon|evening))\b/i,
   /\b\w+ \w+ ago\b/i,
   /\b(?:look|listen|be quiet)(?=\s*[!,])/i,
-  /\blook at (?:the|that) \w+/i,
+  /\blook at (?:the|that|those|these) [^!.,?]+/i,
   /\b(?:last|next) (?:night|week|month|year|time|(?:mon|tues|wednes|thurs|fri|satur|sun)day|june|december)\b/i,
   /\byesterday(?: (?:morning|afternoon|evening))?\b/i,
   /\bthis morning\b/i,
@@ -629,7 +690,7 @@ $("gerbangForm").addEventListener("submit",e=>{ e.preventDefault(); const inp=$(
 /* =========================================================
    MULAI / LANJUT / WAKTU
    ========================================================= */
-$("btnMulai").addEventListener("click",async()=>{ const nama=$("nama").value.trim(),kelas=$("kelas").value.trim(); if(!nama||!kelas){alert("Please fill in your name and class first.");return;} S.nama=nama;S.kelas=kelas;S.mulaiEpoch=Date.now();S.waktuMulai=new Date(S.mulaiEpoch);S.tenggat=S.mulaiEpoch+KONFIG.durasiMenit*60*1000; await mintaLayarPenuh(); S.mulai=true; tampilkan("layarSoal"); $("kopStatus").hidden=false; renderSoal(); S.timer=setInterval(detak,1000); detak(); simpanProgres(); });
+$("btnMulai").addEventListener("click",async()=>{ const nama=$("nama").value.trim(),kelas=$("kelas").value.trim(); if(!nama||!kelas){alert("Please fill in your name and class first.");return;} tambahHitung(); tampilkanHitung(); catatRiwayat(S.rencana.paket); S.nama=nama;S.kelas=kelas;S.mulaiEpoch=Date.now();S.waktuMulai=new Date(S.mulaiEpoch);S.tenggat=S.mulaiEpoch+KONFIG.durasiMenit*60*1000; await mintaLayarPenuh(); S.mulai=true; tampilkan("layarSoal"); $("kopStatus").hidden=false; renderSoal(); S.timer=setInterval(detak,1000); detak(); simpanProgres(); });
 $("btnLanjut").addEventListener("click",async()=>{ await mintaLayarPenuh(); S.mulai=true; tampilkan("layarSoal"); $("kopStatus").hidden=false; $("pelanggaranTeks").textContent=`${S.pelanggaran.length}/${KONFIG.maksPelanggaran}`; if(S.pelanggaran.length)$("pilPelanggaran").classList.add("bahaya"); renderSoal(); S.timer=setInterval(detak,1000); detak(); if(KONFIG.refreshJadiPelanggaran&&!S.selesai){S.terakhirPelanggaran=0;catatPelanggaran("Page was reloaded",true);} simpanProgres(); });
 async function mintaLayarPenuh(){ const el=document.documentElement; try{ await (el.requestFullscreen||el.webkitRequestFullscreen).call(el); }catch(e){} }
 const dalamLayarPenuh=()=>!!(document.fullscreenElement||document.webkitFullscreenElement);
@@ -691,7 +752,7 @@ function renderNav(){
 }
 $("btnSebelum").addEventListener("click",()=>{ if(S.indeks>0){S.indeks--;renderSoal();simpanProgres();} });
 $("btnBerikut").addEventListener("click",()=>{ if(S.indeks<S.soal.length-1){S.indeks++;renderSoal();simpanProgres();} });
-$("btnKumpul").addEventListener("click",()=>{ const kosong=S.soal.filter((_,j)=>!terjawab(j)).length; $("dialogIsi").textContent=kosong?`${kosong} question${kosong>1?"s are":" is"} still unanswered. Blank answers count as wrong.`:"All questions are answered. Once submitted, answers cannot be changed."; S.dialogTerbuka=true; $("dialogKumpul").classList.add("tampil"); $("btnBatalKumpul").focus(); });
+$("btnKumpul").addEventListener("click",()=>{ const kosong=S.soal.filter((_,j)=>!terjawab(j)).length; $("dialogIsi").textContent=kosong?`${kosong} question${kosong>1?"s are":" is"} still unanswered. Blank answers count as wrong, and the correct answers and explanations will stay locked.`:"All questions are answered. Once submitted, answers cannot be changed."; S.dialogTerbuka=true; $("dialogKumpul").classList.add("tampil"); $("btnBatalKumpul").focus(); });
 $("btnBatalKumpul").addEventListener("click",()=>{ $("dialogKumpul").classList.remove("tampil"); S.dialogTerbuka=false; });
 $("btnYakinKumpul").addEventListener("click",()=>{ $("dialogKumpul").classList.remove("tampil"); S.dialogTerbuka=false; selesaikan("Submitted by student"); });
 
@@ -705,8 +766,13 @@ function selesaikan(cara){
   $("skorAngka").textContent=skor; $("skorKotak").classList.toggle("dikunci",dikunci); $("statusHasil").textContent=cara; $("statusHasil").className="status "+(dikunci?"dikunci":"selesai");
   $("metaHasil").textContent=`${S.nama} · ${S.kelas} · ${S.paket} · ${benar} of ${S.soal.length} correct · ${fmtWaktu(durasi)} used`;
   $("metaPelanggaran").textContent=`${S.pelanggaran.length} violation${S.pelanggaran.length===1?"":"s"} recorded`;
+  tampilkanHitung();
   $("rekapWrap").hidden=!KONFIG.tampilkanRincian;
-  $("rekapJawaban").innerHTML=S.soal.map((s,i)=>{ const st=!terjawab(i)?"kosong":benarkah(i)?"ok":"salah"; const tanda=st==="ok"?"\u2713":st==="salah"?"\u2715":"\u2013"; let ket=!terjawab(i)?"Not answered":`Your answer: ${esc(teksJawab(i))}`; if(KONFIG.tampilkanKunci&&st!=="ok") ket+=` \u00b7 Correct: ${esc(teksKunci(s))}`; const pj=KONFIG.tampilkanPenjelasan?jelaskan(s):""; return `<div class="rekap-item"><span class="tanda ${st}">${tanda}</span><div class="rekap-isi"><div>${i+1}. ${esc(polos(s.q))}</div><div class="ket">${ket}</div>${pj}</div></div>`; }).join("");
+  /* kunci & penjelasan hanya terbuka kalau SEMUA soal dijawab (benar atau salah) */
+  const kosongAkhir=S.soal.filter((_,i)=>!terjawab(i)).length, terbuka=kosongAkhir===0;
+  $("kunciInfo").hidden=terbuka;
+  $("kunciInfo").textContent=terbuka?"":`Correct answers and explanations are locked: ${kosongAkhir} question${kosongAkhir>1?"s were":" was"} left blank. They only open when every question is answered.`;
+  $("rekapJawaban").innerHTML=S.soal.map((s,i)=>{ const st=!terjawab(i)?"kosong":benarkah(i)?"ok":"salah"; const tanda=st==="ok"?"\u2713":st==="salah"?"\u2715":"\u2013"; let ket=!terjawab(i)?"Not answered":`Your answer: ${esc(teksJawab(i))}`; if(terbuka&&KONFIG.tampilkanKunci&&st!=="ok") ket+=` \u00b7 Correct: ${esc(teksKunci(s))}`; const pj=terbuka&&KONFIG.tampilkanPenjelasan?jelaskan(s):""; return `<div class="rekap-item"><span class="tanda ${st}">${tanda}</span><div class="rekap-isi"><div>${i+1}. ${esc(polos(s.q))}</div><div class="ket">${ket}</div>${pj}</div></div>`; }).join("");
   const pk=KONFIG.paket.find(p=>p.nama===S.paket);
   S.detail=S.soal.map((s,i)=>({no:s.asli+1,tipe:s.t==="isian"?"Isian":s.t==="koreksi"?"Koreksi":"Dialog",soal:polos(s.q),jawaban:teksJawab(i),kunci:teksKunci(pk.soal[s.asli]),benar:benarkah(i)?1:0})).sort((a,b)=>a.no-b.no);
   const salah=S.detail.filter(d=>!d.benar);
@@ -715,10 +781,10 @@ function selesaikan(cara){
   S.salahRincian=salah.map(d=>`#${d.no} ${d.soal} → jawab: ${d.jawaban} | kunci: ${d.kunci}`).join("\n");
   const semuaLog=S.pelanggaran.map(p=>`<li><time>${p.jam}</time><span>${p.alasan} (question ${p.soal})</span></li>`).concat(S.logTerjemah.map(p=>`<li><time>${p.jam}</time><span>${p.alasan} (question ${p.soal}) \u00b7 not counted</span></li>`));
   $("logPelanggaran").innerHTML=semuaLog.length?semuaLog.join(""):`<li class="kosong-log">No violations. Well done.</li>`;
-  S.ringkasan=[`EXAM: ${KONFIG.judul} (${S.paket})`,`Name: ${S.nama} | Class: ${S.kelas}`,`Score: ${skor} (${benar}/${S.soal.length}) | Status: ${cara}`,`Started: ${S.waktuMulai.toLocaleString("id-ID")} | Time used: ${fmtWaktu(durasi)}`,`Violations: ${S.pelanggaran.length}`,...S.pelanggaran.map(p=>`  - ${p.jam} ${p.alasan} (question ${p.soal})`),`Translation attempts: ${S.logTerjemah.length}`,`Wrong answers: ${S.jawabanTeks||"none"}`].join("\n");
+  S.ringkasan=[`EXAM: ${KONFIG.judul} (${S.paket})`,`Name: ${S.nama} | Class: ${S.kelas}`,`Score: ${skor} (${benar}/${S.soal.length}) | Status: ${cara}`,`Started: ${S.waktuMulai.toLocaleString("id-ID")} | Time used: ${fmtWaktu(durasi)}`,`Attempt on this device: ${bacaHitung()} | Sets done: ${teksRiwayat()}`,`Violations: ${S.pelanggaran.length}`,...S.pelanggaran.map(p=>`  - ${p.jam} ${p.alasan} (question ${p.soal})`),`Translation attempts: ${S.logTerjemah.length}`,`Wrong answers: ${S.jawabanTeks||"none"}`].join("\n");
   S.caraSelesai=cara;S.skorAkhir=skor;S.benarAkhir=benar;S.durasiAkhir=fmtWaktu(durasi); simpanProgres();
   $("kopStatus").hidden=true; tampilkan("layarHasil"); window.scrollTo(0,0);
-  kirimHasil({jenis:"hasil",kuis:KONFIG.judul,paket:S.paket,nama:S.nama,kelas:S.kelas,mulai:S.waktuMulai.toLocaleString("id-ID"),durasi:fmtWaktu(durasi),skor,benar,total:S.soal.length,status:cara,jumlahPelanggaran:S.pelanggaran.length,pelanggaran:S.pelanggaran.map(p=>`${p.jam} ${p.alasan} (question ${p.soal})`).join("; "),jawaban:S.jawabanTeks,salahNomor:S.salahNomor,salahRincian:S.salahRincian,detail:S.detail});
+  kirimHasil({jenis:"hasil",kuis:KONFIG.judul,paket:S.paket,nama:S.nama,kelas:S.kelas,mulai:S.waktuMulai.toLocaleString("id-ID"),durasi:fmtWaktu(durasi),skor,benar,total:S.soal.length,status:cara,jumlahPelanggaran:S.pelanggaran.length,percobaan:bacaHitung(),pelanggaran:S.pelanggaran.map(p=>`${p.jam} ${p.alasan} (question ${p.soal})`).join("; "),jawaban:S.jawabanTeks,salahNomor:S.salahNomor,salahRincian:S.salahRincian,detail:S.detail});
 }
 function kirimKeSheet(data){ if(!KONFIG.sheetUrl) return Promise.resolve(false); return fetch(KONFIG.sheetUrl,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)}).then(()=>true).catch(()=>false); }
 async function kirimHasil(data){ const el=$("statusKirim"); if(!KONFIG.sheetUrl){el.hidden=true;return;} el.hidden=false; el.className="kirim proses"; el.textContent="Sending your results to the teacher…"; let ok=await kirimKeSheet(data); if(!ok){ await new Promise(r=>setTimeout(r,2000)); ok=await kirimKeSheet(data); } el.className="kirim "+(ok?"ok":"gagal"); el.textContent=ok?"Your results have been sent to the teacher.":"Sending failed. Copy the summary below and send it to your teacher."; }
@@ -737,7 +803,7 @@ function simpanProgres(){ if(S.direset||!KONFIG.simpanProgres||!S.mulai||!S.renc
 function kunciRencana(){ try{ const ada=bacaSimpanan(); if(ada&&ada.id===KONFIG.idUjian&&ada.dimulai!==false) return; localStorage.setItem(KUNCI_SIMPAN,sandiIn({v:1,id:KONFIG.idUjian,dimulai:false,rencana:S.rencana})); }catch(e){} }
 function simpanNanti(){ clearTimeout(S.tundaSimpan); S.tundaSimpan=setTimeout(simpanProgres,400); }
 window.addEventListener("pagehide",simpanProgres);
-function buatRencana(){ const iPaket=KONFIG.acakPaket?Math.floor(Math.random()*KONFIG.paket.length):0; const urut=KONFIG.paket[iPaket].soal.map((_,i)=>i); if(KONFIG.acakSoal) acak(urut); return {paket:iPaket,urut}; }
+function buatRencana(){ const iPaket=pilihPaket(); const urut=KONFIG.paket[iPaket].soal.map((_,i)=>i); if(KONFIG.acakSoal) acak(urut); return {paket:iPaket,urut}; }
 function rencanaSah(r){ const pk=r&&KONFIG.paket[r.paket]; return !!(pk&&Array.isArray(r.urut)&&r.urut.length===pk.soal.length); }
 function terapkanRencana(r){ const pk=KONFIG.paket[r.paket]||KONFIG.paket[0]; S.rencana=r; S.paket=pk.nama; S.soal=r.urut.map(i=>({...pk.soal[i],asli:i})); $("infoSoal").textContent=`${S.soal.length} questions: 20 fill in, 10 error correction, 10 dialogue`; $("kopJudul").textContent=`${KONFIG.judul} \u00b7 ${S.paket}`; }
 function cekReset(){ const q=new URLSearchParams(location.search); if(!q.has("reset-exam")) return null; const diberi=q.get("reset-exam")||"", perlu=String(KONFIG.kunciReset||""); const sah=perlu===""||diberi===perlu; if(sah) hapusSimpanan(); q.delete("reset-exam"); const sisa=q.toString(); try{ history.replaceState(null,"",location.pathname+(sisa?"?"+sisa:"")+location.hash); }catch(e){} return sah?"ok":"gagal"; }
@@ -759,6 +825,7 @@ $("formReset").addEventListener("submit",e=>{
   e.preventDefault();
   const inp=$("sandiReset");
   if(!cocokKode(inp.value.trim(),KONFIG.sandiResetKode)){ $("resetSalah").textContent="Wrong reset password."; inp.value=""; inp.focus(); goyangkan($("formReset")); return; }
+  /* reset hanya menghapus percobaan; counter & riwayat paket TIDAK dihapus */
   S.direset=true; clearTimeout(S.tundaSimpan); hapusSimpanan();
   try{ sessionStorage.setItem(KUNCI_RESET_OK,"1"); }catch(err){}
   location.replace(location.pathname+location.search+location.hash);
@@ -771,6 +838,47 @@ function terjemahanAktif(){ const h=document.documentElement; if(h.classList.con
 function periksaTerjemahan(){ if(!KONFIG.blokirTerjemahan||S.terjemahTerbuka) return; if(!terjemahanAktif()) return; S.terjemahTerbuka=true; if(S.mulai&&!S.selesai){ const c={jam:jamSekarang(),alasan:"Translation tool detected",soal:S.indeks+1}; S.logTerjemah.push(c); kirimKeSheet({jenis:"pelanggaran",paket:S.paket,nama:S.nama,kelas:S.kelas,jam:c.jam,alasan:c.alasan,soal:c.soal,urutan:S.pelanggaran.length+S.logTerjemah.length}); simpanProgres(); } $("terjemahMasihAktif").hidden=true; $("tiraiTerjemahan").classList.add("tampil"); }
 $("btnTerjemahanSelesai").addEventListener("click",async()=>{ if(terjemahanAktif()){$("terjemahMasihAktif").hidden=false;return;} $("tiraiTerjemahan").classList.remove("tampil"); S.terjemahTerbuka=false; S.terakhirPelanggaran=Date.now(); if(S.mulai&&!S.selesai) await mintaLayarPenuh(); });
 function jagaBahasa(){ if(!KONFIG.blokirTerjemahan) return; try{ new MutationObserver(periksaTerjemahan).observe(document.documentElement,{attributes:true,attributeFilter:["class","lang","_msthash"],childList:true,subtree:true}); }catch(e){} setInterval(periksaTerjemahan,1500); periksaTerjemahan(); }
+
+/* =========================================================
+   TEMA GELAP / TERANG
+   ========================================================= */
+const KUNCI_TEMA="smkmikael:tema";
+let tema=null; try{ tema=localStorage.getItem(KUNCI_TEMA); }catch(e){}
+if(tema!=="gelap"&&tema!=="terang") tema=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"gelap":"terang";
+function pasangTema(t){ document.documentElement.dataset.tema=t; const b=$("btnTema"); b.textContent=t==="gelap"?"\u2600":"\u263E"; const ket=t==="gelap"?"Switch to light mode":"Switch to dark mode"; b.title=ket; b.setAttribute("aria-label",ket); }
+pasangTema(tema);
+$("btnTema").addEventListener("click",()=>{ tema=tema==="gelap"?"terang":"gelap"; pasangTema(tema); try{ localStorage.setItem(KUNCI_TEMA,tema); }catch(e){} });
+
+/* =========================================================
+   COUNTER PERCOBAAN + RIWAYAT PAKET
+   Disimpan terpisah dari data percobaan, jadi TIDAK ikut terhapus saat reset.
+   ========================================================= */
+const KUNCI_HITUNG="smkmikael:percobaan:"+KONFIG.idUjian;
+const KUNCI_RIWAYAT="smkmikael:riwayat:"+KONFIG.idUjian;
+function bacaHitung(){ try{ return parseInt(localStorage.getItem(KUNCI_HITUNG),10)||0; }catch(e){ return 0; } }
+function tambahHitung(){ const n=bacaHitung()+1; try{ localStorage.setItem(KUNCI_HITUNG,String(n)); }catch(e){} return n; }
+function tampilkanHitung(){ const n=bacaHitung(); document.querySelectorAll(".hitungPercobaan").forEach(el=>el.textContent=n); }
+function bacaRiwayat(){ try{ const a=JSON.parse(localStorage.getItem(KUNCI_RIWAYAT)); return Array.isArray(a)?a.filter(n=>Number.isInteger(n)&&n>=0&&n<KONFIG.paket.length):[]; }catch(e){ return []; } }
+function tulisRiwayat(a){ try{ localStorage.setItem(KUNCI_RIWAYAT,JSON.stringify(a)); }catch(e){} }
+function catatRiwayat(i){ const a=bacaRiwayat().filter(n=>n!==i); a.push(i); tulisRiwayat(a); }
+function teksRiwayat(){ const a=bacaRiwayat(); return a.length?a.map(i=>KONFIG.paket[i].nama).join(", "):"-"; }
+/* pilih paket: hanya dari yang BELUM pernah dikerjakan di perangkat ini.
+   Kalau semua paket sudah dikerjakan, putaran baru dimulai (paket terakhir tidak langsung diulang). */
+function pilihPaket(){
+  if(!KONFIG.acakPaket) return 0;
+  const semua=KONFIG.paket.map((_,i)=>i), riw=bacaRiwayat();
+  let calon=semua.filter(i=>!riw.includes(i));
+  if(!calon.length){
+    const terakhir=riw[riw.length-1];
+    calon=semua.filter(i=>i!==terakhir);
+    if(!calon.length) calon=semua;
+    tulisRiwayat(semua.length>1?[terakhir]:[]);
+  }
+  return calon[Math.floor(Math.random()*calon.length)];
+}
+/* percobaan yang sudah ada sebelum update ini: dihitung 1 dan paketnya masuk riwayat */
+(function(){ const d=bacaSimpanan(); if(d&&d.id===KONFIG.idUjian&&d.dimulai!==false){ if(bacaHitung()===0) tambahHitung(); if(rencanaSah(d.rencana)&&!bacaRiwayat().includes(d.rencana.paket)) catatRiwayat(d.rencana.paket); } })();
+tampilkanHitung();
 
 /* =========================================================
    BOOTSTRAP
