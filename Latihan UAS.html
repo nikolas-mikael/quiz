@@ -532,9 +532,8 @@ const KONFIG={
   sheetUrl:"https://script.google.com/macros/s/AKfycbzyFE9wr_jkr1rEKPCjDYRZmPBa6iloXpXUyU5pvZtjeasZ-DsE7uPCVmVd4gNGHos/exec",
   /* sandi: tiap huruf = kode + 7. Sandi saat ini: micojosjis26 */
   sandiKode:[116,112,106,118,113,118,122,113,112,122,57,61],
-    /* sandi tombol reset (guru): tiap huruf = kode + 7. Sandi saat ini: ChelseaKJD */
-
-sandiResetKode:[74,111,108,115,122,108,104,82,81,75],
+  /* sandi tombol reset (guru): tiap huruf = kode + 7. Sandi saat ini: ChelseaKJD */
+  sandiResetKode:[74,111,108,115,122,108,104,82,81,75],
   idUjian:"practice-tenses-abc",
   kunciReset:"",
   simpanProgres:true,
@@ -758,11 +757,12 @@ $("btnYakinKumpul").addEventListener("click",()=>{ $("dialogKumpul").classList.r
 
 /* =========================================================
    SELESAI
+   renderHasil() membangun layar hasil lengkap (skor, kunci,
+   penjelasan, log). Dipakai saat submit DAN saat reload
+   setelah selesai, jadi hasil tidak hilang.
    ========================================================= */
-function selesaikan(cara){
-  if(S.selesai) return; S.selesai=true; S.sisaDetik=sisaDetikSekarang(); clearInterval(S.timer);
-  $("tirai").classList.remove("tampil"); S.overlayTerbuka=false; if(dalamLayarPenuh()&&document.exitFullscreen) document.exitFullscreen().catch(()=>{});
-  const benar=S.soal.filter((_,i)=>benarkah(i)).length, skor=Math.round(benar/S.soal.length*100), dikunci=cara.startsWith("Locked"), durasi=KONFIG.durasiMenit*60-S.sisaDetik;
+function renderHasil(cara,durasi){
+  const benar=S.soal.filter((_,i)=>benarkah(i)).length, skor=Math.round(benar/S.soal.length*100), dikunci=cara.startsWith("Locked");
   $("skorAngka").textContent=skor; $("skorKotak").classList.toggle("dikunci",dikunci); $("statusHasil").textContent=cara; $("statusHasil").className="status "+(dikunci?"dikunci":"selesai");
   $("metaHasil").textContent=`${S.nama} · ${S.kelas} · ${S.paket} · ${benar} of ${S.soal.length} correct · ${fmtWaktu(durasi)} used`;
   $("metaPelanggaran").textContent=`${S.pelanggaran.length} violation${S.pelanggaran.length===1?"":"s"} recorded`;
@@ -782,8 +782,16 @@ function selesaikan(cara){
   const semuaLog=S.pelanggaran.map(p=>`<li><time>${p.jam}</time><span>${p.alasan} (question ${p.soal})</span></li>`).concat(S.logTerjemah.map(p=>`<li><time>${p.jam}</time><span>${p.alasan} (question ${p.soal}) \u00b7 not counted</span></li>`));
   $("logPelanggaran").innerHTML=semuaLog.length?semuaLog.join(""):`<li class="kosong-log">No violations. Well done.</li>`;
   S.ringkasan=[`EXAM: ${KONFIG.judul} (${S.paket})`,`Name: ${S.nama} | Class: ${S.kelas}`,`Score: ${skor} (${benar}/${S.soal.length}) | Status: ${cara}`,`Started: ${S.waktuMulai.toLocaleString("id-ID")} | Time used: ${fmtWaktu(durasi)}`,`Attempt on this device: ${bacaHitung()} | Sets done: ${teksRiwayat()}`,`Violations: ${S.pelanggaran.length}`,...S.pelanggaran.map(p=>`  - ${p.jam} ${p.alasan} (question ${p.soal})`),`Translation attempts: ${S.logTerjemah.length}`,`Wrong answers: ${S.jawabanTeks||"none"}`].join("\n");
-  S.caraSelesai=cara;S.skorAkhir=skor;S.benarAkhir=benar;S.durasiAkhir=fmtWaktu(durasi); simpanProgres();
+  S.caraSelesai=cara;S.skorAkhir=skor;S.benarAkhir=benar;S.durasiAkhir=fmtWaktu(durasi);
   $("kopStatus").hidden=true; tampilkan("layarHasil"); window.scrollTo(0,0);
+  return {benar,skor};
+}
+function selesaikan(cara){
+  if(S.selesai) return; S.selesai=true; S.sisaDetik=sisaDetikSekarang(); clearInterval(S.timer);
+  $("tirai").classList.remove("tampil"); S.overlayTerbuka=false; if(dalamLayarPenuh()&&document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+  const durasi=KONFIG.durasiMenit*60-S.sisaDetik;
+  const {benar,skor}=renderHasil(cara,durasi);
+  simpanProgres();
   kirimHasil({jenis:"hasil",kuis:KONFIG.judul,paket:S.paket,nama:S.nama,kelas:S.kelas,mulai:S.waktuMulai.toLocaleString("id-ID"),durasi:fmtWaktu(durasi),skor,benar,total:S.soal.length,status:cara,jumlahPelanggaran:S.pelanggaran.length,percobaan:bacaHitung(),pelanggaran:S.pelanggaran.map(p=>`${p.jam} ${p.alasan} (question ${p.soal})`).join("; "),jawaban:S.jawabanTeks,salahNomor:S.salahNomor,salahRincian:S.salahRincian,detail:S.detail});
 }
 function kirimKeSheet(data){ if(!KONFIG.sheetUrl) return Promise.resolve(false); return fetch(KONFIG.sheetUrl,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(data)}).then(()=>true).catch(()=>false); }
@@ -894,7 +902,13 @@ tampilkanHitung();
     S.indeks=Math.min(Math.max(0,d.indeks||0),S.soal.length-1); S.pelanggaran=d.pelanggaran||[]; S.logTerjemah=d.logTerjemah||[];
     S.mulaiEpoch=d.mulaiEpoch||Date.now(); S.tenggat=d.tenggat||(S.mulaiEpoch+KONFIG.durasiMenit*60*1000); S.waktuMulai=new Date(S.mulaiEpoch); S.sisaDetik=sisaDetikSekarang();
     jagaBahasa();
-    if(d.selesai){tampilkanTerkunci(d);return;}
+    if(d.selesai){
+      /* sudah selesai: tampilkan ulang hasil LENGKAP (kunci + penjelasan + log), tanpa kirim ulang ke Sheet */
+      S.selesai=true;
+      const [mm,ss]=String(d.durasi||"0:0").split(":").map(Number);
+      renderHasil(d.cara||"Submitted",(mm||0)*60+(ss||0));
+      return;
+    }
     if(KONFIG.waktuTerusBerjalan&&sisaDetikSekarang()<=0){S.mulai=true;selesaikan("Time is up");return;}
     tampilkanLanjut(); return;
   }
